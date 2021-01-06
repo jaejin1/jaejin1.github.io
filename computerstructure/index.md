@@ -3,7 +3,7 @@
 
 갑자기 컴퓨터 구조에 대해서 정리해보고 싶어서 머리속에 있는것을 더해 끄적여본다.
 
-<!-- more -->
+<!--more-->
 
 대학교에서 전공과목으로 컴퓨터 구조를 배웠지만 생각이 나지 않고 뭘배웠는지 기억을 못한다...
 그나마 남아있는것을 정리하려고한다.
@@ -40,7 +40,7 @@
 
 그 이유는 유닉스의 리소스 구성은 파일로 이뤄져있다. 파일, 하드웨어, 파이프, 소켓등등 밑의 사진을 보면 하드웨어들이 file로 저장되어 있는것을 볼 수 있다.
 
-{% img /gallery/linux/structure/hwfile.png 100% 100% '"ex. file" "ex. file"' %}
+![Hwfile](hwfile.png "Hwfile")
 
 다시 Socket으로 돌아와서 커널 영역에서 뭘하는지 보면, Socket(file) -> Protocol(TCP/IP) -> Driver -> NIC 이렇게 될듯 하다. NIC는 하드웨어로 랜카드이다. TMI로 NIC -> L2 -> R -> internet이 되겠지요?
 
