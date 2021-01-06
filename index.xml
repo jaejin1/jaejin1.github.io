@@ -2,7 +2,7 @@
     <channel>
         <title></title>
         <link>http://example.org/</link>
-        <description>This is My New Hugo Site</description>
+        <description>This is jaejin&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
             <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Wed, 20 Nov 2019 15:58:26 &#43;0800</lastBuildDate>
             <atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
