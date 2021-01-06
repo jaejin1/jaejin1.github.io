@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>메모리 영역 Heap, Stack 살펴보기 - </title><meta name="Description" content="Application memory 구조의 Heap과 Stack을 살펴보자"><meta property="og:title" content="메모리 영역 Heap, Stack 살펴보기" />
+<meta property="og:description" content="Application memory 구조의 Heap과 Stack을 살펴보자" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/memory/" />
+<meta property="og:image" content="http://example.org/images/jaejin.png"/>
+<meta property="article:published_time" content="2019-11-20T15:58:26+08:00" />
+<meta property="article:modified_time" content="2019-11-20T15:58:26+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/images/jaejin.png"/>
+
+<meta name="twitter:title" content="메모리 영역 Heap, Stack 살펴보기"/>
+<meta name="twitter:description" content="Application memory 구조의 Heap과 Stack을 살펴보자"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/memory/" /><link rel="prev" href="http://example.org/computerstructure/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "메모리 영역 Heap, Stack 살펴보기",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/memory\/"
+        },"genre": "posts","keywords": "os, memory","wordcount":  249 ,
+        "url": "http:\/\/example.org\/memory\/","datePublished": "2019-11-20T15:58:26+08:00","dateModified": "2019-11-20T15:58:26+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": "Application memory 구조의 Heap과 Stack을 살펴보자"
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">메모리 영역 Heap, Stack 살펴보기</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/os/"><i class="far fa-folder fa-fw"></i>os</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-11-20">2019-11-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;249 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#페이징기법">페이징기법</a></li>
+    <li><a href="#가상메모리">가상메모리</a>
+      <ul>
+        <li><a href="#상위-메모리">상위 메모리</a></li>
+        <li><a href="#하위-메모리">하위 메모리</a>
+          <ul>
+            <li><a href="#go에서-heap">Go에서 heap</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Application memory 구조의 Heap과 Stack을 살펴보자.</p>
+<h1 id="memory">memory</h1>
+<p><a href="https://jaejin1.github.io/2019/11/06/os/ComputerStructure/" target="_blank" rel="noopener noreffer">이전글</a>에서 Process/Thread를 얘기할때 Memory에 대한 언급을 잠깐 했다. 여기서 사용하는 Memory는 Virtual Memory라고..</p>
+<p>모든 프로세스가 실제의 메모리를 사용하게 되면 용량 문제가 발생하기 때문에 페이징 기법과 가상메모리를 사용한다.</p>
+<p>흔히 코드에서 출력하는 주소값들은 가상주소이다.</p>
+<h2 id="페이징기법">페이징기법</h2>
+<p>계산기의 GUI가 있다고하자. +, -, *, % 등의 연산을 할때 이는 페이징 파일에 저장된다.</p>
+<p>페이징 파일에 아직 동작하지 않은 주소를 저장 시켜서 잠시 가지고 있는것.. 이와같이 페이징 파일을 가지고 있기에 모든 프로세스가 더 적게 메모리를 사용하는 것이다.</p>
+<h2 id="가상메모리">가상메모리</h2>
+<p>프로그램을 동작하면 가상 메모리 공간이 생성된다. 그 메모리 공간은 상위, 하위 메모리로 나눠진다.</p>
+<h3 id="상위-메모리">상위 메모리</h3>
+<p>Stack의 메모리 공간이 할당된다. 지역변수, 리턴값등을 저장.. 값이 싸다. 이유는 할당과 해제는 CPU 명령어 2개로 끝난다고 한다. (할당, 해제)</p>
+<p>코드로 예를 들면 함수가 종료되면 함수에 있던 모든 변수가 Stack에서 Pop된다고 생각하면 된다. 함수가 사라지면 외부에서 참조 못하는 것처럼</p>
+<p>여기서 학부시절에 그렇게 많이 들은 Stack Overflow, Underflow등이 일어나게 되는 것이다.</p>
+<h3 id="하위-메모리">하위 메모리</h3>
+<p>Heap이 생성된다. 프로그램이 동작할 때 필요한 데이터 정보를 임시로 저장. heap할당은 비싸다.</p>
+<p>C에서 보면 malloc(), free()등으로 조작가능. Go, Python같은 언어들은 자동으로 GC가 작동하기 때문에 개발자가 신경 안써도 되는 경우도 있다.</p>
+<p>하지만 코드를 작성할때 신경써야하는 부분이 있을 수도 있는데 Go를 예로 들어보면</p>
+<h4 id="go에서-heap">Go에서 heap</h4>
+<p>Go에서 포인터를 사용하면 대부분 heap에 할당 된다고 한다. 가능한 안쓰는게 좋겠지..?</p>
+<p>포인터를 사용하지 않고 값을 복사하는 것이 memory를 작게써 CPU 캐시 적중률이 오른다고한다.</p>
+<p>또한 포인터를 포함하지 않는 메모리 영역은 GC가 생략할 수 있다. 반대로 포인터가 있으면 GC가 스캔 할 필요가 있다.</p>
+<p>이렇게 GC가 돌면 메모리 상에 흩어진 영역을 계속 탐색하기 때문에 무거워 지기 때문에 개발자는 조금이라도 가볍게 개발하기 위해서는 알아야 하는 개념이다.</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2019-11-20</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/memory/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/memory/" data-title="메모리 영역 Heap, Stack 살펴보기" data-hashtags="os,memory"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/memory/" data-hashtag="os"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/memory/" data-title="메모리 영역 Heap, Stack 살펴보기" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/memory/" data-title="메모리 영역 Heap, Stack 살펴보기"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://example.org/memory/" data-title="메모리 영역 Heap, Stack 살펴보기"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="http://example.org/memory/" data-title="메모리 영역 Heap, Stack 살펴보기" data-description="Application memory 구조의 Heap과 Stack을 살펴보자"><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="http://example.org/memory/" data-title="메모리 영역 Heap, Stack 살펴보기" data-description="Application memory 구조의 Heap과 Stack을 살펴보자"><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/memory/" data-title="메모리 영역 Heap, Stack 살펴보기"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/os/">os</a>,&nbsp;<a href="/tags/memory/">memory</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/computerstructure/" class="prev" rel="prev" title="Computer structure and socket"><i class="fas fa-angle-left fa-fw"></i>Computer structure and socket</a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.80.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

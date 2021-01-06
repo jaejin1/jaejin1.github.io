@@ -9,4 +9,7 @@
             <loc>http://example.org/categories/os/</loc><lastmod>2019-11-20T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/posts/</loc><lastmod>2019-11-20T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/tags/</loc><lastmod>2019-11-20T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://example.org/first_post/</loc><lastmod>2019-11-20T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>
+            <loc>http://example.org/memory/</loc><lastmod>2019-11-20T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://example.org/computerstructure/</loc><lastmod>2019-11-06T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://example.org/tags/linux/</loc><lastmod>2019-11-06T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://example.org/tags/socket/</loc><lastmod>2019-11-06T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>
