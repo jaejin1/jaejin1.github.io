@@ -20,7 +20,7 @@
 <meta name="application-name" content="LoveIt">
 <meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/computerstructure/" /><link rel="next" href="http://example.org/memory/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/computerstructure/" /><link rel="prev" href="http://example.org/namespace/" /><link rel="next" href="http://example.org/memory/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/computerstructure\/"
-        },"genre": "posts","keywords": "os, linux, socket","wordcount":  471 ,
+        },"genre": "posts","keywords": "os, linux, socket","wordcount":  466 ,
         "url": "http:\/\/example.org\/computerstructure\/","datePublished": "2019-11-06T15:58:26+08:00","dateModified": "2019-11-06T15:58:26+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -46,7 +46,7 @@
             <a href="/" title="">Jaejin&#39;s blog</a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
                         <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
                         <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
                             <i class="fas fa-search fa-fw"></i>
@@ -89,7 +89,7 @@
                     <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
                         Cancel
                     </a>
-                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                 <i class="fas fa-adjust fa-fw"></i>
             </a></div>
     </div>
@@ -106,7 +106,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Computer structure and socket</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/os/"><i class="far fa-folder fa-fw"></i>os</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-11-06">2019-11-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;471 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-11-06">2019-11-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;466 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -115,12 +115,12 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#1-hw">1 H/W</a></li>
-    <li><a href="#2-sw">2 S/W</a>
+    <li><a href="#hw">H/W</a></li>
+    <li><a href="#sw">S/W</a>
       <ul>
-        <li><a href="#22-kernel">2.2 Kernel</a></li>
-        <li><a href="#23-user">2.3 User</a></li>
-        <li><a href="#24-processthread">2.4 Process/Thread</a></li>
+        <li><a href="#kernel">Kernel</a></li>
+        <li><a href="#user">User</a></li>
+        <li><a href="#processthread">Process/Thread</a></li>
       </ul>
     </li>
   </ul>
@@ -130,12 +130,12 @@
 그나마 남아있는것을 정리하려고한다.</p>
 <p>ㅜㅜ..</p>
 <p>컴퓨터는 가장 크게 H/W, S/W로 나눌 수 있고 이를 좀더 자세히 나눠서 보자</p>
-<h2 id="1-hw">1 H/W</h2>
+<h2 id="hw">H/W</h2>
 <p>말그대로 하드웨어 물리적인 컴퓨터 자원을 말한다. CPU, GPU, RAM등등 본체에 꼽혀있는것들..</p>
-<h2 id="2-sw">2 S/W</h2>
+<h2 id="sw">S/W</h2>
 <p>소프트웨어는 물리적 반대로 논리적(Logical)하다 라고 많이 불리고 이는 IT쪽에서 Virtual과 비슷한 의미를 가진다.</p>
 <p>더 작게 나눠보자</p>
-<h3 id="22-kernel">2.2 Kernel</h3>
+<h3 id="kernel">Kernel</h3>
 <p>커널은 운영체제의 핵심 부분으로서, 운영체제의 다른 부분 및 응용 프로그램 수행에 필요한 여러가지 서비스를 제공한다.</p>
 <p>라고 위키백과에 나와있다.</p>
 <p>간단히 말하면 이 커널 영역에서 흔히 하드웨어 장치에 필요한 Driver가 있어야 하고, 그에 따른 구성요소가 포함된다고 보면 될 것 같다.</p>
@@ -158,10 +158,10 @@
 <p>Kernel 영역에서 하는 일은 위의 예시들로 알 수 있을 것이다.</p>
 <p>백신 프로그램을 잠깐 보면 어떻게 동작하는지 짐작 할 수 있을 것 같은데 아까 위에서 File -&gt; 구성요소 -&gt; Driver이렇게 흘러간다고 얘기를 많이 했다. 그 중간에 Filter라는 것이 존재하는데 이 Filter는 구성요서 앞/뒤 쯤 올 수 있다.</p>
 <p>이 Filter를 백신 업체에서 제공 해주면 Filtering이 되겠거니 싶다. 물론 Filter를 이용하다 보니 속도는 느려 질 수 있을 것이다.</p>
-<h3 id="23-user">2.3 User</h3>
+<h3 id="user">User</h3>
 <p>User영역은 아까 많이 언급한 File이 속한다.</p>
 <p>또한 백신 얘기할때 anti virus가 속할 수 있고 이 anti virus는 아까 Filter와 주거니 받거니 할 것이다.</p>
-<h3 id="24-processthread">2.4 Process/Thread</h3>
+<h3 id="processthread">Process/Thread</h3>
 <p>가장 많이 접한 Process와 Thread이다.</p>
 <p>이 둘을 간단히 비교해보면 Process안에 Thread가 있고 <code>Thread는 프로세스 내에서 실행되는 여러 흐름의 단위</code>라고 구글에 검색하면 많이 나올 것이다.</p>
 <p>엄청 간단히 예시를 들면 집(house)가 Process 그 안의 구성원 엄마, 아빠 등이 Thread라고 생각하면 될 것 같다.</p>
@@ -193,7 +193,7 @@
         </section>
     </div>
 
-    <div class="post-nav">
+    <div class="post-nav"><a href="/namespace/" class="prev" rel="prev" title="Introduction to Linux Namespaces"><i class="fas fa-angle-left fa-fw"></i>Introduction to Linux Namespaces</a>
             <a href="/memory/" class="next" rel="next" title="메모리 영역 Heap, Stack 살펴보기">메모리 영역 Heap, Stack 살펴보기<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"></div></article></div>

@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>filesystem - Tag - </title>
+        <link>http://example.org/tags/filesystem/</link>
+        <description>filesystem - Tag - </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Sun, 28 Jun 2020 15:58:26 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/filesystem/" rel="self" type="application/rss+xml" /><item>
+    <title>Partition</title>
+    <link>http://example.org/partition/</link>
+    <pubDate>Sun, 28 Jun 2020 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/partition/</guid>
+    <description><![CDATA[<p>파티션이란 연속된 저장 공간을 하나 이상의 연속되고 독립된 영역으로 나누어서 사용할 수 있도록 정의한 규약.</p>]]></description>
+</item><item>
+    <title>FileSystem</title>
+    <link>http://example.org/filesystem/</link>
+    <pubDate>Sun, 21 Jun 2020 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/filesystem/</guid>
+    <description><![CDATA[<p>FS는 <code>저장장치 내에서 데이터를 읽고 쓰기 위해 미리 정해진 약속</code> 이라고 볼 수 있다.</p>]]></description>
+</item></channel>
+</rss>
