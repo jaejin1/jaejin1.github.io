@@ -1,8 +1,6 @@
 # About Jaejin
 
 
-# Jaejin Lee
-
 developer 👨‍💻
 
 *updated:* Jan 09, 2021
@@ -11,21 +9,21 @@ developer 👨‍💻
 
 ## Work History 🔥
 
-### Cloud Engineer @ [DreamusCompany(FLO)](https://www.dreamuscompany.com/)
+* Cloud Engineer @ [DreamusCompany(FLO)](https://www.dreamuscompany.com/)
 
-2020.2.17 ~ Present
+  2020.2.17 ~ Present
 
-### Junior Software Developer @ [ICONLOOP](https://www.iconloop.com/)
+* Junior Software Developer @ [ICONLOOP](https://www.iconloop.com/)
 
-2018.10 ~ 2020.2.14
+  2018.10 ~ 2020.2.14
 
-### Intern @ [ICONLOOP](https://www.iconloop.com/)
+* Intern @ [ICONLOOP](https://www.iconloop.com/)
 
-2018.07 ~ 2018.09
+  2018.07 ~ 2018.09
 
-### Undergraduate Research Assistant @ [UNClab](http://unclab.hongik.ac.kr/)
+* Undergraduate Research Assistant @ [UNClab](http://unclab.hongik.ac.kr/)
 
-2016.06 ~ 2018.06
+  2016.06 ~ 2018.06
 
 ---
 
@@ -33,9 +31,9 @@ developer 👨‍💻
 
 2013-2019
 
-**[Hongik University](http://sejong.hongik.ac.kr/index.do)** 
+[Hongik University](http://sejong.hongik.ac.kr/index.do)
 
-**[Computer Information Communications Engineering](http://software.hongik.ac.kr/home/)**
+[Computer Information Communications Engineering](http://software.hongik.ac.kr/home/)
 
 ---
 
