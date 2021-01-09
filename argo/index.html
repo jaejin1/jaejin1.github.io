@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Argo - </title><meta name="Description" content="argo를 알아보자."><meta property="og:title" content="Argo" />
+<meta property="og:description" content="argo를 알아보자." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/argo/" />
+<meta property="og:image" content="http://example.org/images/jaejin.png"/>
+<meta property="article:published_time" content="2019-01-13T15:58:26+08:00" />
+<meta property="article:modified_time" content="2019-01-13T15:58:26+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/images/jaejin.png"/>
+
+<meta name="twitter:title" content="Argo"/>
+<meta name="twitter:description" content="argo를 알아보자."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/argo/" /><link rel="prev" href="http://example.org/istio/" /><link rel="next" href="http://example.org/kubeadm/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Argo",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/argo\/"
+        },"genre": "posts","keywords": "kubernetes, argo","wordcount":  1161 ,
+        "url": "http:\/\/example.org\/argo\/","datePublished": "2019-01-13T15:58:26+08:00","dateModified": "2019-01-13T15:58:26+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": "argo를 알아보자."
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Argo</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/kubernetes/"><i class="far fa-folder fa-fw"></i>kubernetes</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-01-13">2019-01-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1161 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#argoui">ArgoUI</a></li>
+    <li><a href="#연속작업">연속작업</a></li>
+    <li><a href="#dag를-이용한-워크플로우-정의">DAG를 이용한 워크플로우 정의</a></li>
+    <li><a href="#입력출력값-전달">입력/출력값 전달</a></li>
+    <li><a href="#출력값-사용">출력값 사용</a></li>
+    <li><a href="#artifact">Artifact</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>argo를 알아보자.</p>
+<p>argo는 컨테이너 워크플로우 솔루션이다.</p>
+<p>워크플로우 스펙을 YAML 파일로 정의하고, 실행할때 마다 컨테이너를 생성해서 작업을 수행한다.</p>
+<p><a href="https://argoproj.github.io/" target="_blank" rel="noopener noreffer">Open source container-native workflow engine for Kubernetes. argo</a></p>
+<p>argo 공식홈페이지에 나와있는 example을 실행해보자.</p>
+<p>먼저 yaml 파일을 다음과 같이 생성한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">argoproj.io/v1alpha1</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Workflow                 </span><span class="w"> </span><span class="c">#new type of k8s spec</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">generateName</span><span class="p">:</span><span class="w"> </span><span class="l">hello-world-   </span><span class="w"> </span><span class="c">#name of workflow spec</span><span class="w">
+</span><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay         </span><span class="w"> </span><span class="c">#invoke the whalesay template</span><span class="w">
+</span><span class="w">    </span><span class="nt">templates</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay             </span><span class="w"> </span><span class="c">#name of template</span><span class="w">
+</span><span class="w">    </span><span class="nt">container</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker/whalesay</span><span class="w">
+</span><span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">cowsay]</span><span class="w">
+</span><span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;hello world&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">        </span><span class="nt">resources</span><span class="p">:</span><span class="w">                </span><span class="c">#don&#39;t use too much resources</span><span class="w">
+</span><span class="w">        </span><span class="nt">limits</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l">32Mi</span><span class="w">
+</span><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l">100m</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>생성후 kubernetes에 submit 한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ argo submit hello-world.yaml
+</code></pre></td></tr></table>
+</div>
+</div><p>현재 워크플로우 list를 보려면 list 명령어를 이용한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">
+$ argo list
+
+NAME                STATUS    AGE   DURATION
+hello-world-s6d7p   Running   10m   10m
+
+</code></pre></td></tr></table>
+</div>
+</div><p>생성된 pod 의 상태를보려면 get 명령어를 이용</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">
+$ argo get hello-world-s6d7p
+
+Name:                hello-world-s6d7p
+Namespace:           default
+ServiceAccount:      default
+Status:              Running
+Created:             Sun Jan <span class="m">13</span> 14:56:43 +0900 <span class="o">(</span><span class="m">11</span> minutes ago<span class="o">)</span>
+Started:             Sun Jan <span class="m">13</span> 14:56:52 +0900 <span class="o">(</span><span class="m">10</span> minutes ago<span class="o">)</span>
+Duration:            <span class="m">10</span> minutes <span class="m">52</span> seconds
+
+STEP                  PODNAME            DURATION  MESSAGE
+    ● hello-world-s6d7p  hello-world-s6d7p  10m
+
+</code></pre></td></tr></table>
+</div>
+</div><p>마찬가지로 log를 보려면 log  명령어를 이용</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">
+$ argo logs -w hello-world-xxx    <span class="c1"># get logs from all steps in a workflow</span>
+
+argo logs -w hello-world-s6d7p
+hello-world-s6d7p:	 _____________
+hello-world-s6d7p:	&lt; hello world &gt;
+hello-world-s6d7p:	 -------------
+hello-world-s6d7p:	    <span class="se">\
+</span><span class="se"></span>hello-world-s6d7p:	     <span class="se">\
+</span><span class="se"></span>hello-world-s6d7p:	      <span class="se">\
+</span><span class="se"></span>hello-world-s6d7p:	                    <span class="c1">##        .</span>
+hello-world-s6d7p:	              <span class="c1">## ## ##       ==</span>
+hello-world-s6d7p:	           <span class="c1">## ## ## ##      ===</span>
+hello-world-s6d7p:	       /<span class="s2">&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;</span>___/ <span class="o">===</span>
+hello-world-s6d7p:	      <span class="o">{</span>~~ ~~~~ ~~~ ~~~~ ~~ ~ /  <span class="o">===</span>- 
+hello-world-s6d7p:	       <span class="se">\_</span>_____ o          __/
+hello-world-s6d7p:	        <span class="se">\ </span>   <span class="se">\ </span>       __/
+hello-world-s6d7p:	          <span class="se">\_</span>___<span class="se">\_</span>_____/
+
+$ argo logs hello-world-xxx-yyy   <span class="c1"># get logs from a specific step in a workflow</span>
+
+argo logs hello-world-s6d7p
+    _____________
+&lt; hello world &gt;
+    -------------
+    <span class="se">\
+</span><span class="se"></span>        <span class="se">\
+</span><span class="se"></span>        <span class="se">\
+</span><span class="se"></span>                    <span class="c1">##        .</span>
+                <span class="c1">## ## ##       ==</span>
+            <span class="c1">## ## ## ##      ===</span>
+        /<span class="s2">&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;</span>___/ <span class="o">===</span>
+        <span class="o">{</span>~~ ~~~~ ~~~ ~~~~ ~~ ~ /  <span class="o">===</span>- 
+        <span class="se">\_</span>_____ o          __/
+        <span class="se">\ </span>   <span class="se">\ </span>       __/
+            <span class="se">\_</span>___<span class="se">\_</span>_____/
+
+</code></pre></td></tr></table>
+</div>
+</div><p>delete</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">
+$ argo delete hello-world-xxx
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="argoui">ArgoUI</h2>
+<p>CLI가 아닌 GUI로 확인하기 위해 argo-ui를 로컬 PC 로 포워딩 한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">
+$ kubectl -n argo port-forward deployment/argo-ui 8001:8001
+
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><a class="lightgallery" href="/argo/2019-01-133-76b34c24-0266-497b-8607-780511ccc003.09.41.png" title="argo" data-thumbnail="/argo/2019-01-133-76b34c24-0266-497b-8607-780511ccc003.09.41.png" data-sub-html="<h2>argo</h2><p>argo</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2019-01-133-76b34c24-0266-497b-8607-780511ccc003.09.41.png"
+            data-srcset="/argo/2019-01-133-76b34c24-0266-497b-8607-780511ccc003.09.41.png, 2019-01-133-76b34c24-0266-497b-8607-780511ccc003.09.41.png 1.5x, /argo/2019-01-133-76b34c24-0266-497b-8607-780511ccc003.09.41.png 2x"
+            data-sizes="auto"
+            alt="/argo/2019-01-133-76b34c24-0266-497b-8607-780511ccc003.09.41.png" />
+    </a><figcaption class="image-caption">argo</figcaption>
+    </figure></p>
+<h2 id="연속작업">연속작업</h2>
+<p>다음과 같이 워크플로우를 작성한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">argoproj.io/v1alpha1</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Workflow</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">generateName</span><span class="p">:</span><span class="w"> </span><span class="l">steps-</span><span class="w">
+</span><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l">hello-hello-hello</span><span class="w">
+</span><span class="w">
+</span><span class="w">    </span><span class="c"># This spec contains two templates: hello-hello-hello and whalesay</span><span class="w">
+</span><span class="w">    </span><span class="nt">templates</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">hello-hello-hello</span><span class="w">
+</span><span class="w">    </span><span class="c"># Instead of just running a container</span><span class="w">
+</span><span class="w">    </span><span class="c"># This template has a sequence of steps</span><span class="w">
+</span><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- - <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">hello1           </span><span class="w"> </span><span class="c">#hello1 is run before the following steps</span><span class="w">
+</span><span class="w">        </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay</span><span class="w">
+</span><span class="w">        </span><span class="nt">arguments</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">message</span><span class="w">
+</span><span class="w">            </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;hello1&#34;</span><span class="w">
+</span><span class="w">    </span>- - <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">hello2a          </span><span class="w"> </span><span class="c">#double dash =&gt; run after previous step</span><span class="w">
+</span><span class="w">        </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay</span><span class="w">
+</span><span class="w">        </span><span class="nt">arguments</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">message</span><span class="w">
+</span><span class="w">            </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;hello2a&#34;</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">hello2b          </span><span class="w"> </span><span class="c">#single dash =&gt; run in parallel with previous step</span><span class="w">
+</span><span class="w">        </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay</span><span class="w">
+</span><span class="w">        </span><span class="nt">arguments</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">message</span><span class="w">
+</span><span class="w">            </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;hello2b&#34;</span><span class="w">
+</span><span class="w">
+</span><span class="w">    </span><span class="c"># This is the same template as from the previous example</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay</span><span class="w">
+</span><span class="w">    </span><span class="nt">inputs</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">message</span><span class="w">
+</span><span class="w">    </span><span class="nt">container</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker/whalesay</span><span class="w">
+</span><span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">cowsay]</span><span class="w">
+</span><span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;{{inputs.parameters.message}}&#34;</span><span class="p">]</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Metadata에서 <code>generateName: steps-</code> 는 워크플로우 이름이다.</li>
+<li>워크플로우는 templates부분에 정의 되어있는데 hello1과 hello2a를 보면 앞에  <code>- -</code> 2개의 -가 정의되어있고 hello2b 같은경우는 1개의 -로 되어있는 것을 볼 수 있다. 이는 hello2a, hello2b를 동시에 실행하는 것을 의미한다.</li>
+</ul>
+<p>다시 실행해보자.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">
+$ argo submit --watch helloworld-multi.yaml
+
+Name:                steps-nt72p
+Namespace:           argo
+ServiceAccount:      default
+Status:              Succeeded
+Created:             Sun Jan <span class="m">13</span> 15:39:55 +0900 <span class="o">(</span><span class="m">5</span> seconds ago<span class="o">)</span>
+Started:             Sun Jan <span class="m">13</span> 15:39:55 +0900 <span class="o">(</span><span class="m">5</span> seconds ago<span class="o">)</span>
+Finished:            Sun Jan <span class="m">13</span> 15:40:00 +0900 <span class="o">(</span>now<span class="o">)</span>
+Duration:            <span class="m">5</span> seconds
+
+STEP            PODNAME                 DURATION  MESSAGE
+    ✔ steps-nt72p
+    ├---✔ hello1   steps-nt72p-1112559031  1s
+    └-·-✔ hello2a  steps-nt72p-220736832   1s
+    └-✔ hello2b  steps-nt72p-271069689   2s
+
+</code></pre></td></tr></table>
+</div>
+</div><p><code>--watch</code> 옵션은 각 단계별 실행 상태와 워크플로우 구조를 볼 수 있다.</p>
+<p><figure><a class="lightgallery" href="/argo/2019-01-133-2e3bad3f-fb75-4adb-b5d9-0ed834f21146.30.53.png" title="argo" data-thumbnail="/argo/2019-01-133-2e3bad3f-fb75-4adb-b5d9-0ed834f21146.30.53.png" data-sub-html="<h2>argo</h2><p>argo</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2019-01-133-2e3bad3f-fb75-4adb-b5d9-0ed834f21146.30.53.png"
+            data-srcset="/argo/2019-01-133-2e3bad3f-fb75-4adb-b5d9-0ed834f21146.30.53.png, 2019-01-133-2e3bad3f-fb75-4adb-b5d9-0ed834f21146.30.53.png 1.5x, /argo/2019-01-133-2e3bad3f-fb75-4adb-b5d9-0ed834f21146.30.53.png 2x"
+            data-sizes="auto"
+            alt="/argo/2019-01-133-2e3bad3f-fb75-4adb-b5d9-0ed834f21146.30.53.png" />
+    </a><figcaption class="image-caption">argo</figcaption>
+    </figure></p>
+<p>step-~ 이라는 워크플로우가 생성되었다.</p>
+<p><strong>Warning Notice:</strong> istio가 설치되어있는환경에서는 계속 running에서 대기중이던데 확인이 필요할 거 같다. istio가 적용안되어있는 namespace를 이용했더니 잘 작동했다.</p>
+<p><figure><a class="lightgallery" href="/argo/2019-01-133-61d6ed3f-94d0-4164-8f64-4466ca34ca9e.44.22.png" title="argo" data-thumbnail="/argo/2019-01-133-61d6ed3f-94d0-4164-8f64-4466ca34ca9e.44.22.png" data-sub-html="<h2>argo</h2><p>argo</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2019-01-133-61d6ed3f-94d0-4164-8f64-4466ca34ca9e.44.22.png"
+            data-srcset="/argo/2019-01-133-61d6ed3f-94d0-4164-8f64-4466ca34ca9e.44.22.png, 2019-01-133-61d6ed3f-94d0-4164-8f64-4466ca34ca9e.44.22.png 1.5x, /argo/2019-01-133-61d6ed3f-94d0-4164-8f64-4466ca34ca9e.44.22.png 2x"
+            data-sizes="auto"
+            alt="/argo/2019-01-133-61d6ed3f-94d0-4164-8f64-4466ca34ca9e.44.22.png" />
+    </a><figcaption class="image-caption">argo</figcaption>
+    </figure></p>
+<h2 id="dag를-이용한-워크플로우-정의">DAG를 이용한 워크플로우 정의</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">argoproj.io/v1alpha1</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Workflow</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">generateName</span><span class="p">:</span><span class="w"> </span><span class="l">dag-diamond-</span><span class="w">
+</span><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l">diamond</span><span class="w">
+</span><span class="w">    </span><span class="nt">templates</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">echo</span><span class="w">
+</span><span class="w">    </span><span class="nt">inputs</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">message</span><span class="w">
+</span><span class="w">    </span><span class="nt">container</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">alpine:3.7</span><span class="w">
+</span><span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">echo, &#34;{{inputs.parameters.message}}&#34;]</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">diamond</span><span class="w">
+</span><span class="w">    </span><span class="nt">dag</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">tasks</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">A</span><span class="w">
+</span><span class="w">        </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">echo</span><span class="w">
+</span><span class="w">        </span><span class="nt">arguments</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">parameters</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>{<span class="nt">name: message, value</span><span class="p">:</span><span class="w"> </span><span class="l">A}]</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">B</span><span class="w">
+</span><span class="w">        </span><span class="nt">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">A]</span><span class="w">
+</span><span class="w">        </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">echo</span><span class="w">
+</span><span class="w">        </span><span class="nt">arguments</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">parameters</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>{<span class="nt">name: message, value</span><span class="p">:</span><span class="w"> </span><span class="l">B}]</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">C</span><span class="w">
+</span><span class="w">        </span><span class="nt">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">A]</span><span class="w">
+</span><span class="w">        </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">echo</span><span class="w">
+</span><span class="w">        </span><span class="nt">arguments</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">parameters</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>{<span class="nt">name: message, value</span><span class="p">:</span><span class="w"> </span><span class="l">C}]</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">D</span><span class="w">
+</span><span class="w">        </span><span class="nt">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">B, C]</span><span class="w">
+</span><span class="w">        </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">echo</span><span class="w">
+</span><span class="w">        </span><span class="nt">arguments</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">parameters</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>{<span class="nt">name: message, value</span><span class="p">:</span><span class="w"> </span><span class="l">D}]</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>DAG를 이용하면 좀 더 명시적으로 워크플로우 정의가 가능하다.</p>
+<p>A인 task가 실행하게 하고  B,C는 A에 의존성을 가지도록 하고 D는 B,C의 의존성을 가지게 해서 실행 순서는 A → B , C → D 형태가 된다.</p>
+<p><figure><a class="lightgallery" href="/argo/2019-01-136-769782a9-6b25-465a-b2e6-39ee05b838da.29.44.png" title="argo" data-thumbnail="/argo/2019-01-136-769782a9-6b25-465a-b2e6-39ee05b838da.29.44.png" data-sub-html="<h2>argo</h2><p>argo</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2019-01-136-769782a9-6b25-465a-b2e6-39ee05b838da.29.44.png"
+            data-srcset="/argo/2019-01-136-769782a9-6b25-465a-b2e6-39ee05b838da.29.44.png, 2019-01-136-769782a9-6b25-465a-b2e6-39ee05b838da.29.44.png 1.5x, /argo/2019-01-136-769782a9-6b25-465a-b2e6-39ee05b838da.29.44.png 2x"
+            data-sizes="auto"
+            alt="/argo/2019-01-136-769782a9-6b25-465a-b2e6-39ee05b838da.29.44.png" />
+    </a><figcaption class="image-caption">argo</figcaption>
+    </figure></p>
+<p>이후 진행은 조대협님 블로그를 참고하였습니다.</p>
+<p><a href="http://bcho.tistory.com/1299" target="_blank" rel="noopener noreffer">컨테이너 기반 워크플로우 솔루션 Argo</a></p>
+<h2 id="입력출력값-전달">입력/출력값 전달</h2>
+<p>argo의 개념과 워크플로우의 개념을 이해했으면</p>
+<p>task간 데이터를 어떻게 전달하는지 살펴보자.</p>
+<p><strong>입력값 전달</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">argoproj.io/v1alpha1</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Workflow</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">generateName</span><span class="p">:</span><span class="w"> </span><span class="l">hello-world-parameters-</span><span class="w">
+</span><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="c"># invoke the whalesay template with</span><span class="w">
+</span><span class="w">    </span><span class="c"># &#34;hello world&#34; as the argument</span><span class="w">
+</span><span class="w">    </span><span class="c"># to the message parameter</span><span class="w">
+</span><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay</span><span class="w">
+</span><span class="w">    </span><span class="nt">arguments</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">message</span><span class="w">
+</span><span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l">hello world</span><span class="w">
+</span><span class="w">    </span><span class="nt">templates</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay</span><span class="w">
+</span><span class="w">    </span><span class="nt">inputs</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">message      </span><span class="w"> </span><span class="c">#parameter declaration</span><span class="w">
+</span><span class="w">    </span><span class="nt">container</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="c"># run cowsay with that message input parameter as args</span><span class="w">
+</span><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker/whalesay</span><span class="w">
+</span><span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">cowsay]</span><span class="w">
+</span><span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;{{inputs.parameters.message}}&#34;</span><span class="p">]</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>먼저 spec.arguments 부분에서 message라는 변수를 선언 하였고, 그값은 hello world로 되어 있다. 그리고 워크플로우의 whalesay 태스크에서 message 변수를 input 변수로 사용하도록 선언했다. input.parameters.message를 참조하여 message 변수의 값을 도커 컨테이터의 실행 변수로 넘기도록 하였다.</p>
+<p>CLI에서 값을 변경하려면</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">
+$ argo submit file.yaml -p <span class="o">{</span>parameter name<span class="o">}={</span>value<span class="o">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="출력값-사용">출력값 사용</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="w">
+</span><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">argoproj.io/v1alpha1</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Workflow</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">generateName</span><span class="p">:</span><span class="w"> </span><span class="l">output-parameter-</span><span class="w">
+</span><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l">output-parameter</span><span class="w">
+</span><span class="w">    </span><span class="nt">templates</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">output-parameter</span><span class="w">
+</span><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- - <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">generate-parameter</span><span class="w">
+</span><span class="w">        </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay</span><span class="w">
+</span><span class="w">    </span>- - <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">consume-parameter</span><span class="w">
+</span><span class="w">        </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">print-message</span><span class="w">
+</span><span class="w">        </span><span class="nt">arguments</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="c"># Pass the hello-param output from the generate-parameter step as the message input to print-message</span><span class="w">
+</span><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">message</span><span class="w">
+</span><span class="w">            </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{{steps.generate-parameter.outputs.parameters.hello-param}}&#34;</span><span class="w">
+</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay</span><span class="w">
+</span><span class="w">    </span><span class="nt">container</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker/whalesay:latest</span><span class="w">
+</span><span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">sh, -c]</span><span class="w">
+</span><span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;echo -n hello world &gt; /tmp/hello_world.txt&#34;</span><span class="p">]</span><span class="w">  </span><span class="c">#generate the content of hello_world.txt</span><span class="w">
+</span><span class="w">    </span><span class="nt">outputs</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">hello-param      </span><span class="w"> </span><span class="c">#name of output parameter</span><span class="w">
+</span><span class="w">        </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/tmp/hello_world.txt   </span><span class="w"> </span><span class="c">#set the value of hello-param to the contents of this hello-world.txt</span><span class="w">
+</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">print-message</span><span class="w">
+</span><span class="w">    </span><span class="nt">inputs</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">message</span><span class="w">
+</span><span class="w">    </span><span class="nt">container</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker/whalesay:latest</span><span class="w">
+</span><span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">cowsay]</span><span class="w">
+</span><span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;{{inputs.parameters.message}}&#34;</span><span class="p">]</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>먼저 whalesay를 보면 outputs.parameters에 hello-param이라는 이름으로 output 변수를 정의하였고, output 내용은 /tmp/hello_world.txt 파일 내용으로 채워진다.</p>
+<p>다음 print-message 컨테이너 정의 부분을 보면 input param으로 message라는 변수를 정의하였다. steps를 보면 print-message를 실행할때 message 변수의 값을</p>
+<p>{{steps.generate-parameter.outputs.parameters.hello-param}} 로 정의해 print-message의 이전 스탭인 generate-parameter의 output param 중에  hello-param이라는 변수의 값으로 채우는 것을 볼 수 있다.</p>
+<h2 id="artifact">Artifact</h2>
+<p>워크 플로우 태스크에 대한 입/출력값을 parameter로 전달할 수 도 있지만, CI/CD 빌드 파이프라인에서는 소스코드, 빌드 바이너리가 될수 도 있고 빅데이터 파일일 수도 있다. 이 경우 parameter를 이용해서 넘기기는 부담이 된다.</p>
+<p>이런경우 artifact라는 기능을 이용한다. 외부 저장소 AWS S3나 GCP GCS같은 곳에 저장할 수 있게하고 반대로 읽기도 가능하다.</p>
+<p>나중에 kubeflow에서 텐서플로우 학습을 시키는 파이프라인이 있을때 학습된 모델을 S3나 GCS에 저장하도록 하는 작업을 할 수 있다.</p>
+<p>parameter → artifact로만 변경하면 된다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="w">
+</span><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">argoproj.io/v1alpha1</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Workflow</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">generateName</span><span class="p">:</span><span class="w"> </span><span class="l">artifact-passing-</span><span class="w">
+</span><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l">artifact-example</span><span class="w">
+</span><span class="w">    </span><span class="nt">templates</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">artifact-example</span><span class="w">
+</span><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- - <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">generate-artifact</span><span class="w">
+</span><span class="w">        </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay</span><span class="w">
+</span><span class="w">    </span>- - <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">consume-artifact</span><span class="w">
+</span><span class="w">        </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">print-message</span><span class="w">
+</span><span class="w">        </span><span class="nt">arguments</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">artifacts</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="c"># bind message to the hello-art artifact</span><span class="w">
+</span><span class="w">            </span><span class="c"># generated by the generate-artifact step</span><span class="w">
+</span><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">message</span><span class="w">
+</span><span class="w">            </span><span class="nt">from</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{{steps.generate-artifact.outputs.artifacts.hello-art}}&#34;</span><span class="w">
+</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">whalesay</span><span class="w">
+</span><span class="w">    </span><span class="nt">container</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker/whalesay:latest</span><span class="w">
+</span><span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">sh, -c]</span><span class="w">
+</span><span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;cowsay hello world | tee /tmp/hello_world.txt&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">    </span><span class="nt">outputs</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">artifacts</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="c"># generate hello-art artifact from /tmp/hello_world.txt</span><span class="w">
+</span><span class="w">        </span><span class="c"># artifacts can be directories as well as files</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">hello-art</span><span class="w">
+</span><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/tmp/hello_world.txt</span><span class="w">
+</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">print-message</span><span class="w">
+</span><span class="w">    </span><span class="nt">inputs</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">artifacts</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="c"># unpack the message input artifact</span><span class="w">
+</span><span class="w">        </span><span class="c"># and put it at /tmp/message</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">message</span><span class="w">
+</span><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/tmp/message</span><span class="w">
+</span><span class="w">    </span><span class="nt">container</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">alpine:latest</span><span class="w">
+</span><span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">sh, -c]</span><span class="w">
+</span><span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;cat /tmp/message&#34;</span><span class="p">]</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2019-01-13</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/argo/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/argo/" data-title="Argo" data-hashtags="kubernetes,argo"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/argo/" data-hashtag="kubernetes"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/argo/" data-title="Argo" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/argo/" data-title="Argo"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://example.org/argo/" data-title="Argo"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="http://example.org/argo/" data-title="Argo" data-description="argo를 알아보자."><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="http://example.org/argo/" data-title="Argo" data-description="argo를 알아보자."><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/argo/" data-title="Argo"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/kubernetes/">kubernetes</a>,&nbsp;<a href="/tags/argo/">argo</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/istio/" class="prev" rel="prev" title="Istio install and deploy sample applications"><i class="fas fa-angle-left fa-fw"></i>Istio install and deploy sample applications</a>
+            <a href="/kubeadm/" class="next" rel="next" title="Creating kubernetes clusters using kubeadm">Creating kubernetes clusters using kubeadm<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.80.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

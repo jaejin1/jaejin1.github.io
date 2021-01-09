@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>istio - Tag - </title>
+        <link>http://example.org/tags/istio/</link>
+        <description>istio - Tag - </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Sun, 30 Dec 2018 15:58:26 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/istio/" rel="self" type="application/rss+xml" /><item>
+    <title>Istio install and deploy sample applications</title>
+    <link>http://example.org/istio/</link>
+    <pubDate>Sun, 30 Dec 2018 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/istio/</guid>
+    <description><![CDATA[<p>Istio란 sidecar pattern을 이용한 service mesh architecture 의 구현체인 오픈 플랫폼이다.</p>]]></description>
+</item></channel>
+</rss>

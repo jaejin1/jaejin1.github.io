@@ -46,5 +46,34 @@
     <author>Author</author>
     <guid>http://example.org/namespace/</guid>
     <description><![CDATA[<p>linux에서 container가 내부적으로 어떻게 동작하는지 알아보자.</p>]]></description>
+</item><item>
+    <title>Configuring kubectl by using serviceAccount token</title>
+    <link>http://example.org/serviceaccount/</link>
+    <pubDate>Thu, 27 Jun 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/serviceaccount/</guid>
+    <description><![CDATA[<p>K8s를 사용하면서 사용자별로 Role을 정해줄 수 있다.</p>]]></description>
+</item><item>
+    <title>Creating kubernetes clusters using kubeadm</title>
+    <link>http://example.org/kubeadm/</link>
+    <pubDate>Sun, 10 Mar 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/kubeadm/</guid>
+    <description><![CDATA[<p>GCP, AWS와 같은 Cloud 환경이 아닌 물리 서버에 kubernetes cluster 구성해보자.
+<a href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/" target="_blank" rel="noopener noreffer">Creating a single master cluster with kubeadm</a></p>]]></description>
+</item><item>
+    <title>Argo</title>
+    <link>http://example.org/argo/</link>
+    <pubDate>Sun, 13 Jan 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/argo/</guid>
+    <description><![CDATA[<p>argo를 알아보자.</p>]]></description>
+</item><item>
+    <title>Istio install and deploy sample applications</title>
+    <link>http://example.org/istio/</link>
+    <pubDate>Sun, 30 Dec 2018 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/istio/</guid>
+    <description><![CDATA[<p>Istio란 sidecar pattern을 이용한 service mesh architecture 의 구현체인 오픈 플랫폼이다.</p>]]></description>
 </item></channel>
 </rss>

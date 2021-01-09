@@ -1,0 +1,55 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>kubernetes - Tag - </title>
+        <link>http://example.org/tags/kubernetes/</link>
+        <description>kubernetes - Tag - </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Thu, 27 Jun 2019 15:58:26 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/kubernetes/" rel="self" type="application/rss+xml" /><item>
+    <title>Configuring kubectl by using serviceAccount token</title>
+    <link>http://example.org/serviceaccount/</link>
+    <pubDate>Thu, 27 Jun 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/serviceaccount/</guid>
+    <description><![CDATA[<p>K8s를 사용하면서 사용자별로 Role을 정해줄 수 있다.</p>]]></description>
+</item><item>
+    <title>Creating kubernetes clusters using kubeadm</title>
+    <link>http://example.org/kubeadm/</link>
+    <pubDate>Sun, 10 Mar 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/kubeadm/</guid>
+    <description><![CDATA[<p>GCP, AWS와 같은 Cloud 환경이 아닌 물리 서버에 kubernetes cluster 구성해보자.
+<a href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/" target="_blank" rel="noopener noreffer">Creating a single master cluster with kubeadm</a></p>]]></description>
+</item><item>
+    <title>Argo</title>
+    <link>http://example.org/argo/</link>
+    <pubDate>Sun, 13 Jan 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/argo/</guid>
+    <description><![CDATA[<p>argo를 알아보자.</p>]]></description>
+</item><item>
+    <title>Istio install and deploy sample applications</title>
+    <link>http://example.org/istio/</link>
+    <pubDate>Sun, 30 Dec 2018 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/istio/</guid>
+    <description><![CDATA[<p>Istio란 sidecar pattern을 이용한 service mesh architecture 의 구현체인 오픈 플랫폼이다.</p>]]></description>
+</item><item>
+    <title>Kubernetes cluster on aws with kops</title>
+    <link>http://example.org/kops/</link>
+    <pubDate>Fri, 21 Dec 2018 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/kops/</guid>
+    <description><![CDATA[<p>MacOS에서 cluster를 구성한뒤 AWS에 노드들을 띄우는 작업을 해봅시다.</p>]]></description>
+</item><item>
+    <title>Kubernetes basics</title>
+    <link>http://example.org/basic/</link>
+    <pubDate>Thu, 20 Dec 2018 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/basic/</guid>
+    <description><![CDATA[<p>쿠버네티스의 클러스터 구조는 다음과 같다.</p>
+<ol>
+<li>클러스터 전체를 관리하는 컨트롤러로써 마스터가 존재한다.</li>
+<li>컨테이너가 배포되는 머신인 노드가 존재한다.</li>
+</ol>]]></description>
+</item></channel>
+</rss>

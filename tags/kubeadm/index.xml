@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>kubeadm - Tag - </title>
+        <link>http://example.org/tags/kubeadm/</link>
+        <description>kubeadm - Tag - </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Sun, 10 Mar 2019 15:58:26 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/kubeadm/" rel="self" type="application/rss+xml" /><item>
+    <title>Creating kubernetes clusters using kubeadm</title>
+    <link>http://example.org/kubeadm/</link>
+    <pubDate>Sun, 10 Mar 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/kubeadm/</guid>
+    <description><![CDATA[<p>GCP, AWS와 같은 Cloud 환경이 아닌 물리 서버에 kubernetes cluster 구성해보자.
+<a href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/" target="_blank" rel="noopener noreffer">Creating a single master cluster with kubeadm</a></p>]]></description>
+</item></channel>
+</rss>
