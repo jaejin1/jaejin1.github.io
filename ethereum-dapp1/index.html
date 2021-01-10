@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Setup private ethereum blockchain network - </title><meta name="Description" content="This is jaejin&#39;s blog"><meta property="og:title" content="Setup private ethereum blockchain network" />
+<meta property="og:description" content="docker를 이용해서 이더리움 노드 3개와 웹서버 1개를 만들고 웹서버에서 회원가입을 하고 투표를 하는 정보들을 이더리움 네트워크에 저장시켜보는 실습을 해본다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/ethereum-dapp1/" />
+<meta property="og:image" content="http://example.org/images/jaejin.png"/>
+<meta property="article:published_time" content="2018-08-01T15:58:26+08:00" />
+<meta property="article:modified_time" content="2018-08-01T15:58:26+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/images/jaejin.png"/>
+
+<meta name="twitter:title" content="Setup private ethereum blockchain network"/>
+<meta name="twitter:description" content="docker를 이용해서 이더리움 노드 3개와 웹서버 1개를 만들고 웹서버에서 회원가입을 하고 투표를 하는 정보들을 이더리움 네트워크에 저장시켜보는 실습을 해본다."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/ethereum-dapp1/" /><link rel="next" href="http://example.org/ethereum-dapp2/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Setup private ethereum blockchain network",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/ethereum-dapp1\/"
+        },"genre": "posts","keywords": "blockchain, ethereum","wordcount":  981 ,
+        "url": "http:\/\/example.org\/ethereum-dapp1\/","datePublished": "2018-08-01T15:58:26+08:00","dateModified": "2018-08-01T15:58:26+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Setup private ethereum blockchain network</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/blockchain/"><i class="far fa-folder fa-fw"></i>blockchain</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-08-01">2018-08-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;981 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#계좌-생성하기">계좌 생성하기</a></li>
+    <li><a href="#제네시스-블록-생성하기">제네시스 블록 생성하기</a></li>
+    <li><a href="#private-network-구동하기">Private network 구동하기</a>
+      <ul>
+        <li><a href="#간단한-geth-명령어는-다음과-같다">간단한 geth 명령어는 다음과 같다.</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>docker를 이용해서 이더리움 노드 3개와 웹서버 1개를 만들고 웹서버에서 회원가입을 하고 투표를 하는 정보들을 이더리움 네트워크에 저장시켜보는 실습을 해본다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ docker pull ubuntu  
+$ docker run -it -p 10001:10001 ubuntu
+</code></pre></td></tr></table>
+</div>
+</div><p>ubuntu os에 설치하려고한다. 이유는 설치하는 과정을 보여주려고&hellip;.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ apt-get install software-properties-common
+$ apt-get install software-properties-common python-software-properties
+$ add-apt-repository -y ppa:ethereum/ethereum
+$ apt-get update
+$ apt-get install ethereum
+</code></pre></td></tr></table>
+</div>
+</div><p>이후에</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ geth
+$ geth version
+
+&gt;&gt;&gt;
+WARN <span class="o">[</span>08-17<span class="p">|</span>08:21:11.660<span class="o">]</span> Sanitizing cache to Go<span class="err">&#39;</span>s GC limits       <span class="nv">provided</span><span class="o">=</span><span class="m">1024</span> <span class="nv">updated</span><span class="o">=</span><span class="m">666</span>
+Geth
+Version: 1.8.13-stable
+Git Commit: 225171a4bfcc16bd12a1906b1e0d43d0b18c353b
+Architecture: amd64
+Protocol Versions: <span class="o">[</span><span class="m">63</span> 62<span class="o">]</span>
+Network Id: <span class="m">1</span>
+Go Version: go1.10.1
+Operating System: linux
+<span class="nv">GOPATH</span><span class="o">=</span>
+<span class="nv">GOROOT</span><span class="o">=</span>/usr/lib/go-1.10
+</code></pre></td></tr></table>
+</div>
+</div><p>라고 하면 잘 실행 될 것이다.</p>
+<p>아래의 명령어를 사용하면 geth console에 명령어를 입력 할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ geth --dev console
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<p>준비할 것이 2가지 있다.</p>
+<ol>
+<li>private network에서 사용할 계좌</li>
+<li>제네시스 블록 정보.</li>
+</ol>
+<h2 id="계좌-생성하기">계좌 생성하기</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ geth --datadir <span class="s2">&#34;./data&#34;</span> account new
+</code></pre></td></tr></table>
+</div>
+</div><p>—datadir 옵션은 network가 구동될 때 블록정보, 계좌정보를 저장할 폴더를 지정하는 옵션이다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ ls data/keystore/
+
+&gt;&gt;&gt;
+UTC--2018-08-17T08-24-17.766131786Z--49a13ee73d2fc8c1578ce1512530aa1724ee42b7
+</code></pre></td></tr></table>
+</div>
+</div><p>계좌주소 출력하기</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ geth --datadir <span class="s2">&#34;./data&#34;</span> account list
+
+&gt;&gt;&gt;
+WARN <span class="o">[</span>08-17<span class="p">|</span>08:26:02.392<span class="o">]</span> Sanitizing cache to Go<span class="err">&#39;</span>s GC limits       <span class="nv">provided</span><span class="o">=</span><span class="m">1024</span> <span class="nv">updated</span><span class="o">=</span><span class="m">666</span>
+INFO <span class="o">[</span>08-17<span class="p">|</span>08:26:02.392<span class="o">]</span> Maximum peer count                       <span class="nv">ETH</span><span class="o">=</span><span class="m">25</span> <span class="nv">LES</span><span class="o">=</span><span class="m">0</span> <span class="nv">total</span><span class="o">=</span><span class="m">25</span>
+Account <span class="c1">#0: {49a13ee73d2fc8c1578ce1512530aa1724ee42b7} keystore:///home/data/keystore/UTC--2018-08-17T08-24-17.766131786Z--49a13ee73d2fc8c1578ce1512530aa1724ee42b7</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>다음과 같이 쓰면 생성된 계좌의 리스트가 출력된다.</p>
+<h2 id="제네시스-블록-생성하기">제네시스 블록 생성하기</h2>
+<p>private network를 구동하기 위해서는 첫 번째 블록을 생성해야한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;config&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;chainId&#34;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+        <span class="nt">&#34;homesteadBlock&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&#34;eip155Block&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&#34;eip158Block&#34;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">},</span>
+    <span class="nt">&#34;difficulty&#34;</span><span class="p">:</span> <span class="s2">&#34;200000000&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;gasLimit&#34;</span><span class="p">:</span> <span class="s2">&#34;2100000&#34;</span><span class="p">,</span>
+    <span class="err">“coinbase”:</span> <span class="nt">&#34;0x{위에 생성한 계좌주소}&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;alloc&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;0x{위에 생성한 계좌주소}&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;balance&#34;</span><span class="p">:</span> <span class="s2">&#34;1000000000000000000000000&#34;</span> <span class="p">},</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>제네시스 블록을 만들때 필요한 json 파일의 구성이다.</p>
+<ol>
+<li>
+<p>config는 생성할 private network의 버전을 정하는 설정이다. chainId, homesteadBlock, eip155Block, eip158Block 모두 이더리움 속성과 관련된 설정이다.</p>
+<p>chainId는 replay protection을 사용하는 설정이다. homestead는 이더리움의 두 번째 메인 릴리즈를 사용하기 위해 설정하는 속성이고 0으로 설정하면 해당 릴리즈를 사용한다. eip155은 gas 비용에 관련된 하드포커 설정이며 eip158은 state cleanig과 관련된 설정이다.</p>
+</li>
+<li>
+<p>difficulty 는 이더리움에서 채굴의 난이도를 설정하는 옵션</p>
+</li>
+<li>
+<p>gas limit 한 블록이 담을 수 있는 gas의 수치를 말한다. gas 수치가 높을 수록 한 블록이 담을 수 있는 거래가 많아진다.</p>
+</li>
+<li>
+<p>coinbase는 network를 구동할 때 기본으로 사용할 계좌를 설정하는 옵션 ( 채굴할 때 코인을 받을 계좌 )</p>
+</li>
+<li>
+<p>alloc 는 private network를 구동할 떄 미리 계좌에 이더를입금 시킬지를 설정하는 옵션이다. 설정하기 원하는 계좌와 이더 값을 명시한다.</p>
+</li>
+</ol>
+<p>제네시스 json파일을 생성후</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ geth --datadir <span class="s2">&#34;./data&#34;</span> init <span class="s2">&#34;./genesis.json&#34;</span>
+
+&gt;&gt;&gt;
+WARN <span class="o">[</span>08-17<span class="p">|</span>08:31:55.253<span class="o">]</span> Sanitizing cache to Go<span class="err">&#39;</span>s GC limits       <span class="nv">provided</span><span class="o">=</span><span class="m">1024</span> <span class="nv">updated</span><span class="o">=</span><span class="m">666</span>
+INFO <span class="o">[</span>08-17<span class="p">|</span>08:31:55.254<span class="o">]</span> Maximum peer count                       <span class="nv">ETH</span><span class="o">=</span><span class="m">25</span> <span class="nv">LES</span><span class="o">=</span><span class="m">0</span> <span class="nv">total</span><span class="o">=</span><span class="m">25</span>
+INFO <span class="o">[</span>08-17<span class="p">|</span>08:31:55.254<span class="o">]</span> Allocated cache and file handles         <span class="nv">database</span><span class="o">=</span>/home/data/geth/chaindata <span class="nv">cache</span><span class="o">=</span><span class="m">16</span> <span class="nv">handles</span><span class="o">=</span><span class="m">16</span>
+INFO <span class="o">[</span>08-17<span class="p">|</span>08:31:55.261<span class="o">]</span> Writing custom genesis block
+INFO <span class="o">[</span>08-17<span class="p">|</span>08:31:55.261<span class="o">]</span> Persisted trie from memory database      <span class="nv">nodes</span><span class="o">=</span><span class="m">1</span> <span class="nv">size</span><span class="o">=</span>150.00B <span class="nv">time</span><span class="o">=</span>41.229µs <span class="nv">gcnodes</span><span class="o">=</span><span class="m">0</span> <span class="nv">gcsize</span><span class="o">=</span>0.00B <span class="nv">gctime</span><span class="o">=</span>0s <span class="nv">livenodes</span><span class="o">=</span><span class="m">1</span> <span class="nv">livesize</span><span class="o">=</span>0.00B
+INFO <span class="o">[</span>08-17<span class="p">|</span>08:31:55.261<span class="o">]</span> Successfully wrote genesis state         <span class="nv">database</span><span class="o">=</span>chaindata                 <span class="nv">hash</span><span class="o">=</span>e47869…3ca16c
+INFO <span class="o">[</span>08-17<span class="p">|</span>08:31:55.261<span class="o">]</span> Allocated cache and file handles         <span class="nv">database</span><span class="o">=</span>/home/data/geth/lightchaindata <span class="nv">cache</span><span class="o">=</span><span class="m">16</span> <span class="nv">handles</span><span class="o">=</span><span class="m">16</span>
+INFO <span class="o">[</span>08-17<span class="p">|</span>08:31:55.264<span class="o">]</span> Writing custom genesis block
+INFO <span class="o">[</span>08-17<span class="p">|</span>08:31:55.264<span class="o">]</span> Persisted trie from memory database      <span class="nv">nodes</span><span class="o">=</span><span class="m">1</span> <span class="nv">size</span><span class="o">=</span>150.00B <span class="nv">time</span><span class="o">=</span>37.247µs <span class="nv">gcnodes</span><span class="o">=</span><span class="m">0</span> <span class="nv">gcsize</span><span class="o">=</span>0.00B <span class="nv">gctime</span><span class="o">=</span>0s <span class="nv">livenodes</span><span class="o">=</span><span class="m">1</span> <span class="nv">livesize</span><span class="o">=</span>0.00B
+INFO <span class="o">[</span>08-17<span class="p">|</span>08:31:55.265<span class="o">]</span> Successfully wrote genesis state         <span class="nv">database</span><span class="o">=</span>lightchaindata                 <span class="nv">hash</span><span class="o">=</span>e47869…3ca16c
+</code></pre></td></tr></table>
+</div>
+</div><p>성공적으로 genesis block이 생성 되었다고 출력된다.</p>
+<h2 id="private-network-구동하기">Private network 구동하기</h2>
+<p>첫 번째 블록을 만들었으니 네트워크 실행해보자.</p>
+<p>private network를 구동할 때 유의해야 할 옵션은 —networkid이다. networkid를 1로 지정시 메인 이더리움에 연결이 되고 2는 테스트 네트워크로 사용중이다. 따라서 1과 2를 제외한 수를 지정해야 한다.</p>
+<p>또한 &ndash;identity 옵션을 사용해 네트워크에 이름을 지정할 수 있다. networkid와 identity는 node들 간에 연결 할 때 사용되는 옵션이다.</p>
+<p>그리고 &ndash;mine 옵션을 설정해서 geth를 구동했을 때 채굴을 할 수 있게 한다. &ndash;nodiscover 옵션을 사용해서 다른 노드를 찾는 설정을 끈다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ geth --networkid <span class="m">1988</span> --identity <span class="s2">&#34;mynetwork&#34;</span> --datadir <span class="s2">&#34;./data&#34;</span> --nodiscover console
+</code></pre></td></tr></table>
+</div>
+</div><p>아래와 같이 콘솔창이 나오면 성공이다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt;&gt;&gt;
+... 생략
+INFO <span class="o">[</span>08-17<span class="p">|</span>08:35:18.788<span class="o">]</span> Etherbase automatically configured       <span class="nv">address</span><span class="o">=</span>0x49A13ee73D2FC8C1578cE1512530Aa1724EE42b7
+coinbase: 0x49a13ee73d2fc8c1578ce1512530aa1724ee42b7
+at block: <span class="m">0</span> <span class="o">(</span>Thu, <span class="m">01</span> Jan <span class="m">1970</span> 00:00:00 UTC<span class="o">)</span>
+    datadir: /home/data
+    modules: admin:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0
+
+&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>eth.accounts를 입력하면 현재 생성되어 있는 계좌들이 출력된다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; eth.accounts
+<span class="o">[</span><span class="s2">&#34;0x49a13ee73d2fc8c1578ce1512530aa1724ee42b7&#34;</span><span class="o">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>eth.accounts[0]은 첫번째 생성된 계좌를 출력</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; eth.accounts<span class="o">[</span>0<span class="o">]</span>
+<span class="s2">&#34;0x49a13ee73d2fc8c1578ce1512530aa1724ee42b7&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>이더 잔고를 조회 할때는 eth.getBalance()함수를 사용하고 인자로 계좌 주소를 적어준다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; eth.getBalance<span class="o">(</span>eth.accounts<span class="o">[</span>0<span class="o">])</span>
+1e+24
+</code></pre></td></tr></table>
+</div>
+</div><p>새로운 계좌를 만들어보면</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; personal.newAccount<span class="o">()</span>
+Passphrase:
+Repeat passphrase:
+<span class="s2">&#34;0xaefa6e0f4b91fd67e31498f82f34ae95762aac71&#34;</span>
+&gt; eth.accounts
+<span class="o">[</span><span class="s2">&#34;0x49a13ee73d2fc8c1578ce1512530aa1724ee42b7&#34;</span>, <span class="s2">&#34;0xaefa6e0f4b91fd67e31498f82f34ae95762aac71&#34;</span><span class="o">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>두개가 출력된걸 확인 할 수 있다.</p>
+<p>이제 이더를 옮겨보자</p>
+<p>반드시 해야하는 작업이 이더를 전송하려는 계좌의 락을 풀어줘야한다.!!!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; personal.unlockAccount<span class="o">(</span>eth.accounts<span class="o">[</span>0<span class="o">])</span>
+Unlock account 0x0a39454d85c9ff43f5aba2025da36d67ccfa50d9
+Passphrase:
+<span class="nb">true</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>이제 보내보자</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; eth.sendTransaction<span class="o">({</span>from: eth.accounts<span class="o">[</span>0<span class="o">]</span>, to:eth.accounts<span class="o">[</span>1<span class="o">]</span>, value:100<span class="o">})</span>
+INFO <span class="o">[</span>08-18<span class="p">|</span>06:27:14.550<span class="o">]</span> Submitted transaction                    <span class="nv">fullhash</span><span class="o">=</span>0xd592ae1540ae288979caa5fe8bcfc4bc41c625190b978bb505587b241fdb346e <span class="nv">recipient</span><span class="o">=</span>0xa6ae554222c1Ac7cB98eEF8abFd3b8f8CD9C2817
+<span class="s2">&#34;0xd592ae1540ae288979caa5fe8bcfc4bc41c625190b978bb505587b241fdb346e&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>전송을 해도</p>
+<p>잔고에 변화가 없다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; eth.getBalance<span class="o">(</span>eth.accounts<span class="o">[</span>0<span class="o">])</span>
+1e+24
+&gt; eth.getBalance<span class="o">(</span>eth.accounts<span class="o">[</span>1<span class="o">])</span>
+<span class="m">0</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>블록 체인이기 때문에 채굴이 되어야 발생한 거래가 적용이 된다. 채굴을 해보자</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ miner.start<span class="o">()</span>
+$ minet.stop<span class="o">()</span>
+
+INFO <span class="o">[</span>08-18<span class="p">|</span>06:32:51.972<span class="o">]</span> Generating DAG in progress               <span class="nv">epoch</span><span class="o">=</span><span class="m">1</span> <span class="nv">percentage</span><span class="o">=</span><span class="m">97</span> <span class="nv">elapsed</span><span class="o">=</span>3m4.253s
+INFO <span class="o">[</span>08-18<span class="p">|</span>06:32:53.809<span class="o">]</span> Generating DAG in progress               <span class="nv">epoch</span><span class="o">=</span><span class="m">1</span> <span class="nv">percentage</span><span class="o">=</span><span class="m">98</span> <span class="nv">elapsed</span><span class="o">=</span>3m6.089s
+INFO <span class="o">[</span>08-18<span class="p">|</span>06:32:56.898<span class="o">]</span> Generating DAG in progress               <span class="nv">epoch</span><span class="o">=</span><span class="m">1</span> <span class="nv">percentage</span><span class="o">=</span><span class="m">99</span> <span class="nv">elapsed</span><span class="o">=</span>3m9.179s
+INFO <span class="o">[</span>08-18<span class="p">|</span>06:32:56.905<span class="o">]</span> Generated ethash verification cache      <span class="nv">epoch</span><span class="o">=</span><span class="m">1</span> <span class="nv">elapsed</span><span class="o">=</span>3m9.184s
+INFO <span class="o">[</span>08-18<span class="p">|</span>06:35:20.852<span class="o">]</span> Successfully sealed new block            <span class="nv">number</span><span class="o">=</span><span class="m">1</span> <span class="nv">hash</span><span class="o">=</span>a9c709…37cf8b
+INFO <span class="o">[</span>08-18<span class="p">|</span>06:35:20.866<span class="o">]</span> 🔨 mined potential block                  <span class="nv">number</span><span class="o">=</span><span class="m">1</span> <span class="nv">hash</span><span class="o">=</span>a9c709…37cf8b
+INFO <span class="o">[</span>08-18<span class="p">|</span>06:35:20.869<span class="o">]</span> Commit new mining work                   <span class="nv">number</span><span class="o">=</span><span class="m">2</span> <span class="nv">txs</span><span class="o">=</span><span class="m">0</span> <span class="nv">uncles</span><span class="o">=</span><span class="m">0</span> <span class="nv">elapsed</span><span class="o">=</span>3.373ms
+INFO <span class="o">[</span>08-18<span class="p">|</span>06:35:36.470<span class="o">]</span> Successfully sealed new block            <span class="nv">number</span><span class="o">=</span><span class="m">2</span> <span class="nv">hash</span><span class="o">=</span>7f96ee…bf362a
+INFO <span class="o">[</span>08-18<span class="p">|</span>06:35:36.473<span class="o">]</span> 🔨 mined potential block                  <span class="nv">number</span><span class="o">=</span><span class="m">2</span> <span class="nv">hash</span><span class="o">=</span>7f96ee…bf362a
+</code></pre></td></tr></table>
+</div>
+</div><p>Generating DAG in progress 가 반복되다가 블럭이 생성되는 경우가 있다.!!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; eth.getBalance<span class="o">(</span>eth.accounts<span class="o">[</span>0<span class="o">])</span>
+1.0000099999999999999999e+24
+&gt; eth.getBalance<span class="o">(</span>eth.accounts<span class="o">[</span>1<span class="o">])</span>
+<span class="m">100</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>이후에 이더가 전송된 것을 확인 가능하다.!!</p>
+<hr>
+<h3 id="간단한-geth-명령어는-다음과-같다">간단한 geth 명령어는 다음과 같다.</h3>
+<p>블록 갯수 체크</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; eth.blockNumber
+</code></pre></td></tr></table>
+</div>
+</div><p>채굴에 성공시 보상받는 계좌 조회</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; eth.coinbase
+</code></pre></td></tr></table>
+</div>
+</div><p>다른 계정으로 옮기고 싶을때</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; miner.setEtherbase<span class="o">(</span>eth.accounts<span class="o">[</span>1<span class="o">])</span>
+&gt; eth.coinbase
+</code></pre></td></tr></table>
+</div>
+</div><p>진행 기다리는 트랜잭션 확인</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; eth.pendingTransactions
+<span class="o">[{</span>
+    blockHash: null,
+    blockNumber: null,
+    from: <span class="s2">&#34;0x241530b417837cdcce8036a7b7f095995509d5c9&#34;</span>,
+    gas: 90000,
+    gasPrice: 18000000000,
+    hash: <span class="s2">&#34;0x8aff56402bbbe8547dca097ba443a3d668bbac4cd73477e8613fc2c74ca8b002&#34;</span>,
+    input: <span class="s2">&#34;0x&#34;</span>,
+    nonce: 1,
+    r: <span class="s2">&#34;0xc029343dac203271bee3de5d73a586e8740a547342b61f3aebdbbbb0ac4bd0a8&#34;</span>,
+    s: <span class="s2">&#34;0x27112e6e766ddfccf55123d057fe130f7b39e99f76b36c0aefa140168cdd36f9&#34;</span>,
+    to: <span class="s2">&#34;0xca09b7785f4179988e14ee87cfe7e93933a002c7&#34;</span>,
+    transactionIndex: 0,
+    v: <span class="s2">&#34;0x41&#34;</span>,
+    value: <span class="m">1000</span>
+<span class="o">}]</span>
+
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2018-08-01</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/ethereum-dapp1/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/ethereum-dapp1/" data-title="Setup private ethereum blockchain network" data-hashtags="blockchain,ethereum"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/ethereum-dapp1/" data-hashtag="blockchain"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/ethereum-dapp1/" data-title="Setup private ethereum blockchain network" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/ethereum-dapp1/" data-title="Setup private ethereum blockchain network"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://example.org/ethereum-dapp1/" data-title="Setup private ethereum blockchain network"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="http://example.org/ethereum-dapp1/" data-title="Setup private ethereum blockchain network" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="http://example.org/ethereum-dapp1/" data-title="Setup private ethereum blockchain network" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/ethereum-dapp1/" data-title="Setup private ethereum blockchain network"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/blockchain/">blockchain</a>,&nbsp;<a href="/tags/ethereum/">ethereum</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/ethereum-dapp2/" class="next" rel="next" title="Preparing for deploy smart contract">Preparing for deploy smart contract<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.80.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

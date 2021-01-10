@@ -1,0 +1,57 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>blockchain - Tag - </title>
+        <link>http://example.org/tags/blockchain/</link>
+        <description>blockchain - Tag - </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Mon, 16 Dec 2019 15:58:26 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/blockchain/" rel="self" type="application/rss+xml" /><item>
+    <title>Hyperledger Fabric 개발 환경 구성 및 chaincode 배포</title>
+    <link>http://example.org/hyperledger-fabric2/</link>
+    <pubDate>Mon, 16 Dec 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/hyperledger-fabric2/</guid>
+    <description><![CDATA[<p>Hyperledger Fabric에 대해 알아 보았따. 이제 직접 개발 환경은 올려보자.</p>]]></description>
+</item><item>
+    <title>Hyperledger Fabric</title>
+    <link>http://example.org/hyperledger-fabric1/</link>
+    <pubDate>Sun, 15 Dec 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/hyperledger-fabric1/</guid>
+    <description><![CDATA[<p>Hyperledger Fabric에 대해 알아봅시다.</p>]]></description>
+</item><item>
+    <title>Deploying smart contracts with truffle</title>
+    <link>http://example.org/ethereum-dapp5/</link>
+    <pubDate>Sun, 05 Aug 2018 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/ethereum-dapp5/</guid>
+    <description><![CDATA[<p>스마트 컨트렉트를 쉽게 배포하기 위해서 truffle를 사용해보자.</p>]]></description>
+</item><item>
+    <title>Connecting to ethereum network using web3</title>
+    <link>http://example.org/ethereum-dapp4/</link>
+    <pubDate>Sat, 04 Aug 2018 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/ethereum-dapp4/</guid>
+    <description><![CDATA[<p>node.js의 web3를 이용해서 ethereum network를 web에서 접속해보자.</p>]]></description>
+</item><item>
+    <title>Deploy smart contract</title>
+    <link>http://example.org/ethereum-dapp3/</link>
+    <pubDate>Fri, 03 Aug 2018 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/ethereum-dapp3/</guid>
+    <description><![CDATA[<p>이전에 만들었던 ethereum network에 스마트 컨트랙트를 배포해보자.</p>]]></description>
+</item><item>
+    <title>Preparing for deploy smart contract</title>
+    <link>http://example.org/ethereum-dapp2/</link>
+    <pubDate>Thu, 02 Aug 2018 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/ethereum-dapp2/</guid>
+    <description><![CDATA[<p>이전에 geth로 생성한 private net를 rpc 옵션을 사용해서 클라이언트 앱 연동 (ethereum wallet)을 해보자.</p>]]></description>
+</item><item>
+    <title>Setup private ethereum blockchain network</title>
+    <link>http://example.org/ethereum-dapp1/</link>
+    <pubDate>Wed, 01 Aug 2018 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/ethereum-dapp1/</guid>
+    <description><![CDATA[<p>docker를 이용해서 이더리움 노드 3개와 웹서버 1개를 만들고 웹서버에서 회원가입을 하고 투표를 하는 정보들을 이더리움 네트워크에 저장시켜보는 실습을 해본다.</p>]]></description>
+</item></channel>
+</rss>

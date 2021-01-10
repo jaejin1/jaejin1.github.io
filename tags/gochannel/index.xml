@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>gochannel - Tag - </title>
+        <link>http://example.org/tags/gochannel/</link>
+        <description>gochannel - Tag - </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Wed, 10 Jul 2019 15:58:26 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/gochannel/" rel="self" type="application/rss+xml" /><item>
+    <title>Golang chanchan</title>
+    <link>http://example.org/chanchan/</link>
+    <pubDate>Wed, 10 Jul 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/chanchan/</guid>
+    <description><![CDATA[<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">channel</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kd">chan</span> <span class="kt">string</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>go에 대해 channel은 대략 알겠지만 chan chan 이란 또 무엇인가..</p>]]></description>
+</item></channel>
+</rss>

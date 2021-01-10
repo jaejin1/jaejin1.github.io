@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>ansible - Tag - </title>
+        <link>http://example.org/tags/ansible/</link>
+        <description>ansible - Tag - </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Thu, 24 Jan 2019 15:58:26 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/ansible/" rel="self" type="application/rss+xml" /><item>
+    <title>Create aws vpc using ansible</title>
+    <link>http://example.org/ansible1/</link>
+    <pubDate>Thu, 24 Jan 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/ansible1/</guid>
+    <description><![CDATA[<p>Ansible을 공부하면서 AWS의 VPC를 생성해보고, peering까지 해보자.</p>]]></description>
+</item></channel>
+</rss>

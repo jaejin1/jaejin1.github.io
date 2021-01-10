@@ -16,7 +16,9 @@ init을 실행하면 worker node 에서 master node로 접속할 수 있는 toke
 
 `ex) kubeadm join <master-ip>:<master-port> --token <token> --discovery-token-ca-cert-hash sha256:<hash>`
 
-**Notice!** 만약 [ERROR Swap]: running with swap on is not supported. Please disable swap 에러가 발생한다면 swapoff를 해주면된다.
+{{< admonition note "Note" >}}
+만약 [ERROR Swap]: running with swap on is not supported. Please disable swap 에러가 발생한다면 swapoff를 해주면된다.
+{{< /admonition >}}
 
 ~~~bash
 $ sudo swapoff -a
@@ -55,7 +57,9 @@ kube-proxy-tww4r              1/1     Running             0          82s
 kube-scheduler-eta            1/1     Running             0          24s
 ~~~
 
-**Notice!** 만약 coredns가 fail이 나거나 error가 발생하면 다음 설정으로 해결할 수 있다.
+{{< admonition note "Note" >}}
+만약 coredns가 fail이 나거나 error가 발생하면 다음 설정으로 해결할 수 있다.
+{{< /admonition >}}
 
 ~~~bash
 $ kubectl -n kube-system edit configmap coredns

@@ -1,0 +1,39 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>aws - Tag - </title>
+        <link>http://example.org/tags/aws/</link>
+        <description>aws - Tag - </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Thu, 02 Apr 2020 15:58:26 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/aws/" rel="self" type="application/rss+xml" /><item>
+    <title>AWS Session Manager</title>
+    <link>http://example.org/sessionmanager/</link>
+    <pubDate>Thu, 02 Apr 2020 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/sessionmanager/</guid>
+    <description><![CDATA[<p>공격의 표면, Bastion을 관리 하는 운영상의 부담 및 발생하는 추가 비용을 더욱 줄이기 위해, AWS Systems Manager Session Manager를 사용하여, Bastion을 운영하거나 조작 할 필요없이 EC2 인스턴스에 안전하게 연결 할 수 있다.</p>
+<p>Bastion실행에 수반되는 불편함과 인스턴스의 inbound SSH port 개방으로 유발되는 위험을 피하고자 한다.</p>]]></description>
+</item><item>
+    <title>Amazon Route53 DNS Service</title>
+    <link>http://example.org/route53/</link>
+    <pubDate>Thu, 26 Dec 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/route53/</guid>
+    <description><![CDATA[<p>Route53은 AWS에서 제공하는 DNS서비스 이다.</p>
+<p>DNS는 domain name(<a href="http://www.example.com">www.example.com</a>) 을 ip주소로 바꿔 주는 일종의 dictionary 서비스 이다.</p>
+<p>DNS동작과정은 네트워크 통신을 하기 위해 IP를 찾아가는 과정이다.</p>]]></description>
+</item><item>
+    <title>aws vpc peering using terraform</title>
+    <link>http://example.org/terraform1/</link>
+    <pubDate>Sun, 17 Mar 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/terraform1/</guid>
+    <description><![CDATA[<p>Terraform을 공부하면서 AWS의 VPC를 생성해보고, peering까지 해보자.</p>]]></description>
+</item><item>
+    <title>Create aws vpc using ansible</title>
+    <link>http://example.org/ansible1/</link>
+    <pubDate>Thu, 24 Jan 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/ansible1/</guid>
+    <description><![CDATA[<p>Ansible을 공부하면서 AWS의 VPC를 생성해보고, peering까지 해보자.</p>]]></description>
+</item></channel>
+</rss>

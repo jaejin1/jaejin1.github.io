@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Explore GraphQL - </title><meta name="Description" content="This is jaejin&#39;s blog"><meta property="og:title" content="Explore GraphQL" />
+<meta property="og:description" content="서버리스 GraphQL워크샵 내용을 참조했습니다.
+tonyfromundefined/serverless-graphql-workshop" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/graphql1/" />
+<meta property="og:image" content="http://example.org/images/jaejin.png"/>
+<meta property="article:published_time" content="2019-09-04T15:58:26+08:00" />
+<meta property="article:modified_time" content="2019-09-04T15:58:26+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/images/jaejin.png"/>
+
+<meta name="twitter:title" content="Explore GraphQL"/>
+<meta name="twitter:description" content="서버리스 GraphQL워크샵 내용을 참조했습니다.
+tonyfromundefined/serverless-graphql-workshop"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/graphql1/" /><link rel="prev" href="http://example.org/lrucache/" /><link rel="next" href="http://example.org/graphql2/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Explore GraphQL",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/graphql1\/"
+        },"genre": "posts","keywords": "graphql","wordcount":  2027 ,
+        "url": "http:\/\/example.org\/graphql1\/","datePublished": "2019-09-04T15:58:26+08:00","dateModified": "2019-09-04T15:58:26+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Explore GraphQL</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/graphql/"><i class="far fa-folder fa-fw"></i>graphql</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-09-04">2019-09-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;2027 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;10 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#graphql이란">GraphQL이란?</a></li>
+    <li><a href="#graphql-타입-시스템과-쿼리-뮤테이션-타입">GraphQL 타입 시스템과 쿼리, 뮤테이션 타입</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#살펴보기">살펴보기</a></li>
+          </ul>
+        </li>
+        <li><a href="#쿼리와-뮤테이션">쿼리와 뮤테이션</a>
+          <ul>
+            <li><a href="#살펴보기-1">살펴보기</a></li>
+          </ul>
+        </li>
+        <li><a href="#리졸버">리졸버</a>
+          <ul>
+            <li><a href="#살펴보기-2">살펴보기</a></li>
+          </ul>
+        </li>
+        <li><a href="#요청">요청</a></li>
+      </ul>
+    </li>
+    <li><a href="#nexus로-시작하는-code-first-graphql-개발">Nexus로 시작하는 Code-First GraphQL 개발</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#폴더-구조">폴더 구조</a></li>
+          </ul>
+        </li>
+        <li><a href="#시작하기">시작하기</a></li>
+      </ul>
+    </li>
+    <li><a href="#graphql-playground">GraphQL Playground</a></li>
+    <li><a href="#task-타입과-쿼리-뮤테이션-만들기"><code>Task</code> 타입과 쿼리, 뮤테이션 만들기</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>서버리스 GraphQL워크샵 내용을 참조했습니다.</p>
+<p><a href="https://github.com/tonyfromundefined/serverless-graphql-workshop?fbclid=IwAR3G_oJXRw-sRXa0o6P06HPL3XsE3EPC9IvybcOqXtsXBWKIvPYGj4nJjQk" target="_blank" rel="noopener noreffer">tonyfromundefined/serverless-graphql-workshop</a></p>
+<h2 id="graphql이란">GraphQL이란?</h2>
+<p>GraphQL은 API 설계와 요청을 구조화하는 일련의 약속이다.</p>
+<p>GraphQL을 통해 우리는 데이터에 기반해 API를 디자인 할 수 있고, 클라이언트에서는 정해진 쿼리 언어를 통해 API를 체계적으로 사용할 수 있다.</p>
+<ul>
+<li>클라이언트는 서버에 필요한 자원만 요청.</li>
+<li>클라이언트는 서버가 가진 많은 자원을 단 한 번의 요청으로 가져 올 수 있다.</li>
+<li>타입 시스템을 통해 개발 생산성을 비약적으로 향상 시킬 수 있다.</li>
+<li>제공되는 기본 개발자 도구를 통해 API를 쉽게 문서화하고 검색할 수 있다.</li>
+<li>버전 관리 없이 API를 점진적으로 진화 시킬 수 있다.</li>
+</ul>
+<h2 id="graphql-타입-시스템과-쿼리-뮤테이션-타입">GraphQL 타입 시스템과 쿼리, 뮤테이션 타입</h2>
+<p>기본 타입은 다음 5가지가 존재한다.</p>
+<ul>
+<li><code>Int</code>: 부호가 있는 32비트 정수.</li>
+<li><code>Float</code>: 부호가 있는 부동소수점 값.</li>
+<li><code>String</code> : UTF-8 문자열.</li>
+<li><code>Boolean</code> : <code>true</code> 또는 <code>false</code></li>
+<li><code>ID</code> : <code>ID</code> 스칼라 타입은 객체를 다시 요청하거나 캐시의 키로써 자주 사용되는 고유 식별자를 나타낸다. <code>ID</code> 타입은 String과 같은 방법으로 직렬화되지만, <code>ID</code>로 정의하는 것은 사람이 읽을 수 있도록 하는 의도가 아니라는 것을 의미한다.</li>
+</ul>
+<h4 id="살펴보기">살펴보기</h4>
+<p><code>User</code> 와 <code>Post</code> 라는 타입을 스키마에 선언</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">type</span> <span class="k">User</span> <span class="err">{</span>
+    <span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span>
+    <span class="n">username</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+    <span class="n">posts</span><span class="p">:</span> <span class="p">[</span><span class="n">Post</span><span class="o">!</span><span class="p">]</span><span class="o">!</span>
+<span class="err">}</span>
+
+<span class="k">type</span> <span class="n">Post</span> <span class="err">{</span>
+    <span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+    <span class="n">content</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+    <span class="n">author</span><span class="p">:</span> <span class="k">User</span><span class="o">!</span>
+<span class="err">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>참고: <code>!</code> 는 데이터 값에 <code>null</code> 이 포함 될 수 없음을 나타낸다. 기본적으로 <code>!</code> 는 모두 붙여준다고 생각하자.</p>
+<p>API 설계 단에서 다음과 같이 API에 필요한 타입들을 정의할 수 있다. 이제 해당 타입을 가지는 데이터를 가져올 수 있도록 해보자.</p>
+<h3 id="쿼리와-뮤테이션">쿼리와 뮤테이션</h3>
+<p>쿼리와 뮤테이션은 기본적으로 선언되어야 한다.</p>
+<ul>
+<li>쿼리는 데이터를 가져오는데 사용
+<ul>
+<li><code>ID</code> 속성을 통해 Client 내부에서 Cache를 구현할 수 있다.</li>
+</ul>
+</li>
+<li>뮤테이션은 데이터를 조작하는데 사용.
+<ul>
+<li>생성</li>
+<li>수정</li>
+<li>삭제</li>
+<li>등등..</li>
+</ul>
+</li>
+</ul>
+<p>이 두가지 타입을 통해 데이터를 가져오고, 수정할 수 있도록 <code>Query</code> , <code>Mutation</code> 타입 내에 속성들을 선언하자.</p>
+<h4 id="살펴보기-1">살펴보기</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">type</span> <span class="k">User</span> <span class="err">{</span>
+    <span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span>
+    <span class="n">username</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+    <span class="n">posts</span><span class="p">:</span> <span class="p">[</span><span class="n">Post</span><span class="o">!</span><span class="p">]</span><span class="o">!</span>
+<span class="err">}</span>
+
+<span class="k">type</span> <span class="n">Post</span> <span class="err">{</span>
+    <span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+    <span class="n">content</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+    <span class="n">author</span><span class="p">:</span> <span class="k">User</span><span class="o">!</span>
+<span class="err">}</span>
+
+<span class="k">type</span> <span class="n">Query</span> <span class="err">{</span>
+    <span class="k">user</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span><span class="p">):</span> <span class="k">User</span><span class="o">!</span>
+    <span class="n">post</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span><span class="p">):</span> <span class="n">Post</span><span class="o">!</span>
+<span class="err">}</span>
+
+<span class="k">type</span> <span class="n">Mutation</span> <span class="err">{</span>
+    <span class="k">createUser</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span><span class="p">):</span> <span class="k">User</span><span class="o">!</span>
+    <span class="n">updateUser</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="k">User</span><span class="o">!</span>
+    <span class="n">deleteUser</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span><span class="p">):</span> <span class="k">User</span><span class="o">!</span>
+    <span class="n">createPost</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span><span class="p">,</span> <span class="n">authorId</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span><span class="p">):</span> <span class="n">Post</span><span class="o">!</span>
+    <span class="n">updatePost</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">Post</span><span class="o">!</span>
+    <span class="n">deletePost</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span><span class="p">):</span> <span class="n">Post</span><span class="o">!</span>
+<span class="err">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>다음과 같이 <code>Query</code> 와 <code>Mutation</code> 에 속성 값으로 필요한 쿼리, 뮤테이션 들을 만들었다.</p>
+<h3 id="리졸버">리졸버</h3>
+<p>이렇게 선언한 GraphQL 스키마를 어떻게 구동 시킬까?</p>
+<p>바로 리졸버가 그 역할을 해준다. 리졸버는 타입 내 속성과 1:1로 일치시켜 구현이 필요한다. 리졸버는 <code>parent</code> , <code>args</code> 를 기본 argument로 하는 함수의 형태이다.</p>
+<ul>
+<li><code>parent</code> 는 상위 리졸버에서 <code>return</code> 한 값을 나타낸다.</li>
+<li><code>args</code> 는 쿼리문 내에서 넣어준 매개변수를 나타낸다.</li>
+<li><code>context</code> 는 요청 하나를 타고 공유되는 전역 상태이다. ( 로그인 세션 정보등 저장 )</li>
+</ul>
+<h4 id="살펴보기-2">살펴보기</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="n">const</span> <span class="k">User</span> <span class="o">=</span> <span class="err">{</span>
+    <span class="n">id</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="k">return</span> <span class="n">parent</span><span class="p">.</span><span class="n">id</span>
+    <span class="err">}</span><span class="p">,</span>
+    <span class="n">username</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="k">return</span> <span class="n">parent</span><span class="p">.</span><span class="n">username</span>
+    <span class="err">}</span><span class="p">,</span>
+    <span class="n">posts</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="cm">/* parent.id를 통해 DB에서 Post를 가져옵니다 */</span>
+    <span class="k">return</span> <span class="n">posts</span>
+    <span class="err">}</span><span class="p">,</span>
+<span class="err">}</span>
+
+<span class="n">const</span> <span class="n">Post</span> <span class="o">=</span> <span class="err">{</span>
+    <span class="n">id</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="k">return</span> <span class="n">parent</span><span class="p">.</span><span class="n">id</span>
+    <span class="err">}</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="k">return</span> <span class="n">parent</span><span class="p">.</span><span class="n">title</span>
+    <span class="err">}</span><span class="p">,</span>
+    <span class="n">content</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="k">return</span> <span class="n">parent</span><span class="p">.</span><span class="n">content</span>
+    <span class="err">}</span><span class="p">,</span>
+    <span class="n">author</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="cm">/* parent.authorId를 통해 DB에서 해당 User를 가져옵니다 */</span>
+    <span class="k">return</span> <span class="k">user</span>
+    <span class="err">}</span><span class="p">,</span>
+<span class="err">}</span>
+
+<span class="n">const</span> <span class="n">Query</span> <span class="o">=</span> <span class="err">{</span>
+    <span class="k">user</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="cm">/* args.id를 통해 DB에서 해당 User를 가져옵니다 */</span>
+    <span class="k">return</span> <span class="k">user</span>
+    <span class="err">}</span><span class="p">,</span>
+    <span class="n">post</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="cm">/* args.id를 통해 DB에서 해당 Post를 가져옵니다 */</span>
+    <span class="k">return</span> <span class="n">post</span>
+    <span class="err">}</span><span class="p">,</span>
+<span class="err">}</span>
+
+<span class="n">const</span> <span class="n">Mutation</span> <span class="o">=</span> <span class="err">{</span>
+    <span class="k">createUser</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="cm">/* 새 유저를 생성해서 DB에 삽입합니다 */</span>
+    <span class="k">return</span> <span class="k">user</span>
+    <span class="err">}</span><span class="p">,</span>
+    <span class="n">updateUser</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="cm">/* args.id를 통해 DB에서 기존 유저를 불러와 값을 수정 한 뒤 DB에 삽입합니다 */</span>
+    <span class="k">return</span> <span class="k">user</span>
+    <span class="err">}</span><span class="p">,</span>
+    <span class="n">deleteUser</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="cm">/* args.id를 통해 DB에서 기존 유저를 삭제합니다 */</span>
+    <span class="k">return</span> <span class="k">user</span>
+    <span class="err">}</span><span class="p">,</span>
+    <span class="n">createPost</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="cm">/* 새 게시물을 생성해서 DB에 삽입합니다 */</span>
+    <span class="k">return</span> <span class="n">post</span>
+    <span class="err">}</span><span class="p">,</span>
+    <span class="n">updatePost</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="cm">/* args.id를 통해 DB에서 기존 게시물을 불러와 값을 수정 한 뒤 DB에 삽입합니다 */</span>
+    <span class="k">return</span> <span class="n">post</span>
+    <span class="err">}</span><span class="p">,</span>
+    <span class="n">deletePost</span><span class="p">:</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">{</span>
+    <span class="cm">/* args.id를 통해 DB에서 기존 게시물을 삭제합니다 */</span>
+    <span class="k">return</span> <span class="n">post</span>
+    <span class="err">}</span><span class="p">,</span>
+<span class="err">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="요청">요청</h3>
+<p>클라이언트가 다음과 같은 문법으로 서버에 요청을 날리면</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="n">query</span> <span class="err">{</span>
+    <span class="k">user</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="s2">&#34;ea9f5eac-1449-5f03-a1c9-6521622de815&#34;</span><span class="p">)</span> <span class="err">{</span>
+    <span class="n">id</span>
+    <span class="n">username</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>이 요청에 응답하기 위해 서버에서</p>
+<ol>
+<li><code>Query.user</code> 리졸버 함수 실행</li>
+<li>데이터베이스에서 User를 가져와서 해당 값을 리졸버 함수 내에서 <code>return</code></li>
+<li><code>return</code> 값을 <code>[User.id](http://user.id)</code> , <code>User.username</code> 리졸버에 <code>parent</code> argument로 전달
+<ol>
+<li><code>[User.id](http://user.id)</code> 리졸버 함수는 <code>parent</code> argument를 사용해, id 값을 <code>return</code></li>
+<li><code>User.username</code> 리졸버 함수는 <code>parent</code> argument를 사용해, username값을 <code>return</code></li>
+</ol>
+</li>
+</ol>
+<p>순으로 리졸버 함수가 실행된다. 그 후 결과를 종합해 다음과 같이 JSON으로 응답 해준다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="err">{</span>
+    <span class="s2">&#34;user&#34;</span><span class="p">:</span> <span class="err">{</span>
+    <span class="s2">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;ea9f5eac-1449-5f03-a1c9-6521622de815&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;username&#34;</span><span class="p">:</span> <span class="s2">&#34;tonyfromundefined&#34;</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>이런 개발 방식을 GraphQL에서 Schema-First (SDL-First) 개발 방식이라고 한다.</p>
+<p>이런 방식은 처음 GraphQL구현체가 등장했을 때 많이 사용되었다.</p>
+<p>하지만 Schema-First 개발 방식은 다음과 같은 한계점이 있다.</p>
+<ol>
+<li>스키마 정의와 리졸버 간의 불일치 문제</li>
+<li>GraphQL 스키마 분리 문제</li>
+<li>스키마 정의의 중복 (코드 재사용 문제)</li>
+<li>IDE 지원 부족으로 인한 낮은 개발 경험</li>
+<li>Schema 작성 문제</li>
+</ol>
+<p>따라서 이러한 한계점을 효과적으로 해결 하기 위해 Code-First 개발 방식이 등장했다.</p>
+<h2 id="nexus로-시작하는-code-first-graphql-개발">Nexus로 시작하는 Code-First GraphQL 개발</h2>
+<p>앞에서 말한 Code-First 개발 방법에 대한 구현체로 Nexus라는 오픈소스 라이브러리를 Prisma에서 내놓았다.</p>
+<ul>
+<li>Node.js</li>
+<li>TypeScript</li>
+<li>Webpack</li>
+<li>Nexus</li>
+</ul>
+<p>를 기반으로 하는 실제 GraphQL 프로젝트를 살펴보자.</p>
+<h4 id="폴더-구조">폴더 구조</h4>
+<p><a href="https://github.com/jaejin1/serverless-graphql">https://github.com/jaejin1/serverless-graphql</a></p>
+<p><code>/</code></p>
+<ul>
+<li><code>.env.development</code> , <code>.env.production</code>
+<ul>
+<li>환경 변수 설정파일</li>
+</ul>
+</li>
+<li><code>package.json</code> , <code>yarn.lock</code>
+<ul>
+<li>현재 프로젝트가 의존하고 있는 라이브러리와 버전 정보</li>
+<li><code>yarn</code> 을 이용해 라이브러리를 설치 할 수 있다.</li>
+</ul>
+</li>
+<li><code>tsconfig.json</code>
+<ul>
+<li>TypeScript 관련 설정파일</li>
+</ul>
+</li>
+<li><code>tslint.json</code>
+<ul>
+<li>TSLint 관련 설정파일</li>
+</ul>
+</li>
+<li><code>webpack.config.dev.js</code>
+<ul>
+<li>개발 모드의 Webpack 빌드 설정</li>
+<li><code>yarn dev</code> 명령에서 해당 설정으로 Webpack이 작동</li>
+</ul>
+</li>
+<li><code>webpack.config.prod.js</code>
+<ul>
+<li>Production 모드의 Webpack 빌드 설정</li>
+<li><code>yarn build</code> 명령에서 해당 설정으로 Webpack이 작동.</li>
+</ul>
+</li>
+<li><code>serverless.yml</code>
+<ul>
+<li>배포를 위한 Serverless Framework 설정</li>
+</ul>
+</li>
+</ul>
+<p><code>/src/resolvers/</code></p>
+<ul>
+<li><code>index.ts</code>
+<ul>
+<li>엔트리 파일 <code>Query.ts</code> 와 <code>Mutation.ts</code> 가 내보낸 항목을 다시 내보내는 역할을 한다.</li>
+</ul>
+</li>
+<li><code>Query.ts</code>
+<ul>
+<li>기본 Query 타입을 선언한다.</li>
+</ul>
+</li>
+<li><code>Mutation.ts</code>
+<ul>
+<li>기본 Mutation 타입을 선언한다.</li>
+</ul>
+</li>
+</ul>
+<p><code>/src/generated</code></p>
+<ul>
+<li>schema.graphql
+<ul>
+<li>Nexus가 자동 생성한 Schema이다.</li>
+<li>Nexus가 자동 생성한 TypeScript Typing이다.</li>
+</ul>
+</li>
+</ul>
+<h3 id="시작하기">시작하기</h3>
+<ul>
+<li><code>/starters/server/</code> 폴더로 이동</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ <span class="nb">cd</span> ./starters/server
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>프로젝트에 필요한 라이브러리를 설치</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 기존에 yarn이 설치되어 있지 않다면,</span>
+$ npm i -g yarn
+
+<span class="c1"># 라이브러리 설치하기</span>
+$ yarn
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>개발 서버 시작</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ yarn dev
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Nexus 기반으로 작성된 <code>Query</code> 와 <code>Mutation</code> 살펴보기</li>
+</ul>
+<p>Query.ts</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">queryType</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;nexus&#39;</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">Query</span> <span class="o">=</span> <span class="nx">queryType</span><span class="p">({</span>
+    <span class="nx">definition</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">t</span><span class="p">.</span><span class="kt">string</span><span class="p">(</span><span class="s1">&#39;stage&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">resolve</span><span class="o">:</span> <span class="p">(</span><span class="nx">_parent</span><span class="p">,</span> <span class="nx">_args</span><span class="p">,</span> <span class="nx">_context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">STAGE</span> <span class="kr">as</span> <span class="kt">string</span>
+        <span class="p">},</span>
+    <span class="p">})</span>
+    <span class="p">},</span>
+<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Mutation.ts</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">mutationType</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;nexus&#39;</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">Mutation</span> <span class="o">=</span> <span class="nx">mutationType</span><span class="p">({</span>
+    <span class="nx">definition</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">t</span><span class="p">.</span><span class="kt">string</span><span class="p">(</span><span class="s1">&#39;ping&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">resolve</span><span class="o">:</span> <span class="p">(</span><span class="nx">_parent</span><span class="p">,</span> <span class="nx">_args</span><span class="p">,</span> <span class="nx">_context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;pong&#39;</span>
+        <span class="p">},</span>
+    <span class="p">})</span>
+    <span class="p">},</span>
+<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>다음과 같이 Nexus를 통해서 코드를 작성하면 Nexus가 해당 코드를 이용해 <code>schema.graphql</code> 를 자동 생성해준다. 따라서 Schema-First에서 존재 했던 문제점인 <strong>스키마 정의와 리졸버 간 불일치 문제와 Schema 작성문제</strong>를 해결 할 수 있다.</p>
+<p>추가적으로 Nexus가 <code>nexus.ts</code> 에 TypeScript 타이핑을 자동으로 생성해주기 때문에 개발 편의성을 느낄수 있다.</p>
+<p>schema.graphql</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">type</span> <span class="n">Query</span> <span class="err">{</span>
+    <span class="n">stage</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+<span class="err">}</span>
+
+<span class="k">type</span> <span class="n">Mutation</span> <span class="err">{</span>
+    <span class="n">ping</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+<span class="err">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="graphql-playground">GraphQL Playground</h2>
+<p>API를 작성했다면 해당 API가 정상적으로 동작하는지 테스트 해야하는데 개발 서버를 띄워논 상태에서 <code>[http://localhost:3000/graphql](http://localhost:3000/graphql)</code> 로 접속하면 GraphQL 문서화 도구인 GraphQL Playground를 볼 수 있다.</p>
+<p>GraphQL Playground를 통해,</p>
+<ul>
+<li>GraphQL API를 검색하고</li>
+<li>구현된 API를 테스트 할 수 있다.</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="n">query</span> <span class="err">{</span>
+    <span class="n">stage</span>
+<span class="err">}</span>
+
+
+<span class="o">&gt;&gt;&gt;</span>
+<span class="err">{</span>
+    <span class="s2">&#34;data&#34;</span><span class="p">:</span> <span class="err">{</span>
+    <span class="s2">&#34;stage&#34;</span><span class="p">:</span> <span class="s2">&#34;development&#34;</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+
+<span class="n">mutation</span> <span class="err">{</span>
+    <span class="n">ping</span>
+<span class="err">}</span>
+
+
+<span class="o">&gt;&gt;&gt;</span>
+<span class="err">{</span>
+    <span class="s2">&#34;data&#34;</span><span class="p">:</span> <span class="err">{</span>
+    <span class="s2">&#34;ping&#34;</span><span class="p">:</span> <span class="s2">&#34;pong&#34;</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="task-타입과-쿼리-뮤테이션-만들기"><code>Task</code> 타입과 쿼리, 뮤테이션 만들기</h2>
+<p>resolvers 폴더에 task 폴더를 생성해서</p>
+<p><code>index.ts</code> ( Task 타입 정의 및 Query, Mutation을 받아서 export )</p>
+<p><code>Query.ts</code> ( Query 타입을 확장 )</p>
+<p><code>Mutation.ts</code> ( Mutation 타입을 확장 )</p>
+<p>파일을 생성한다.</p>
+<p>/src/resolvers/task/index.ts</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">objectType</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;nexus&#39;</span>
+
+<span class="kr">interface</span> <span class="nx">ITask</span> <span class="p">{</span>
+    <span class="nx">id</span>: <span class="kt">string</span>
+    <span class="nx">content</span>: <span class="kt">string</span>
+    <span class="nx">isDone</span>: <span class="kt">boolean</span>
+<span class="p">}</span>
+
+<span class="c1">// 가상의 Database
+</span><span class="c1"></span><span class="kr">export</span> <span class="kr">const</span> <span class="nx">TASKS</span>: <span class="kt">ITask</span><span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">Task</span> <span class="o">=</span> <span class="nx">objectType</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Task&#39;</span><span class="p">,</span>
+    <span class="nx">definition</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">t</span><span class="p">.</span><span class="nx">id</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;Task 생성 시 자동 생성되는 Unique ID&#39;</span><span class="p">,</span>
+    <span class="p">})</span>
+    <span class="nx">t</span><span class="p">.</span><span class="kt">string</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;Task 내용&#39;</span><span class="p">,</span>
+    <span class="p">})</span>
+    <span class="nx">t</span><span class="p">.</span><span class="kr">boolean</span><span class="p">(</span><span class="s1">&#39;isDone&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;Task 완료 여부&#39;</span><span class="p">,</span>
+    <span class="p">})</span>
+    <span class="p">},</span>
+<span class="p">})</span>
+
+<span class="kr">export</span> <span class="o">*</span> <span class="kr">from</span> <span class="s1">&#39;./Query&#39;</span>
+<span class="kr">export</span> <span class="o">*</span> <span class="kr">from</span> <span class="s1">&#39;./Mutation&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>/src/resolvers/task/Query.ts</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">extendType</span><span class="p">,</span> <span class="nx">idArg</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;nexus&#39;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">TASKS</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;./&#39;</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">TaskQueries</span> <span class="o">=</span> <span class="nx">extendType</span><span class="p">({</span>
+    <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;Query&#39;</span><span class="p">,</span>
+    <span class="nx">definition</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">t</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">&#39;task&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;Task&#39;</span><span class="p">,</span>
+        <span class="nx">args</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">id</span>: <span class="kt">idArg</span><span class="p">({</span>
+            <span class="nx">required</span>: <span class="kt">true</span><span class="p">,</span>
+        <span class="p">}),</span>
+        <span class="p">},</span>
+        <span class="nx">resolve</span><span class="o">:</span> <span class="p">(</span><span class="nx">_parent</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">task</span> <span class="o">=</span> <span class="nx">TASKS</span><span class="p">.</span><span class="nx">find</span><span class="p">((</span><span class="nx">task</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">task</span><span class="p">.</span><span class="nx">id</span> <span class="o">===</span> <span class="nx">args</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">task</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">task</span>
+
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">args</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">를 가진 Task를 찾을 수 없습니다`</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">})</span>
+
+    <span class="nx">t</span><span class="p">.</span><span class="nx">list</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">&#39;tasks&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;Task&#39;</span><span class="p">,</span>
+        <span class="nx">resolve</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">TASKS</span>
+        <span class="p">},</span>
+    <span class="p">})</span>
+    <span class="p">},</span>
+<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>/src/resolvers/task/Mutation.ts</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">booleanArg</span><span class="p">,</span> <span class="nx">extendType</span><span class="p">,</span> <span class="nx">idArg</span><span class="p">,</span> <span class="nx">stringArg</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;nexus&#39;</span>
+<span class="kr">import</span> <span class="nx">short</span> <span class="kr">from</span> <span class="s1">&#39;short-uuid&#39;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">TASKS</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;./&#39;</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">TaskMutations</span> <span class="o">=</span> <span class="nx">extendType</span><span class="p">({</span>
+    <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;Mutation&#39;</span><span class="p">,</span>
+    <span class="nx">definition</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">t</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">&#39;createTask&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;Task&#39;</span><span class="p">,</span>
+        <span class="nx">args</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">content</span>: <span class="kt">stringArg</span><span class="p">({</span>
+            <span class="nx">required</span>: <span class="kt">true</span><span class="p">,</span>
+        <span class="p">}),</span>
+        <span class="p">},</span>
+        <span class="nx">resolve</span><span class="o">:</span> <span class="p">(</span><span class="nx">_parent</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">task</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nx">id</span>: <span class="kt">short.generate</span><span class="p">(),</span>
+            <span class="nx">content</span>: <span class="kt">args.content</span><span class="p">,</span>
+            <span class="nx">isDone</span>: <span class="kt">false</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="nx">TASKS</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">task</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nx">task</span>
+        <span class="p">},</span>
+    <span class="p">})</span>
+
+    <span class="nx">t</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">&#39;updateTask&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;Task&#39;</span><span class="p">,</span>
+        <span class="nx">args</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">id</span>: <span class="kt">idArg</span><span class="p">({</span>
+            <span class="nx">required</span>: <span class="kt">true</span><span class="p">,</span>
+        <span class="p">}),</span>
+        <span class="nx">content</span>: <span class="kt">stringArg</span><span class="p">(),</span>
+        <span class="nx">isDone</span>: <span class="kt">booleanArg</span><span class="p">(),</span>
+        <span class="p">},</span>
+        <span class="nx">resolve</span>: <span class="kt">async</span> <span class="p">(</span><span class="nx">_parent</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">taskIndex</span> <span class="o">=</span> <span class="nx">TASKS</span><span class="p">.</span><span class="nx">findIndex</span><span class="p">((</span><span class="nx">task</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">task</span><span class="p">.</span><span class="nx">id</span> <span class="o">===</span> <span class="nx">args</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">taskIndex</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">args</span><span class="p">.</span><span class="nx">content</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">TASKS</span><span class="p">[</span><span class="nx">taskIndex</span><span class="p">].</span><span class="nx">content</span> <span class="o">=</span> <span class="nx">args</span><span class="p">.</span><span class="nx">content</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">args</span><span class="p">.</span><span class="nx">isDone</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">TASKS</span><span class="p">[</span><span class="nx">taskIndex</span><span class="p">].</span><span class="nx">isDone</span> <span class="o">=</span> <span class="nx">args</span><span class="p">.</span><span class="nx">isDone</span>
+            <span class="p">}</span>
+
+            <span class="k">return</span> <span class="nx">TASKS</span><span class="p">[</span><span class="nx">taskIndex</span><span class="p">]</span>
+
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">args</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">라는 ID를 가진 Task를 찾을 수 없습니다`</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">})</span>
+
+    <span class="nx">t</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">&#39;deleteTask&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;Task&#39;</span><span class="p">,</span>
+        <span class="nx">args</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">id</span>: <span class="kt">idArg</span><span class="p">({</span>
+            <span class="nx">required</span>: <span class="kt">true</span><span class="p">,</span>
+        <span class="p">}),</span>
+        <span class="p">},</span>
+        <span class="nx">resolve</span>: <span class="kt">async</span> <span class="p">(</span><span class="nx">_parent</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">taskIndex</span> <span class="o">=</span> <span class="nx">TASKS</span><span class="p">.</span><span class="nx">findIndex</span><span class="p">((</span><span class="nx">task</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">task</span><span class="p">.</span><span class="nx">id</span> <span class="o">===</span> <span class="nx">args</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">taskIndex</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kr">const</span> <span class="nx">task</span> <span class="o">=</span> <span class="nx">TASKS</span><span class="p">[</span><span class="nx">taskIndex</span><span class="p">]</span>
+            <span class="nx">TASKS</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">taskIndex</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="nx">task</span>
+
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">args</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">라는 ID를 가진 Task를 찾을 수 없습니다`</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">})</span>
+    <span class="p">},</span>
+<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>기존 schema 엔트리 파일을 수정해 Task 엔트리 파일을 내보낸다.</p>
+<p>/src/resolvers/index.ts</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="kr">export</span> <span class="o">*</span> <span class="kr">from</span> <span class="s1">&#39;./Query&#39;</span>
+<span class="kr">export</span> <span class="o">*</span> <span class="kr">from</span> <span class="s1">&#39;./Mutation&#39;</span>
+
+<span class="kr">export</span> <span class="o">*</span> <span class="kr">from</span> <span class="s1">&#39;./task&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>개발 서버를 띄워 놨다면, Nexus가 자동으로 Schema를 생성한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">###</span> <span class="n">This</span> <span class="n">file</span> <span class="n">was</span> <span class="n">autogenerated</span> <span class="k">by</span> <span class="n">GraphQL</span> <span class="n">Nexus</span>
+<span class="o">###</span> <span class="k">Do</span> <span class="k">not</span> <span class="n">make</span> <span class="n">changes</span> <span class="k">to</span> <span class="n">this</span> <span class="n">file</span> <span class="n">directly</span>
+
+
+<span class="k">type</span> <span class="n">Mutation</span> <span class="err">{</span>
+    <span class="n">createTask</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span><span class="p">):</span> <span class="n">Task</span><span class="o">!</span>
+    <span class="n">deleteTask</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span><span class="p">):</span> <span class="n">Task</span><span class="o">!</span>
+    <span class="n">ping</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+    <span class="n">updateTask</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span><span class="p">,</span> <span class="n">isDone</span><span class="p">:</span> <span class="nb">Boolean</span><span class="p">):</span> <span class="n">Task</span><span class="o">!</span>
+<span class="err">}</span>
+
+<span class="k">type</span> <span class="n">Query</span> <span class="err">{</span>
+    <span class="n">stage</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+    <span class="n">task</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="p">):</span> <span class="n">Task</span><span class="o">!</span>
+    <span class="n">tasks</span><span class="p">:</span> <span class="p">[</span><span class="n">Task</span><span class="o">!</span><span class="p">]</span><span class="o">!</span>
+<span class="err">}</span>
+
+<span class="k">type</span> <span class="n">Task</span> <span class="err">{</span>
+    <span class="s2">&#34;&#34;&#34;Task 내용&#34;&#34;&#34;</span>
+    <span class="n">content</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+
+    <span class="s2">&#34;&#34;&#34;Task 생성 시 자동 생성되는 Unique ID&#34;&#34;&#34;</span>
+    <span class="n">id</span><span class="p">:</span> <span class="n">ID</span><span class="o">!</span>
+
+    <span class="s2">&#34;&#34;&#34;Task 완료 여부&#34;&#34;&#34;</span>
+    <span class="n">isDone</span><span class="p">:</span> <span class="nb">Boolean</span><span class="o">!</span>
+<span class="err">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>GraphQL Playground에서 테스트 해보자.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="n">mutation</span> <span class="err">{</span>
+    <span class="n">createTask</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="s2">&#34;Hello, World&#34;</span><span class="p">)</span> <span class="err">{</span>
+    <span class="n">id</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+
+
+<span class="o">&gt;&gt;&gt;</span>
+<span class="err">{</span>
+    <span class="s2">&#34;data&#34;</span><span class="p">:</span> <span class="err">{</span>
+    <span class="s2">&#34;createTask&#34;</span><span class="p">:</span> <span class="err">{</span>
+        <span class="s2">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;3fZAgMTo7Va7B2DHuZRXTN&#34;</span>
+    <span class="err">}</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+
+<span class="n">query</span> <span class="err">{</span>
+    <span class="n">tasks</span> <span class="err">{</span>
+    <span class="n">id</span>
+    <span class="n">content</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+
+
+<span class="o">&gt;&gt;&gt;</span>
+<span class="err">{</span>
+    <span class="s2">&#34;data&#34;</span><span class="p">:</span> <span class="err">{</span>
+    <span class="s2">&#34;tasks&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="err">{</span>
+        <span class="s2">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;3fZAgMTo7Va7B2DHuZRXTN&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;Hello, World&#34;</span>
+        <span class="err">}</span>
+    <span class="p">]</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2019-09-04</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/graphql1/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/graphql1/" data-title="Explore GraphQL" data-hashtags="graphql"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/graphql1/" data-hashtag="graphql"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/graphql1/" data-title="Explore GraphQL" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/graphql1/" data-title="Explore GraphQL"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://example.org/graphql1/" data-title="Explore GraphQL"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="http://example.org/graphql1/" data-title="Explore GraphQL" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="http://example.org/graphql1/" data-title="Explore GraphQL" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/graphql1/" data-title="Explore GraphQL"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/graphql/">graphql</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/lrucache/" class="prev" rel="prev" title="Leetcode - 146. LRU Cache"><i class="fas fa-angle-left fa-fw"></i>Leetcode - 146. LRU Cache</a>
+            <a href="/graphql2/" class="next" rel="next" title="Explore GraphQL2">Explore GraphQL2<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.80.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

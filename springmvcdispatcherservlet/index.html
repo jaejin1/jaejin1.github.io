@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Spring MVC와 DespatcherServlet - </title><meta name="Description" content="This is jaejin&#39;s blog"><meta property="og:title" content="Spring MVC와 DespatcherServlet" />
+<meta property="og:description" content="이전글에서 잠깐 보았던 것을 전체적으로 봐보자." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/springmvcdispatcherservlet/" />
+<meta property="og:image" content="http://example.org/images/jaejin.png"/>
+<meta property="article:published_time" content="2019-12-11T15:58:26+08:00" />
+<meta property="article:modified_time" content="2019-12-11T15:58:26+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/images/jaejin.png"/>
+
+<meta name="twitter:title" content="Spring MVC와 DespatcherServlet"/>
+<meta name="twitter:description" content="이전글에서 잠깐 보았던 것을 전체적으로 봐보자."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/springmvcdispatcherservlet/" /><link rel="prev" href="http://example.org/linkedlist/" /><link rel="next" href="http://example.org/springmvcbasic/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring MVC와 DespatcherServlet",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/springmvcdispatcherservlet\/"
+        },"genre": "posts","keywords": "java, spring","wordcount":  403 ,
+        "url": "http:\/\/example.org\/springmvcdispatcherservlet\/","datePublished": "2019-12-11T15:58:26+08:00","dateModified": "2019-12-11T15:58:26+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Spring MVC와 DespatcherServlet</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw"></i>java</a>&nbsp;<a href="/categories/spring/"><i class="far fa-folder fa-fw"></i>spring</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-12-11">2019-12-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;403 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#dispatcherservlet등록">DispatcherServlet등록</a></li>
+    <li><a href="#dispatcherservlet-초기화">DispatcherServlet 초기화</a>
+      <ul>
+        <li><a href="#multipartresolver">MultipartResolver</a></li>
+        <li><a href="#localeresolver">LocaleResolver</a></li>
+        <li><a href="#themeresolver">ThemeResolver</a></li>
+        <li><a href="#handlermapping">HandlerMapping</a></li>
+        <li><a href="#handleradapter">HandlerAdapter</a></li>
+        <li><a href="#handlerexceptionresolver">HandlerExceptionResolver</a></li>
+        <li><a href="#requesttoviewnametranslator">RequestToViewNameTranslator</a></li>
+        <li><a href="#viewresolver">ViewResolver</a></li>
+        <li><a href="#flashmapmanager">FlashmapManager</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><a href="https://jaejin1.github.io/springmvcbasic/" target="_blank" rel="noopener noreffer">이전글</a>에서 잠깐 보았던 것을 전체적으로 봐보자.</p>
+<p><figure><a class="lightgallery" href="/springmvcdispatcherservlet/DispatcherServlet.png" title="Spring MVC" data-thumbnail="/springmvcdispatcherservlet/DispatcherServlet.png" data-sub-html="<h2>Spring MVC</h2><p>Spring MVC</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="DispatcherServlet.png"
+            data-srcset="/springmvcdispatcherservlet/DispatcherServlet.png, DispatcherServlet.png 1.5x, /springmvcdispatcherservlet/DispatcherServlet.png 2x"
+            data-sizes="auto"
+            alt="/springmvcdispatcherservlet/DispatcherServlet.png" />
+    </a><figcaption class="image-caption">Spring MVC</figcaption>
+    </figure></p>
+<p>출처 : <a href="https://lazymankook.tistory.com/69">https://lazymankook.tistory.com/69</a></p>
+<h2 id="dispatcherservlet등록">DispatcherServlet등록</h2>
+<p>Dispatcher Servlet이 클라이언트의 모든 요청을 받는다. DispatcherServlet을 사용하기 위해 어딘가에 객체로 등록되어 있을 것이다.</p>
+<p>요즘엔 사용안하는 web.xml파일에 정보들을 적어서 사용했었다. 여기에 DispatcherServlet을 url패턴과 함께 작성하여 DispatcherServlet은 FontController의 역할을 하기 때문에 모든 url을 DispatcherServlet을 거치도록 설정 해놓을 것이다.</p>
+<p><code>Servlet 3.0</code> 이상 부터 WebApplicationInitializer구현 또는 AbstractAnnotationConfigDispatcherServletInitializer 상속으로 web.xml에서 하던 설정을 java config로써 코드로 작성할 수 있다.<br>
+java config를 통해 설정해 classpath내에 두면, SpringServletContainerInitializer가 서블릿을 초기화 할 때 감지한다.</p>
+<h2 id="dispatcherservlet-초기화">DispatcherServlet 초기화</h2>
+<p>DispatcherServlet이 생성 후 초기화 될때, initStrategies(ApplicationContext context) 메소드를 실행해 DeispatcherServlet에 관련된 Bean들을 초기화한다.</p>
+<p><figure><a class="lightgallery" href="/springmvcdispatcherservlet/initStrategies.png" title="initStrategies" data-thumbnail="/springmvcdispatcherservlet/initStrategies.png" data-sub-html="<h2>initStrategies</h2><p>initStrategies</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="initStrategies.png"
+            data-srcset="/springmvcdispatcherservlet/initStrategies.png, initStrategies.png 1.5x, /springmvcdispatcherservlet/initStrategies.png 2x"
+            data-sizes="auto"
+            alt="/springmvcdispatcherservlet/initStrategies.png" />
+    </a><figcaption class="image-caption">initStrategies</figcaption>
+    </figure></p>
+<p>초기화시 Bean이 존재하는지 찾고 없으면 default 설정에 따라 Bean을 생성하거나 아무 작업을 안 시킬 수도 있다.</p>
+<p>이제 DispatcherServlet이 가지는 전략 인터페이스를 보자.</p>
+<h3 id="multipartresolver">MultipartResolver</h3>
+<p>multipart 파일 업로드 요청에 대해 해선하여 변환하는 전략 인터페이스.</p>
+<h3 id="localeresolver">LocaleResolver</h3>
+<p>웹 기반의 locale 결정 전략 인터페이스.</p>
+<h3 id="themeresolver">ThemeResolver</h3>
+<p>웹 기반의 Theme 결정 전략 인터페이스.</p>
+<h3 id="handlermapping">HandlerMapping</h3>
+<p>Request와 핸들러 객체를 Mapping을 정의하는 인터페이스이다.<br>
+일반적으로 @RequestMapping을 이용한 핸들러 Mapping 전략이다.<br>
+default로 선언되는 Bean은 <a href="https://jaejin1.github.io/2019/12/11/java/spring/springmvcBasic/#HeanNameUrlHandlerMapping" target="_blank" rel="noopener noreffer">BeanNameUrlHandlerMapping</a>, DefaultAnnotationHandlerMapping 이다.</p>
+<h3 id="handleradapter">HandlerAdapter</h3>
+<p>Spring MVC의 Service Provider Interface. Controller의 구현 전략 인터페이스 이다.<br>
+HandlerMapping이 핸들러를 찾아주면, HandlerAdapter가 해당 컨트롤러의 핸들러에 전달하기 위한 Adapter라고 보면 됨.<br>
+HandlerAdapter 인터페이스를 보면 modelAndView를 리턴하는 handle이라는 메소드가 있다.</p>
+<p><figure><a class="lightgallery" href="/springmvcdispatcherservlet/ModelAndView.png" title="ModelAndView" data-thumbnail="/springmvcdispatcherservlet/ModelAndView.png" data-sub-html="<h2>ModelAndView</h2><p>ModelAndView</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="ModelAndView.png"
+            data-srcset="/springmvcdispatcherservlet/ModelAndView.png, ModelAndView.png 1.5x, /springmvcdispatcherservlet/ModelAndView.png 2x"
+            data-sizes="auto"
+            alt="/springmvcdispatcherservlet/ModelAndView.png" />
+    </a><figcaption class="image-caption">ModelAndView</figcaption>
+    </figure></p>
+<p>Spring의 Controller 종류는 4가지가 있다. Servlet, Controller, HttpRequestHandler, @Controller 어노테이션.</p>
+<p>각 Controller를 DispatcherServlet에 연결시켜주는 Adapter가 하나씩 있어야 하므로 handlerAdapter도 4개가 있어야한다.</p>
+<h3 id="handlerexceptionresolver">HandlerExceptionResolver</h3>
+<p>Handler Mapping이나 Controller 실행 도중 발생한 예외를 다루는 인터페이스 이다.</p>
+<h3 id="requesttoviewnametranslator">RequestToViewNameTranslator</h3>
+<p>Controller에서 View를 지정하지 않았을때, Request를 참고하여 내부적으로 View 이름을 생성해준다.</p>
+<h3 id="viewresolver">ViewResolver</h3>
+<p>Controller에서 Request를 처리하고 생성하는 결과물에 대한 View 처리 전략 인터페이스.</p>
+<p>Controller가 <code>return &quot;index.jsp&quot;;</code> 와 같이 이름만 남겨줘도 ViewResolver가 ModelAndView객체로 변경해서 돌려준다.</p>
+<p>prefix와 suffix를 좋바하는 로직도 이 안에 포함되어 있다.</p>
+<h3 id="flashmapmanager">FlashmapManager</h3>
+<p>FlashMap객체를 retrieve &amp; save 하는 전략 인터페이스 이다.</p>
+<p>위의 모든 전략 인터페이스의 처리 과정은 Bean에 이뤄진다.<br>
+또한 커스터마이징이 필요한 부분은 인터페이스를 구현해 Spring Bean으로 등록하면 된다.<br>
+등록하면 DispatcherServlet이 초기화 될 때 Bean이 주입된다.</p>
+<p>Default Bean은 @EnableMvc를 사용할 때 생성된다. default Bean 설정은 spring-mvc 프로젝트내 DispatcherServlet.properties에 선언되어 있다.</p>
+<p>요청을 받았을 때 순서대로 보면</p>
+<ol>
+<li>Handler Mapping</li>
+</ol>
+<p>DispatcherServlet이 요청을 받으면 처음 거치는 곳인데 요청받은 URL에 해당하는 Controller를 찾아준다. HandlerMapping을 따로 설정하지 않으면 RequestMappingHandler(@RequestMapping)와 <a href="https://jaejin1.github.io/2019/12/11/java/spring/springmvcBasic/#SimpleUrlHandlerMapping" target="_blank" rel="noopener noreffer">SimpleUrlHandlerMapping(URI 경로 패턴)</a>이 기본 구현으로 된다.</p>
+<ol start="2">
+<li>Handler Adapter</li>
+</ol>
+<p>HandlerMapping으로 결정된 Controller의 메서드를 호출 하는 역할을 한다.<br>
+DispatcherServlet이 Handler가 어떤 방식으로 구현되어 있는지 신경 쓰지 않게 하기 위해서다.</p>
+<ol start="3">
+<li>Controller, Service, Repository</li>
+</ol>
+<p>DB의 Data Access를 통해 나온 데이터를 Model에 저장하고 View를 정하여 View Resolver에 전달한다.</p>
+<ol start="4">
+<li>View Resolver</li>
+</ol>
+<p>어떤 종류의 view를 사용할지 선택한다. 선택된 view는 데이터를 이용해 페이지를 완성하고 클라이언트에 전달한다.</p>
+<hr>
+<p><strong><code>참고</code></strong></p>
+<ul>
+<li><a href="https://lazymankook.tistory.com/69">https://lazymankook.tistory.com/69</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2019-12-11</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/springmvcdispatcherservlet/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/springmvcdispatcherservlet/" data-title="Spring MVC와 DespatcherServlet" data-hashtags="java,spring"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/springmvcdispatcherservlet/" data-hashtag="java"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/springmvcdispatcherservlet/" data-title="Spring MVC와 DespatcherServlet" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/springmvcdispatcherservlet/" data-title="Spring MVC와 DespatcherServlet"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://example.org/springmvcdispatcherservlet/" data-title="Spring MVC와 DespatcherServlet"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="http://example.org/springmvcdispatcherservlet/" data-title="Spring MVC와 DespatcherServlet" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="http://example.org/springmvcdispatcherservlet/" data-title="Spring MVC와 DespatcherServlet" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/springmvcdispatcherservlet/" data-title="Spring MVC와 DespatcherServlet"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/java/">java</a>,&nbsp;<a href="/tags/spring/">spring</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/linkedlist/" class="prev" rel="prev" title="Python3에서 Linked List에 관한 여러 연산들"><i class="fas fa-angle-left fa-fw"></i>Python3에서 Linked List에 관한 여러 연산들</a>
+            <a href="/springmvcbasic/" class="next" rel="next" title="Spring MVC basic">Spring MVC basic<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.80.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

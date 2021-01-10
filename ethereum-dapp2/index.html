@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Preparing for deploy smart contract - </title><meta name="Description" content="This is jaejin&#39;s blog"><meta property="og:title" content="Preparing for deploy smart contract" />
+<meta property="og:description" content="이전에 geth로 생성한 private net를 rpc 옵션을 사용해서 클라이언트 앱 연동 (ethereum wallet)을 해보자." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/ethereum-dapp2/" />
+<meta property="og:image" content="http://example.org/images/jaejin.png"/>
+<meta property="article:published_time" content="2018-08-02T15:58:26+08:00" />
+<meta property="article:modified_time" content="2018-08-02T15:58:26+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/images/jaejin.png"/>
+
+<meta name="twitter:title" content="Preparing for deploy smart contract"/>
+<meta name="twitter:description" content="이전에 geth로 생성한 private net를 rpc 옵션을 사용해서 클라이언트 앱 연동 (ethereum wallet)을 해보자."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/ethereum-dapp2/" /><link rel="prev" href="http://example.org/ethereum-dapp1/" /><link rel="next" href="http://example.org/ethereum-dapp3/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Preparing for deploy smart contract",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/ethereum-dapp2\/"
+        },"genre": "posts","keywords": "blockchain, ethereum","wordcount":  487 ,
+        "url": "http:\/\/example.org\/ethereum-dapp2\/","datePublished": "2018-08-02T15:58:26+08:00","dateModified": "2018-08-02T15:58:26+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Preparing for deploy smart contract</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/blockchain/"><i class="far fa-folder fa-fw"></i>blockchain</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-08-02">2018-08-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;487 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#스마트-컨트랙트-작성하기">스마트 컨트랙트 작성하기</a>
+      <ul>
+        <li><a href="#remix을-이용한-스마트-컨트랙트-배포">Remix을 이용한 스마트 컨트랙트 배포</a></li>
+        <li><a href="#private-network와-연결하고-스마트컨트랙트-배포하고-사용하기">private network와 연결하고 스마트컨트랙트 배포하고 사용하기</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>이전에 geth로 생성한 private net를 rpc 옵션을 사용해서 클라이언트 앱 연동 (ethereum wallet)을 해보자.</p>
+<p>연동할 앱은 remix이다. remix는 이더리움 스마트 컨트랙트를 만들 때 사용하는 언어인 solidity ide 툴이다.</p>
+<p><a href="https://github.com/ethereum/remix-ide/tree/gh-pages" target="_blank" rel="noopener noreffer">ethereum/remix-ide</a></p>
+<p>다운을 받아서 압축을 푼뒤 index.html 을 실행하면 된다.</p>
+<p>나는 도커로 했기 때문에 컨테이너의 80번 포트를 뚫어주고 접속하였다.</p>
+<p><figure><a class="lightgallery" href="/ethereum-dapp2/2018-08-184-0279f3de-2fa5-45a4-b2b5-35187e518c3f.17.05.png" title="IDE" data-thumbnail="/ethereum-dapp2/2018-08-184-0279f3de-2fa5-45a4-b2b5-35187e518c3f.17.05.png" data-sub-html="<h2>IDE</h2><p>IDE</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-08-184-0279f3de-2fa5-45a4-b2b5-35187e518c3f.17.05.png"
+            data-srcset="/ethereum-dapp2/2018-08-184-0279f3de-2fa5-45a4-b2b5-35187e518c3f.17.05.png, 2018-08-184-0279f3de-2fa5-45a4-b2b5-35187e518c3f.17.05.png 1.5x, /ethereum-dapp2/2018-08-184-0279f3de-2fa5-45a4-b2b5-35187e518c3f.17.05.png 2x"
+            data-sizes="auto"
+            alt="/ethereum-dapp2/2018-08-184-0279f3de-2fa5-45a4-b2b5-35187e518c3f.17.05.png" />
+    </a><figcaption class="image-caption">IDE</figcaption>
+    </figure></p>
+<p>컨테이너 80 번하고 host의 8888번 포트를 연결해서 접속한 결과이당</p>
+<h2 id="스마트-컨트랙트-작성하기">스마트 컨트랙트 작성하기</h2>
+<p>새로운 simple.sol 파일을 만들어서</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-solidity" data-lang="solidity"><span class="kr">pragma solidity</span> <span class="o">^</span><span class="mi">0</span><span class="p">.</span><span class="mi">4</span><span class="p">.</span><span class="mi">11</span><span class="p">;</span>
+<span class="kd">contract</span> <span class="n">Simple</span><span class="p">{</span>
+    <span class="kt">uint256</span> <span class="n">data</span><span class="p">;</span>
+    <span class="kd">function</span> <span class="n">get</span><span class="p">()</span> <span class="kr">constant</span> <span class="kr">public</span> <span class="k">returns</span><span class="p">(</span><span class="kt">uint256</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kd">function</span> <span class="n">set</span> <span class="p">(</span><span class="kt">uint256</span> <span class="n">_data</span><span class="p">)</span> <span class="kr">public</span><span class="p">{</span>
+        <span class="n">data</span><span class="o">=</span> <span class="n">_data</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>다음과 같이 작성했다.</p>
+<p><figure><a class="lightgallery" href="/ethereum-dapp2/2018-08-184-15147719-64b8-4b4a-a4df-1c06420ba3bf.19.01.png" title="IDE" data-thumbnail="/ethereum-dapp2/2018-08-184-15147719-64b8-4b4a-a4df-1c06420ba3bf.19.01.png" data-sub-html="<h2>IDE</h2><p>IDE</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-08-184-15147719-64b8-4b4a-a4df-1c06420ba3bf.19.01.png"
+            data-srcset="/ethereum-dapp2/2018-08-184-15147719-64b8-4b4a-a4df-1c06420ba3bf.19.01.png, 2018-08-184-15147719-64b8-4b4a-a4df-1c06420ba3bf.19.01.png 1.5x, /ethereum-dapp2/2018-08-184-15147719-64b8-4b4a-a4df-1c06420ba3bf.19.01.png 2x"
+            data-sizes="auto"
+            alt="/ethereum-dapp2/2018-08-184-15147719-64b8-4b4a-a4df-1c06420ba3bf.19.01.png" />
+    </a><figcaption class="image-caption">IDE</figcaption>
+    </figure></p>
+<p>작성후 오른쪽에 start to compil 을 누르면 밑에 녹색 바탕의 simple처럼 스마트 컨트랙트의 이름이 표시된다.</p>
+<h3 id="remix을-이용한-스마트-컨트랙트-배포">Remix을 이용한 스마트 컨트랙트 배포</h3>
+<p>remix에서는 세 종류의 배포 방법을 제공한다. run 패널로 이동해서 environment를 클릭해보면 <code>javascript vm</code> , <code>injected Web3</code> , <code>Web3 provider</code> 가 있다.</p>
+<p><figure><a class="lightgallery" href="/ethereum-dapp2/2018-08-184-7ccb5614-43f7-4628-95dd-1621f0f61b6b.20.50.png" title="IDE" data-thumbnail="/ethereum-dapp2/2018-08-184-7ccb5614-43f7-4628-95dd-1621f0f61b6b.20.50.png" data-sub-html="<h2>IDE</h2><p>IDE</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-08-184-7ccb5614-43f7-4628-95dd-1621f0f61b6b.20.50.png"
+            data-srcset="/ethereum-dapp2/2018-08-184-7ccb5614-43f7-4628-95dd-1621f0f61b6b.20.50.png, 2018-08-184-7ccb5614-43f7-4628-95dd-1621f0f61b6b.20.50.png 1.5x, /ethereum-dapp2/2018-08-184-7ccb5614-43f7-4628-95dd-1621f0f61b6b.20.50.png 2x"
+            data-sizes="auto"
+            alt="/ethereum-dapp2/2018-08-184-7ccb5614-43f7-4628-95dd-1621f0f61b6b.20.50.png" />
+    </a><figcaption class="image-caption">IDE</figcaption>
+    </figure></p>
+<ul>
+<li>javascript vm을 선택하면 이더리움 노드 없이 가상으로 스마트 컨트랙트를 배포하고 실행해 볼 수 있다. 실제로 배포 하기 전 테스트용으로 사용하기 좋다.</li>
+<li>injected Web3는 metamask와 같은 브라우저 플러그인과 연동할 때 사용한다. 다른 클라이언트 앱과 연동할 때 사용하는 걸로 생각하면 된다.</li>
+<li>web3 providersms  private network와 연동할 대 사용하는 옵션이다.</li>
+</ul>
+<p>우선 javascript vm환경에서 제대로 실행되는지 확인해보자.</p>
+<p><figure><a class="lightgallery" href="/ethereum-dapp2/2018-08-184-0ecf43f9-f37b-4903-861a-b1f14ca90465.22.52.png" title="IDE" data-thumbnail="/ethereum-dapp2/2018-08-184-0ecf43f9-f37b-4903-861a-b1f14ca90465.22.52.png" data-sub-html="<h2>IDE</h2><p>IDE</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-08-184-0ecf43f9-f37b-4903-861a-b1f14ca90465.22.52.png"
+            data-srcset="/ethereum-dapp2/2018-08-184-0ecf43f9-f37b-4903-861a-b1f14ca90465.22.52.png, 2018-08-184-0ecf43f9-f37b-4903-861a-b1f14ca90465.22.52.png 1.5x, /ethereum-dapp2/2018-08-184-0ecf43f9-f37b-4903-861a-b1f14ca90465.22.52.png 2x"
+            data-sizes="auto"
+            alt="/ethereum-dapp2/2018-08-184-0ecf43f9-f37b-4903-861a-b1f14ca90465.22.52.png" />
+    </a><figcaption class="image-caption">IDE</figcaption>
+    </figure></p>
+<p>javascript vm을 선택하고 create를 누르면 밑에  get, set함수가 나타난다.</p>
+<p>먼저 set옆에 100을 누른다음에</p>
+<p>get을 누르면 100이 나오는 걸 확인할 수 있다.</p>
+<p><figure><a class="lightgallery" href="/ethereum-dapp2/2018-08-184-4c7a62f5-5ed2-4e6d-b9db-cfe239bf6bab.24.01.png" title="IDE" data-thumbnail="/ethereum-dapp2/2018-08-184-4c7a62f5-5ed2-4e6d-b9db-cfe239bf6bab.24.01.png" data-sub-html="<h2>IDE</h2><p>IDE</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-08-184-4c7a62f5-5ed2-4e6d-b9db-cfe239bf6bab.24.01.png"
+            data-srcset="/ethereum-dapp2/2018-08-184-4c7a62f5-5ed2-4e6d-b9db-cfe239bf6bab.24.01.png, 2018-08-184-4c7a62f5-5ed2-4e6d-b9db-cfe239bf6bab.24.01.png 1.5x, /ethereum-dapp2/2018-08-184-4c7a62f5-5ed2-4e6d-b9db-cfe239bf6bab.24.01.png 2x"
+            data-sizes="auto"
+            alt="/ethereum-dapp2/2018-08-184-4c7a62f5-5ed2-4e6d-b9db-cfe239bf6bab.24.01.png" />
+    </a><figcaption class="image-caption">IDE</figcaption>
+    </figure></p>
+<h3 id="private-network와-연결하고-스마트컨트랙트-배포하고-사용하기">private network와 연결하고 스마트컨트랙트 배포하고 사용하기</h3>
+<p>remix를 private network와 연동하기 위해서는 network를 실행 할 때 geth에 rpc 옵션을 설정해줘야 한다. ( Ethereum wallet과는 ipc를 통해 연결 한다.)</p>
+<ul>
+<li>&ndash;rpc 는 http-rpc 서버를 사용하게 하는 옵션이다.</li>
+<li>&ndash;rpcaddr은 rpc로 사용하는 주소를 명시하는 옵션이고 기본은 localhost이다.</li>
+<li>&ndash;rpcport는 rpc로 사용하는 포트를 지정하는 옵션이다. 기본은 8545이다.</li>
+<li>&ndash;rpcapi는 rpc로 접속한 앱에서 사용할 수 있는 api 종류를 지정하는 옵션이다.</li>
+<li>&ndash;rpccorsdomain은 network에 접속할 도메인을 지정할 수 있는 옵션이다.</li>
+</ul>
+<p>rpcaadr, rpcport는 기본으로 하고 rpcapi 는 &lsquo;db, eth, net, web3&rsquo; 을 rpccorsdomain은 &ldquo;*&ldquo;을 지정한다. *는 모든 도메인에서 접근하게 하는것이다. 실제로 서비스 할 떄는 *를 사용하지 않는게 좋다.</p>
+<p>geth를 실행한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">
+$ geth --datadir <span class="s2">&#34;./data&#34;</span> --identity <span class="s2">&#34;mynetwork&#34;</span> --networkid <span class="m">1988</span> --rpc --rpcport <span class="m">8545</span> --rpcapi <span class="s2">&#34;db,net,web3,eth&#34;</span> --rpccorsdomain <span class="s2">&#34;*&#34;</span> --rpcaddr <span class="s2">&#34;0.0.0.0&#34;</span> console
+
+$ geth --datadir <span class="s2">&#34;./data&#34;</span> --identity <span class="s2">&#34;mynetwork&#34;</span> --networkid <span class="m">1988</span> --rpc --rpcport <span class="m">8545</span> --rpcapi <span class="s2">&#34;db,net,web3,eth&#34;</span> --rpccorsdomain <span class="s2">&#34;*&#34;</span> --rpcaddr <span class="s2">&#34;0.0.0.0&#34;</span> console
+</code></pre></td></tr></table>
+</div>
+</div><p>나는 docker 로 했기 때문에 rpcaddr 0.0.0.0을 추가해줬다.</p>
+<p>이후 remix로 돌아와 remix의 environment를 web3 provider로 변경한다. 그러면</p>
+<p><figure><a class="lightgallery" href="/ethereum-dapp2/2018-08-184-d05edea9-56b0-40a8-9d2c-3395d4d33a48.36.58.png" title="IDE" data-thumbnail="/ethereum-dapp2/2018-08-184-d05edea9-56b0-40a8-9d2c-3395d4d33a48.36.58.png" data-sub-html="<h2>IDE</h2><p>IDE</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-08-184-d05edea9-56b0-40a8-9d2c-3395d4d33a48.36.58.png"
+            data-srcset="/ethereum-dapp2/2018-08-184-d05edea9-56b0-40a8-9d2c-3395d4d33a48.36.58.png, 2018-08-184-d05edea9-56b0-40a8-9d2c-3395d4d33a48.36.58.png 1.5x, /ethereum-dapp2/2018-08-184-d05edea9-56b0-40a8-9d2c-3395d4d33a48.36.58.png 2x"
+            data-sizes="auto"
+            alt="/ethereum-dapp2/2018-08-184-d05edea9-56b0-40a8-9d2c-3395d4d33a48.36.58.png" />
+    </a><figcaption class="image-caption">IDE</figcaption>
+    </figure></p>
+<p>다음과 같이 경고가 뜨고 ok를 누른다.</p>
+<p><figure><a class="lightgallery" href="/ethereum-dapp2/2018-08-184-f064dddb-47d5-42c1-afb8-cc244e2e8135.37.48.png" title="IDE" data-thumbnail="/ethereum-dapp2/2018-08-184-f064dddb-47d5-42c1-afb8-cc244e2e8135.37.48.png" data-sub-html="<h2>IDE</h2><p>IDE</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-08-184-f064dddb-47d5-42c1-afb8-cc244e2e8135.37.48.png"
+            data-srcset="/ethereum-dapp2/2018-08-184-f064dddb-47d5-42c1-afb8-cc244e2e8135.37.48.png, 2018-08-184-f064dddb-47d5-42c1-afb8-cc244e2e8135.37.48.png 1.5x, /ethereum-dapp2/2018-08-184-f064dddb-47d5-42c1-afb8-cc244e2e8135.37.48.png 2x"
+            data-sizes="auto"
+            alt="/ethereum-dapp2/2018-08-184-f064dddb-47d5-42c1-afb8-cc244e2e8135.37.48.png" />
+    </a><figcaption class="image-caption">IDE</figcaption>
+    </figure></p>
+<p>주소를 확인하고 ok</p>
+<p><figure><a class="lightgallery" href="/ethereum-dapp2/2018-08-185-ad9093de-622e-4903-8b22-042592f8fc45.22.57.png" title="IDE" data-thumbnail="/ethereum-dapp2/2018-08-185-ad9093de-622e-4903-8b22-042592f8fc45.22.57.png" data-sub-html="<h2>IDE</h2><p>IDE</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-08-185-ad9093de-622e-4903-8b22-042592f8fc45.22.57.png"
+            data-srcset="/ethereum-dapp2/2018-08-185-ad9093de-622e-4903-8b22-042592f8fc45.22.57.png, 2018-08-185-ad9093de-622e-4903-8b22-042592f8fc45.22.57.png 1.5x, /ethereum-dapp2/2018-08-185-ad9093de-622e-4903-8b22-042592f8fc45.22.57.png 2x"
+            data-sizes="auto"
+            alt="/ethereum-dapp2/2018-08-185-ad9093de-622e-4903-8b22-042592f8fc45.22.57.png" />
+    </a><figcaption class="image-caption">IDE</figcaption>
+    </figure></p>
+<p>연결에 성공했다!!</p>
+<p><figure><a class="lightgallery" href="/ethereum-dapp2/2018-08-185-9904b0b2-af45-422c-b0c1-f9e329116b3f.23.48.png" title="IDE" data-thumbnail="/ethereum-dapp2/2018-08-185-9904b0b2-af45-422c-b0c1-f9e329116b3f.23.48.png" data-sub-html="<h2>IDE</h2><p>IDE</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-08-185-9904b0b2-af45-422c-b0c1-f9e329116b3f.23.48.png"
+            data-srcset="/ethereum-dapp2/2018-08-185-9904b0b2-af45-422c-b0c1-f9e329116b3f.23.48.png, 2018-08-185-9904b0b2-af45-422c-b0c1-f9e329116b3f.23.48.png 1.5x, /ethereum-dapp2/2018-08-185-9904b0b2-af45-422c-b0c1-f9e329116b3f.23.48.png 2x"
+            data-sizes="auto"
+            alt="/ethereum-dapp2/2018-08-185-9904b0b2-af45-422c-b0c1-f9e329116b3f.23.48.png" />
+    </a><figcaption class="image-caption">IDE</figcaption>
+    </figure></p>
+<p>하지만 에러가 발생하는데</p>
+<p>스마트 컨트랙트를 배포할 때는 gas를 사용하게 된다. 그래서 컨트랙트를 배포하는 계좌에서  gas를 소비할 수 있게 락을 풀어줘야한다. geth 콘솔창으로 이동후에</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">
+&gt; personal.unlockAccount<span class="o">(</span>eth.accounts<span class="o">[</span>0<span class="o">])</span>
+Unlock account 0x0a39454d85c9ff43f5aba2025da36d67ccfa50d9
+Passphrase:
+<span class="nb">true</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>락을 풀어주고 다시 Remix로 이동해서 create를 클릭한다.</p>
+<p><figure><a class="lightgallery" href="/ethereum-dapp2/2018-08-185-928d3b43-079e-4064-894f-31478269ed2d.27.10.png" title="IDE" data-thumbnail="/ethereum-dapp2/2018-08-185-928d3b43-079e-4064-894f-31478269ed2d.27.10.png" data-sub-html="<h2>IDE</h2><p>IDE</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-08-185-928d3b43-079e-4064-894f-31478269ed2d.27.10.png"
+            data-srcset="/ethereum-dapp2/2018-08-185-928d3b43-079e-4064-894f-31478269ed2d.27.10.png, 2018-08-185-928d3b43-079e-4064-894f-31478269ed2d.27.10.png 1.5x, /ethereum-dapp2/2018-08-185-928d3b43-079e-4064-894f-31478269ed2d.27.10.png 2x"
+            data-sizes="auto"
+            alt="/ethereum-dapp2/2018-08-185-928d3b43-079e-4064-894f-31478269ed2d.27.10.png" />
+    </a><figcaption class="image-caption">IDE</figcaption>
+    </figure></p>
+<p>javascript vm 환경에서 했던 것과 다르게 바로 컨트랙트가 배포되지 않고 pending단계로 빠지는 것을 볼 수 있다. 채굴을 해줘야 마무리가 되기 때문에 geth에 가서 miner.start()를 해준다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">&gt; INFO <span class="o">[</span>08-18<span class="p">|</span>08:26:59.024<span class="o">]</span> Submitted contract creation              <span class="nv">fullhash</span><span class="o">=</span>0x7e4c9193d46ec3cfda05dc021d339351fc3a7259ec83fc74e99e602ec5f069e7 <span class="nv">contract</span><span class="o">=</span>0x78dAD2e8384B6ce2052f0626eCb51b6b0A5d77b4
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2018-08-02</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/ethereum-dapp2/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/ethereum-dapp2/" data-title="Preparing for deploy smart contract" data-hashtags="blockchain,ethereum"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/ethereum-dapp2/" data-hashtag="blockchain"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/ethereum-dapp2/" data-title="Preparing for deploy smart contract" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/ethereum-dapp2/" data-title="Preparing for deploy smart contract"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://example.org/ethereum-dapp2/" data-title="Preparing for deploy smart contract"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="http://example.org/ethereum-dapp2/" data-title="Preparing for deploy smart contract" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="http://example.org/ethereum-dapp2/" data-title="Preparing for deploy smart contract" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/ethereum-dapp2/" data-title="Preparing for deploy smart contract"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/blockchain/">blockchain</a>,&nbsp;<a href="/tags/ethereum/">ethereum</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/ethereum-dapp1/" class="prev" rel="prev" title="Setup private ethereum blockchain network"><i class="fas fa-angle-left fa-fw"></i>Setup private ethereum blockchain network</a>
+            <a href="/ethereum-dapp3/" class="next" rel="next" title="Deploy smart contract">Deploy smart contract<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.80.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
