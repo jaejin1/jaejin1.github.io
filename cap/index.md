@@ -5,7 +5,9 @@
 
 <!--more-->
 
-## CAP theorem
+## availability vs consistency
+
+### CAP theorem
 
 분산 컴퓨터 시스템에서는 다음 중 2가지만 지원할 수 있다.
 
@@ -28,13 +30,13 @@
 
 하지만 네트워크는 신뢰할 수 없으므로 Partition Tolerance를 지원해야한다. 따라서 Consistency과 Availability 사이에 소프트웨어 절충안을 만들어야 한다.
 
-### CP - consistency and partition tolerance 
+#### CP - consistency and partition tolerance 
 
 파티션된 노드의 응답을 기다리면 timeout 에러가 발생할 수 있다.
 
 CP는 비즈니스 요구에 아주 작은 단위적으로 읽기 및 쓰기가 필요할 경우 좋은 선택이다.
 
-### AP - availability and partition tolerance
+#### AP - availability and partition tolerance
 
 response로 모든 노드에서 가장 쉽게 사용 가능한 데이터를 반환하며 이는 최신 버전의 데이터가 아닐 수 있다. 만약 쓰기를 하고 모든 노드에 전파되는데 시간이 걸릴 수 있다.
 

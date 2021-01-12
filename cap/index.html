@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/cap\/"
-        },"genre": "posts","keywords": "os, linux, sector","wordcount":  631 ,
+        },"genre": "posts","keywords": "system-design","wordcount":  634 ,
         "url": "http:\/\/example.org\/cap\/","datePublished": "2021-01-12T22:23:00+09:00","dateModified": "2021-01-12T22:23:00+09:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -105,8 +105,8 @@
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Availability vs consistency</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/os/"><i class="far fa-folder fa-fw"></i>os</a>&nbsp;<a href="/categories/linux/"><i class="far fa-folder fa-fw"></i>linux</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-01-12">2021-01-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;631 words&nbsp;
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/system-design/"><i class="far fa-folder fa-fw"></i>system-design</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-01-12">2021-01-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;634 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -115,10 +115,14 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#cap-theorem">CAP theorem</a>
+    <li><a href="#availability-vs-consistency">availability vs consistency</a>
       <ul>
-        <li><a href="#cp---consistency-and-partition-tolerance">CP - consistency and partition tolerance</a></li>
-        <li><a href="#ap---availability-and-partition-tolerance">AP - availability and partition tolerance</a></li>
+        <li><a href="#cap-theorem">CAP theorem</a>
+          <ul>
+            <li><a href="#cp---consistency-and-partition-tolerance">CP - consistency and partition tolerance</a></li>
+            <li><a href="#ap---availability-and-partition-tolerance">AP - availability and partition tolerance</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#consistency-patterns">Consistency patterns</a>
@@ -153,7 +157,8 @@
   </ul>
 </nav></div>
             </div><div class="content" id="content"><p>일관성과 가용성에 대해서 알아보자.</p>
-<h2 id="cap-theorem">CAP theorem</h2>
+<h2 id="availability-vs-consistency">availability vs consistency</h2>
+<h3 id="cap-theorem">CAP theorem</h3>
 <p>분산 컴퓨터 시스템에서는 다음 중 2가지만 지원할 수 있다.</p>
 <ul>
 <li>
@@ -181,10 +186,10 @@
 </li>
 </ul>
 <p>하지만 네트워크는 신뢰할 수 없으므로 Partition Tolerance를 지원해야한다. 따라서 Consistency과 Availability 사이에 소프트웨어 절충안을 만들어야 한다.</p>
-<h3 id="cp---consistency-and-partition-tolerance">CP - consistency and partition tolerance</h3>
+<h4 id="cp---consistency-and-partition-tolerance">CP - consistency and partition tolerance</h4>
 <p>파티션된 노드의 응답을 기다리면 timeout 에러가 발생할 수 있다.</p>
 <p>CP는 비즈니스 요구에 아주 작은 단위적으로 읽기 및 쓰기가 필요할 경우 좋은 선택이다.</p>
-<h3 id="ap---availability-and-partition-tolerance">AP - availability and partition tolerance</h3>
+<h4 id="ap---availability-and-partition-tolerance">AP - availability and partition tolerance</h4>
 <p>response로 모든 노드에서 가장 쉽게 사용 가능한 데이터를 반환하며 이는 최신 버전의 데이터가 아닐 수 있다. 만약 쓰기를 하고 모든 노드에 전파되는데 시간이 걸릴 수 있다.</p>
 <p>AP는 비즈니스에서 궁극적인 Consistency를 허용? 하거나 외부 오류에도 불구하고 시스템이 계속 작동해야 하는 경우 좋은 선택이다.</p>
 <h2 id="consistency-patterns">Consistency patterns</h2>
@@ -259,13 +264,13 @@
                             <a class="link-to-markdown" href="/cap/index.md" target="_blank">Read Markdown</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/cap/" data-title="Availability vs consistency" data-hashtags="os,linux,sector"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/cap/" data-hashtag="os"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/cap/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/cap/" data-title="Availability vs consistency" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/cap/" data-title="Availability vs consistency"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/cap/" data-title="Availability vs consistency"><i class="fab fa-evernote fa-fw"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/cap/" data-title="Availability vs consistency" data-hashtags="system-design"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/cap/" data-hashtag="system-design"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/cap/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/cap/" data-title="Availability vs consistency" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/cap/" data-title="Availability vs consistency"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/cap/" data-title="Availability vs consistency"><i class="fab fa-evernote fa-fw"></i></a></span>
             </div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/os/">os</a>,&nbsp;<a href="/tags/linux/">linux</a>,&nbsp;<a href="/tags/sector/">sector</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/system-design/">system-design</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
         </section>
