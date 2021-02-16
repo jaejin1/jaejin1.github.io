@@ -4,7 +4,14 @@
         <link>http://example.org/tags/system-design/</link>
         <description>system-design - Tag - </description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Wed, 13 Jan 2021 22:23:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/tags/system-design/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Tue, 16 Feb 2021 21:23:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/tags/system-design/" rel="self" type="application/rss+xml" /><item>
+    <title>Content delivery network</title>
+    <link>http://example.org/cdn/</link>
+    <pubDate>Tue, 16 Feb 2021 21:23:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/cdn/</guid>
+    <description><![CDATA[<p>CDN(content delivery network)은 전 세계적으로 분산 된 프록시 서버 네트워크로, 사용자와 가까운 위치에서 콘텐츠를 제공한다.</p>]]></description>
+</item><item>
     <title>Domain name system</title>
     <link>http://example.org/doamin/</link>
     <pubDate>Wed, 13 Jan 2021 22:23:00 &#43;0900</pubDate>

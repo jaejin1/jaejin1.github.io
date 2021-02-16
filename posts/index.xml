@@ -4,7 +4,14 @@
         <link>http://example.org/posts/</link>
         <description>All Posts | </description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Wed, 13 Jan 2021 22:23:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Tue, 16 Feb 2021 21:23:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Content delivery network</title>
+    <link>http://example.org/cdn/</link>
+    <pubDate>Tue, 16 Feb 2021 21:23:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/cdn/</guid>
+    <description><![CDATA[<p>CDN(content delivery network)은 전 세계적으로 분산 된 프록시 서버 네트워크로, 사용자와 가까운 위치에서 콘텐츠를 제공한다.</p>]]></description>
+</item><item>
     <title>Domain name system</title>
     <link>http://example.org/doamin/</link>
     <pubDate>Wed, 13 Jan 2021 22:23:00 &#43;0900</pubDate>
@@ -71,12 +78,5 @@
     <author>Author</author>
     <guid>http://example.org/jpa/</guid>
     <description><![CDATA[<p>아직 Spring &amp; MyBatis를 사용한다고 하지만 이젠 생산성이 좋은 JPA를 많이 쓴다고 하니 해보자.</p>]]></description>
-</item><item>
-    <title>Hyperledger Fabric 개발 환경 구성 및 chaincode 배포</title>
-    <link>http://example.org/hyperledger-fabric2/</link>
-    <pubDate>Mon, 16 Dec 2019 15:58:26 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>http://example.org/hyperledger-fabric2/</guid>
-    <description><![CDATA[<p>Hyperledger Fabric에 대해 알아 보았따. 이제 직접 개발 환경은 올려보자.</p>]]></description>
 </item></channel>
 </rss>
