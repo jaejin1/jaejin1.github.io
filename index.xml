@@ -4,9 +4,16 @@
         <link>http://example.org/</link>
         <description>This is jaejin&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Tue, 16 Feb 2021 21:23:00 &#43;0900</lastBuildDate>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Thu, 18 Feb 2021 22:23:00 &#43;0900</lastBuildDate>
             <atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Load balancer</title>
+    <link>http://example.org/loadbalancer/</link>
+    <pubDate>Thu, 18 Feb 2021 22:23:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/loadbalancer/</guid>
+    <description><![CDATA[<p>로드 밸런서는 클라이언트 요청을 애플리케이션 서버 및 데이터베이스와 같은 곳에 리소스를 분배한다.</p>]]></description>
+</item><item>
     <title>Content delivery network</title>
     <link>http://example.org/cdn/</link>
     <pubDate>Tue, 16 Feb 2021 21:23:00 &#43;0900</pubDate>
@@ -73,12 +80,5 @@
     <description><![CDATA[<p>Route53은 AWS에서 제공하는 DNS서비스 이다.</p>
 <p>DNS는 domain name(<a href="http://www.example.com">www.example.com</a>) 을 ip주소로 바꿔 주는 일종의 dictionary 서비스 이다.</p>
 <p>DNS동작과정은 네트워크 통신을 하기 위해 IP를 찾아가는 과정이다.</p>]]></description>
-</item><item>
-    <title>Spring Data JPA</title>
-    <link>http://example.org/jpa/</link>
-    <pubDate>Tue, 17 Dec 2019 15:58:26 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>http://example.org/jpa/</guid>
-    <description><![CDATA[<p>아직 Spring &amp; MyBatis를 사용한다고 하지만 이젠 생산성이 좋은 JPA를 많이 쓴다고 하니 해보자.</p>]]></description>
 </item></channel>
 </rss>
