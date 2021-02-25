@@ -4,7 +4,14 @@
         <link>http://example.org/posts/</link>
         <description>All Posts | </description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Thu, 18 Feb 2021 22:23:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Thu, 25 Feb 2021 23:49:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Proxy</title>
+    <link>http://example.org/reverseproxy/</link>
+    <pubDate>Thu, 25 Feb 2021 23:49:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/reverseproxy/</guid>
+    <description><![CDATA[<p>프록시에는 두 가지 종류가 있는데, 포워드 프록시와 리버스 프록시에 대해 알아보자.</p>]]></description>
+</item><item>
     <title>Load balancer</title>
     <link>http://example.org/loadbalancer/</link>
     <pubDate>Thu, 18 Feb 2021 22:23:00 &#43;0900</pubDate>
@@ -69,14 +76,5 @@
     <guid>http://example.org/security/</guid>
     <description><![CDATA[<p>spring security는 spring 기반의 애플리케이션의 보안(인증, 권한)을 담당하는 프레임워크이다.</p>
 <p>spring security는 filter기반으로 동작하기 때문에 spring mvc와 분리되어 관리 되고 동작된다.</p>]]></description>
-</item><item>
-    <title>Amazon Route53 DNS Service</title>
-    <link>http://example.org/route53/</link>
-    <pubDate>Thu, 26 Dec 2019 15:58:26 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>http://example.org/route53/</guid>
-    <description><![CDATA[<p>Route53은 AWS에서 제공하는 DNS서비스 이다.</p>
-<p>DNS는 domain name(<a href="http://www.example.com">www.example.com</a>) 을 ip주소로 바꿔 주는 일종의 dictionary 서비스 이다.</p>
-<p>DNS동작과정은 네트워크 통신을 하기 위해 IP를 찾아가는 과정이다.</p>]]></description>
 </item></channel>
 </rss>
