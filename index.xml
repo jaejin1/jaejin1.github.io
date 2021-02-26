@@ -4,9 +4,16 @@
         <link>http://example.org/</link>
         <description>This is jaejin&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Thu, 25 Feb 2021 23:49:00 &#43;0900</lastBuildDate>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Fri, 26 Feb 2021 23:49:00 &#43;0900</lastBuildDate>
             <atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Goroutines vs Threads</title>
+    <link>http://example.org/goroutinesvsthreads/</link>
+    <pubDate>Fri, 26 Feb 2021 23:49:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/goroutinesvsthreads/</guid>
+    <description><![CDATA[<p>go routine과 thread를 비교해보자</p>]]></description>
+</item><item>
     <title>Proxy</title>
     <link>http://example.org/reverseproxy/</link>
     <pubDate>Thu, 25 Feb 2021 23:49:00 &#43;0900</pubDate>
@@ -70,13 +77,5 @@
     <guid>http://example.org/sessionmanager/</guid>
     <description><![CDATA[<p>공격의 표면, Bastion을 관리 하는 운영상의 부담 및 발생하는 추가 비용을 더욱 줄이기 위해, AWS Systems Manager Session Manager를 사용하여, Bastion을 운영하거나 조작 할 필요없이 EC2 인스턴스에 안전하게 연결 할 수 있다.</p>
 <p>Bastion실행에 수반되는 불편함과 인스턴스의 inbound SSH port 개방으로 유발되는 위험을 피하고자 한다.</p>]]></description>
-</item><item>
-    <title>Spring Security</title>
-    <link>http://example.org/security/</link>
-    <pubDate>Sat, 04 Jan 2020 15:58:26 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>http://example.org/security/</guid>
-    <description><![CDATA[<p>spring security는 spring 기반의 애플리케이션의 보안(인증, 권한)을 담당하는 프레임워크이다.</p>
-<p>spring security는 filter기반으로 동작하기 때문에 spring mvc와 분리되어 관리 되고 동작된다.</p>]]></description>
 </item></channel>
 </rss>
