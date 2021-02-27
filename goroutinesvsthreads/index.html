@@ -20,7 +20,7 @@
 <meta name="application-name" content="LoveIt">
 <meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/goroutinesvsthreads/" /><link rel="prev" href="http://example.org/reverseproxy/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/goroutinesvsthreads/" /><link rel="prev" href="http://example.org/reverseproxy/" /><link rel="next" href="http://example.org/https/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/goroutinesvsthreads\/"
-        },"genre": "posts","keywords": "go, thread","wordcount":  434 ,
+        },"genre": "posts","keywords": "go, thread","wordcount":  430 ,
         "url": "http:\/\/example.org\/goroutinesvsthreads\/","datePublished": "2021-02-26T23:49:00+09:00","dateModified": "2021-02-26T23:49:00+09:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -106,7 +106,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Goroutines vs Threads</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/go/"><i class="far fa-folder fa-fw"></i>go</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-02-26">2021-02-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;434 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-02-26">2021-02-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;430 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -151,7 +151,6 @@
 <h2 id="런타임-스케줄러와-gmp">런타임 스케줄러와 GMP</h2>
 <p>이제 차이점을 알았으니,, 어떻게 OS에서 제공하는 thread보다 더 적은 비용으로 go routine을 관리하는지 알아보자.</p>
 <p>go routine은 GMP라고 부르는 구조에 의해 관리된다.</p>
-<p>??? 사진ㄴ ㅓㅎ을까 ???</p>
 <ul>
 <li>G(go routine) : go routine의 구현체이며, 런타임에서 go routine을 관리하기 위해서 사용한다. blocking syscall등으로 go routine이 blocking될 경우 런타임은 다음 go routine을 실행하는데 이 과정에서 blocking이 최소화 된다.</li>
 <li>M(Machine) : OS의 thread를 의미한다.</li>
@@ -209,7 +208,8 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/reverseproxy/" class="prev" rel="prev" title="Proxy"><i class="fas fa-angle-left fa-fw"></i>Proxy</a></div>
+    <div class="post-nav"><a href="/reverseproxy/" class="prev" rel="prev" title="Proxy"><i class="fas fa-angle-left fa-fw"></i>Proxy</a>
+            <a href="/https/" class="next" rel="next" title="Https">Https<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.

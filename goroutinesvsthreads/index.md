@@ -34,7 +34,6 @@ thread 보다 go routine을 많이 생성해서 그만큼 교체 비용이 발�
 
 go routine은 GMP라고 부르는 구조에 의해 관리된다.
 
-??? 사진ㄴ ㅓㅎ을까 ???
 
 * G(go routine) : go routine의 구현체이며, 런타임에서 go routine을 관리하기 위해서 사용한다. blocking syscall등으로 go routine이 blocking될 경우 런타임은 다음 go routine을 실행하는데 이 과정에서 blocking이 최소화 된다.
 * M(Machine) : OS의 thread를 의미한다.
