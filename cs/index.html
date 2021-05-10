@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>browser에서 url을 입력하면 무슨일이 일어날까? - </title><meta name="Description" content="browser에서 url을 입력하면 무슨일이 일어날까?"><meta property="og:title" content="browser에서 url을 입력하면 무슨일이 일어날까?" />
+<meta property="og:description" content="browser에서 url을 입력하면 무슨일이 일어날까?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/cs/" />
+<meta property="og:image" content="http://example.org/images/jaejin.png"/>
+<meta property="article:published_time" content="2021-05-10T23:01:00+09:00" />
+<meta property="article:modified_time" content="2021-05-10T23:01:00+09:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/images/jaejin.png"/>
+
+<meta name="twitter:title" content="browser에서 url을 입력하면 무슨일이 일어날까?"/>
+<meta name="twitter:description" content="browser에서 url을 입력하면 무슨일이 일어날까?"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/cs/" /><link rel="prev" href="http://example.org/database/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "browser에서 url을 입력하면 무슨일이 일어날까?",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/cs\/"
+        },"genre": "posts","keywords": "basic, cs","wordcount":  370 ,
+        "url": "http:\/\/example.org\/cs\/","datePublished": "2021-05-10T23:01:00+09:00","dateModified": "2021-05-10T23:01:00+09:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": "browser에서 url을 입력하면 무슨일이 일어날까?"
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">browser에서 url을 입력하면 무슨일이 일어날까?</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/cs/"><i class="far fa-folder fa-fw"></i>cs</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-10">2021-05-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;370 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#url을-주소창에-친다">url을 주소창에 친다.</a></li>
+    <li><a href="#hstshttp-strict-transport-security-목록을-로드해서-확인한다">HSTS(HTTP Strict Transport Security) 목록을 로드해서 확인한다.</a>
+      <ul>
+        <li><a href="#hsts란-무엇인지-알아보자">HSTS란 무엇인지 알아보자.</a></li>
+        <li><a href="#hsts의-설정-방법">HSTS의 설정 방법</a>
+          <ul>
+            <li><a href="#예제">예제</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#dnsdomain-name-server를-조회한다">DNS(Domain Name Server)를 조회한다.</a>
+      <ul>
+        <li><a href="#dns에-대해서-좀-더-자세히-알아보자">DNS에 대해서 좀 더 자세히 알아보자.</a>
+          <ul>
+            <li><a href="#dns로-요청을하면-해당-ip주소를-찾기위해서-동작하는-과정을-알아보자">DNS로 요청을하면 해당 IP주소를 찾기위해서 동작하는 과정을 알아보자.</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>웹 browser에 url을 입력하면 무슨일이 일어날지 정리해보자.</p>
+<h2 id="url을-주소창에-친다">url을 주소창에 친다.</h2>
+<p>browser가 url을 해석하고, url문법에 따라서 요청을 하는데 만약 문법이 틀리다면 웹 browser의 기본 검색엔진으로 검색 요청을 한다.</p>
+<p>url의 문법은 <a href="https://ko.wikipedia.org/wiki/URL#cite_note-3" target="_blank" rel="noopener noreffer">URL 위키백과</a> 에 자세히 나와있다.</p>
+<h2 id="hstshttp-strict-transport-security-목록을-로드해서-확인한다">HSTS(HTTP Strict Transport Security) 목록을 로드해서 확인한다.</h2>
+<p>HSTS 목록에 있으면 첫 요청을 HTTPS로 보내고, 아닌경우 밑의 설명과 같이 HTTP로 보내서 HSTS 설정을 가져온다. (설정이 없다면 뭐 HTTP로 통신할 것이다.)</p>
+<h3 id="hsts란-무엇인지-알아보자">HSTS란 무엇인지 알아보자.</h3>
+<p>일반적으로 HTTPS를 강제하게 될 때 서버측에서 302 redirection을 이용해 전환시켜주는데 이것이 취약점이 될 수 있다고 한다.</p>
+<p><code>http요청 -&gt; 서버에서 302 redirect -&gt; 클라이언트에서 https 재요청 -&gt; 200 found</code></p>
+<p>따라서 클라이언트에게 강제로 HTTPS를 사용하도록 권장되는데 이것이 HSTS이다.</p>
+<p>클라이언트에서 강제하기 때문에 http를 이용한 연결 자체가 최초부터 시도되지 않으며 클라이언트 측에서 차단된다는 장점이 있다.</p>
+<p><code>https요청 -&gt; 200 found</code></p>
+<p>사용자가 최초로 사이트에 접속시도를 하게 되면 웹서버는 HSTS설정에 대한 정보를 browser에게 응답하게 된다. browser는 이 응답을 근거로 일정 시간동안 HSTS응답을 받은 웹사이트에 대해서 https접속을 강제화 하게 된다.</p>
+<p>실제 Chrome에서는 <code>chrome://net-internals/#hsts</code> 주소에서 확인 할 수 있다.</p>
+<p><figure><a class="lightgallery" href="/cs/hsts.png" title="hsts" data-thumbnail="/cs/hsts.png" data-sub-html="<h2>hsts</h2><p>hsts</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="hsts.png"
+            data-srcset="/cs/hsts.png, hsts.png 1.5x, /cs/hsts.png 2x"
+            data-sizes="auto"
+            alt="/cs/hsts.png" />
+    </a><figcaption class="image-caption">hsts</figcaption>
+    </figure></p>
+<p>또한 몇가지 웹사이트들은 browser자체에 등록되어 있는데 이를 확인하는 주소는 다음과 같다.</p>
+<p><a href="https://www.chromium.org/hsts">https://www.chromium.org/hsts</a></p>
+<p><figure><a class="lightgallery" href="/cs/preloaded-hsts.png" title="preloaded-hsts" data-thumbnail="/cs/preloaded-hsts.png" data-sub-html="<h2>preloaded-hsts</h2><p>preloaded-hsts</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="preloaded-hsts.png"
+            data-srcset="/cs/preloaded-hsts.png, preloaded-hsts.png 1.5x, /cs/preloaded-hsts.png 2x"
+            data-sizes="auto"
+            alt="/cs/preloaded-hsts.png" />
+    </a><figcaption class="image-caption">preloaded-hsts</figcaption>
+    </figure></p>
+<h3 id="hsts의-설정-방법">HSTS의 설정 방법</h3>
+<p>HSTS는 위에서 확인한 것과 같이 최초 요청은 서버에서 HSTS설정에 대한 정보를 가져 오기 때문에 서버에서 설정해 주어야 한다.</p>
+<h4 id="예제">예제</h4>
+<ul>
+<li>apache httpd</li>
+</ul>
+<blockquote>
+<p>Header always set Strict-Transport-Security “max-age=86400; includeSubdomains; preload”</p>
+</blockquote>
+<ul>
+<li>nginx</li>
+</ul>
+<blockquote>
+<p>add_header Strict-Transport-Security “max-age=86400; includeSubdomains; preload”</p>
+</blockquote>
+<p>설정을 보면</p>
+<ul>
+<li>
+<p>max-age=86400 : HSTS가 설정된 시간이며 초단위 이다.</p>
+</li>
+<li>
+<p>includeSubdomains : HSTS가 적용될 도메인의 subdomain까지 HSTS를 확장 적용함을 의미한다.</p>
+</li>
+<li>
+<p>preload : HSTS 적용이 클라이언트 측에서 preload로 이루어짐을 의미한다.</p>
+</li>
+</ul>
+<h2 id="dnsdomain-name-server를-조회한다">DNS(Domain Name Server)를 조회한다.</h2>
+<ol>
+<li>DNS에 요청을 보내기 전에 먼저 browser에 해당 Domain이 cache돼 있는지 확인한다. DNS query가 이 곳에서 가장 먼저 실행된다.</li>
+</ol>
+<p>또한 os 캐시를 확인하고, router 캐시를 확인하고 isp 캐시를 확인할 수도 있다.</p>
+<ol start="2">
+<li>
+<p>없을경우 local에 저장돼 있는 <code>/etc/hosts</code> 파일에서 참조할 수 있는 domain이 있는지 확인한다.</p>
+</li>
+<li>
+<p>1,2가 모두 실패 했을 경우 Network stack에 구성돼 있는 DNS로 요청을 보낸다.</p>
+</li>
+</ol>
+<h3 id="dns에-대해서-좀-더-자세히-알아보자">DNS에 대해서 좀 더 자세히 알아보자.</h3>
+<p>DNS는 url들의 이름과 ip주소를 저장하고 있는 데이터 베이스이다. 모든 url들은 고유의 ip가 지정되어 있고 해당 ip를 통해서 서버에 접근할 수 있다.</p>
+<p>ip를 확인하는 방법은 <code>nslookup www.google.com</code> 으로 확인할 수 있고 해당 ip를 browser에 쳐보면 google로 바로 접근 가능하다.</p>
+<h4 id="dns로-요청을하면-해당-ip주소를-찾기위해서-동작하는-과정을-알아보자">DNS로 요청을하면 해당 IP주소를 찾기위해서 동작하는 과정을 알아보자.</h4>
+<p><a href="http://www.google.com">www.google.com</a>과 같은 주소로 접속하고 싶으면 해당 ip를 반드시 알아야하는데, DNS query로 여러 다른 DNS 서버들을 검색해서 해당 사이트의 IP주소를 찾는 것이다.</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-05-10</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/cs/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/cs/" data-title="browser에서 url을 입력하면 무슨일이 일어날까?" data-hashtags="basic,cs"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/cs/" data-hashtag="basic"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/cs/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/cs/" data-title="browser에서 url을 입력하면 무슨일이 일어날까?" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/cs/" data-title="browser에서 url을 입력하면 무슨일이 일어날까?"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/cs/" data-title="browser에서 url을 입력하면 무슨일이 일어날까?"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/basic/">basic</a>,&nbsp;<a href="/tags/cs/">cs</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/database/" class="prev" rel="prev" title="Database"><i class="fas fa-angle-left fa-fw"></i>Database</a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.80.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="https://https-jaejin1-github-io.disqus.com/embed.js" defer></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
