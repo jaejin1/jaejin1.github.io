@@ -4,7 +4,14 @@
         <link>http://example.org/posts/</link>
         <description>All Posts | </description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Mon, 10 May 2021 23:01:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Wed, 19 May 2021 13:58:26 &#43;0800</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Job Control</title>
+    <link>http://example.org/jobcontrol/</link>
+    <pubDate>Wed, 19 May 2021 13:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/jobcontrol/</guid>
+    <description><![CDATA[<p>터미널에서 단순히 한나의 명령을 실행시키는게 아니라 <code>&amp;</code>을 이용해 background job을 생성할 수 있다.</p>]]></description>
+</item><item>
     <title>browser에서 url을 입력하면 무슨일이 일어날까?</title>
     <link>http://example.org/cs/</link>
     <pubDate>Mon, 10 May 2021 23:01:00 &#43;0900</pubDate>
@@ -74,12 +81,5 @@
     <author>Author</author>
     <guid>http://example.org/doamin/</guid>
     <description><![CDATA[<p>DNS (Domain Name System)은 <a href="http://www.example.com">www.example.com</a>과 같은 도메인 이름을 IP 주소로 변환한다.</p>]]></description>
-</item><item>
-    <title>Availability vs consistency</title>
-    <link>http://example.org/cap/</link>
-    <pubDate>Tue, 12 Jan 2021 22:23:00 &#43;0900</pubDate>
-    <author>Author</author>
-    <guid>http://example.org/cap/</guid>
-    <description><![CDATA[<p>일관성과 가용성에 대해서 알아보자.</p>]]></description>
 </item></channel>
 </rss>

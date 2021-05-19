@@ -4,7 +4,14 @@
         <link>http://example.org/categories/os/</link>
         <description>os - Category - </description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Sun, 28 Jun 2020 15:58:26 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/os/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Wed, 19 May 2021 13:58:26 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/os/" rel="self" type="application/rss+xml" /><item>
+    <title>Job Control</title>
+    <link>http://example.org/jobcontrol/</link>
+    <pubDate>Wed, 19 May 2021 13:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/jobcontrol/</guid>
+    <description><![CDATA[<p>터미널에서 단순히 한나의 명령을 실행시키는게 아니라 <code>&amp;</code>을 이용해 background job을 생성할 수 있다.</p>]]></description>
+</item><item>
     <title>Partition</title>
     <link>http://example.org/partition/</link>
     <pubDate>Sun, 28 Jun 2020 15:58:26 &#43;0800</pubDate>
