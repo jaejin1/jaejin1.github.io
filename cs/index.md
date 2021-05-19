@@ -188,7 +188,9 @@ HTTPD(http daemon) 서버는 요청/응답을 처리하는 서버이다.
 html, css, js같은 파일들은 또다른 프로세스를 통해 이쁘게 그려줄것이다.
 
 
-*참조
+---
+
+**참고**
 
 * https://mer1.tistory.com/55
 * https://devjin-blog.com/what-happen-browser-search/
