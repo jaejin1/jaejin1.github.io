@@ -4,9 +4,16 @@
         <link>http://example.org/</link>
         <description>This is jaejin&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Wed, 19 May 2021 13:58:26 &#43;0800</lastBuildDate>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Mon, 28 Jun 2021 13:58:26 &#43;0800</lastBuildDate>
             <atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>tty</title>
+    <link>http://example.org/tty/</link>
+    <pubDate>Mon, 28 Jun 2021 13:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/tty/</guid>
+    <description><![CDATA[<p>리눅스의 <code>/dev</code> 디렉토리에서 볼 수 있는 <code>/dev/tty*</code>, <code>/dev/pts/*</code> 파일들이 입출력에 관련된 파일들이며 외부 터미널 장치를 연결할 때, 리눅스에서 가상콘솔을 제공할 때 xterm이나 telnet, ssh 같은 리모트 로그인 프로그램등에 의해 사용된다.</p>]]></description>
+</item><item>
     <title>Job Control</title>
     <link>http://example.org/jobcontrol/</link>
     <pubDate>Wed, 19 May 2021 13:58:26 &#43;0800</pubDate>
@@ -76,12 +83,5 @@
     <author>Author</author>
     <guid>http://example.org/cdn/</guid>
     <description><![CDATA[<p>CDN(content delivery network)은 전 세계적으로 분산 된 프록시 서버 네트워크로, 사용자와 가까운 위치에서 콘텐츠를 제공한다.</p>]]></description>
-</item><item>
-    <title>Domain name system</title>
-    <link>http://example.org/doamin/</link>
-    <pubDate>Wed, 13 Jan 2021 22:23:00 &#43;0900</pubDate>
-    <author>Author</author>
-    <guid>http://example.org/doamin/</guid>
-    <description><![CDATA[<p>DNS (Domain Name System)은 <a href="http://www.example.com">www.example.com</a>과 같은 도메인 이름을 IP 주소로 변환한다.</p>]]></description>
 </item></channel>
 </rss>
