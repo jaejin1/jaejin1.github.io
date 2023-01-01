@@ -9,7 +9,7 @@ UFS는 쉽게 여러 개의 File System을 하나로 결합하여 취급할 수 
 
 ## UFS
 
-docker image를 이용해 container를 띄운다는 것은 밑의 그림과 같이 image layer(read-only layer)위에 container layer(writable layer)를 얹은 후 사용자에게 root filesystem으로 제공 하는 것이다. 
+docker image를 이용해 container를 띄운다는 것은 밑의 그림과 같이 image layer(read-only layer)위에 container layer(writable layer)를 얹은 후 사용자에게 root filesystem으로 제공하는 것이다. 
 
 ![docker](https://docs.docker.com/storage/storagedriver/images/sharing-layers.jpg)
 
