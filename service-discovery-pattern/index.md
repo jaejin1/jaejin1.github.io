@@ -11,9 +11,9 @@ Cloud 환경에서의 인스턴스를 구축할 때 AutoScaling등으로 인한 
 
 인스턴스가 새로 생성되면 해당 인스턴스에 정보를 Service registry에 등록해놓고, 이를 호출 하고자 하는 Client는 Service registry에 주소를 물어보고 그 주소를 이용해 서비스를 호출한다.
 
-Service Discovery의 구현 방법은 크게 `Client side discovery`와 `Server side discovery` 방식이 있다.
-
 ## Service Discovery
+
+Service Discovery의 구현 방법은 크게 `Client side discovery`와 `Server side discovery` 방식이 있다.
 
 ### Client side discovery
 
