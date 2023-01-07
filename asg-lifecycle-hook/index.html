@@ -31,7 +31,7 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/asg-lifecycle-hook\/"
-        },"genre": "posts","keywords": "cloud, aws, asg","wordcount":  327 ,
+        },"genre": "posts","keywords": "cloud, aws, asg","wordcount":  450 ,
         "url": "http:\/\/example.org\/asg-lifecycle-hook\/","datePublished": "2023-01-07T00:00:00+00:00","dateModified": "2023-01-07T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -110,8 +110,8 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">ASG Lifecycle Hook</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>aws</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-07">2023-01-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;327 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-07">2023-01-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;450 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -130,7 +130,12 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
                 <li><a href="#default-result">Default result</a></li>
               </ul>
             </li>
-            <li><a href="#구성">구성</a></li>
+            <li><a href="#구성">구성</a>
+              <ul>
+                <li><a href="#event-bridge">Event Bridge</a></li>
+                <li><a href="#lambda">Lambda</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
       </ul>
@@ -225,6 +230,80 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
 </tbody>
 </table>
 <h4 id="구성">구성</h4>
+<h5 id="event-bridge">Event Bridge</h5>
+<p>Event pattern</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;aws.autoscaling&#34;</span><span class="p">],</span>
+  <span class="nt">&#34;detail-type&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;EC2 Instance-launch Lifecycle Action&#34;</span><span class="p">,</span> <span class="s2">&#34;EC2 Instance-terminate Lifecycle Action&#34;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="lambda">Lambda</h5>
+<p>AWS Lambda를 생성 후 IAM 권한에 <code>ASG CompleteLifecycleAction</code> 정책을 추가 해야한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2012-10-17&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&#34;autoscaling:CompleteLifecycleAction&#34;</span>
+            <span class="p">],</span>
+            <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:autoscaling:*:972467631093:autoScalingGroup:*:autoScalingGroupName/*&#34;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>EventBridge에서 받은 event에 대해서 정보를 확인 하고 Eureka에 service out request를 호출 및 Slack 알림등의 작업을 한 후</p>
+<p>ASG로 complete lifecycle action을 날려준다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">complete_lifecycle_action</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;autoscaling&#39;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">complete_lifecycle_action</span><span class="p">(</span>
+        <span class="n">LifecycleHookName</span><span class="o">=</span><span class="n">event</span><span class="p">[</span><span class="s1">&#39;detail&#39;</span><span class="p">][</span><span class="s1">&#39;LifecycleHookName&#39;</span><span class="p">],</span>
+        <span class="n">LifecycleActionToken</span><span class="o">=</span><span class="n">event</span><span class="p">[</span><span class="s1">&#39;detail&#39;</span><span class="p">][</span><span class="s1">&#39;LifecycleActionToken&#39;</span><span class="p">],</span>
+        <span class="n">AutoScalingGroupName</span><span class="o">=</span><span class="n">event</span><span class="p">[</span><span class="s1">&#39;detail&#39;</span><span class="p">][</span><span class="s1">&#39;AutoScalingGroupName&#39;</span><span class="p">],</span>
+        <span class="n">LifecycleActionResult</span><span class="o">=</span><span class="s1">&#39;CONTINUE&#39;</span><span class="p">,</span>
+        <span class="n">InstanceId</span><span class="o">=</span><span class="n">event</span><span class="p">[</span><span class="s1">&#39;detail&#39;</span><span class="p">][</span><span class="s1">&#39;EC2InstanceId&#39;</span><span class="p">])</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>이 작업은 위에 Heartbeat timeout 시간보다 빠르게 작동해야한다.
+ASG에서 complete lifecycle action을 받으면 인스턴스 종료를 시작하게 된다.</p>
 <hr>
 <p><strong>참고</strong></p>
 <ul>

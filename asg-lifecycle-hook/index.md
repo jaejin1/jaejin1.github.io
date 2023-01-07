@@ -63,7 +63,53 @@ Hook 이벤트를 받고 ASG쪽으로 completion 처리를 해줘야한다. 만�
 
 #### 구성
 
+##### Event Bridge
 
+Event pattern 
+
+```json
+{
+  "source": ["aws.autoscaling"],
+  "detail-type": ["EC2 Instance-launch Lifecycle Action", "EC2 Instance-terminate Lifecycle Action"]
+}
+```
+
+##### Lambda
+
+AWS Lambda를 생성 후 IAM 권한에 `ASG CompleteLifecycleAction` 정책을 추가 해야한다.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "autoscaling:CompleteLifecycleAction"
+            ],
+            "Resource": "arn:aws:autoscaling:*:972467631093:autoScalingGroup:*:autoScalingGroupName/*"
+        }
+    ]
+}
+```
+
+EventBridge에서 받은 event에 대해서 정보를 확인 하고 Eureka에 service out request를 호출 및 Slack 알림등의 작업을 한 후 
+
+ASG로 complete lifecycle action을 날려준다.
+
+```python
+def complete_lifecycle_action(event):
+    client = boto3.client('autoscaling')
+    response = client.complete_lifecycle_action(
+        LifecycleHookName=event['detail']['LifecycleHookName'],
+        LifecycleActionToken=event['detail']['LifecycleActionToken'],
+        AutoScalingGroupName=event['detail']['AutoScalingGroupName'],
+        LifecycleActionResult='CONTINUE',
+        InstanceId=event['detail']['EC2InstanceId'])
+```
+
+이 작업은 위에 Heartbeat timeout 시간보다 빠르게 작동해야한다. 
+ASG에서 complete lifecycle action을 받으면 인스턴스 종료를 시작하게 된다.
 
 ---
 
