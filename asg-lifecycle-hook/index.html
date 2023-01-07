@@ -31,7 +31,7 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/asg-lifecycle-hook\/"
-        },"genre": "posts","keywords": "cloud, aws, asg","wordcount":  241 ,
+        },"genre": "posts","keywords": "cloud, aws, asg","wordcount":  331 ,
         "url": "http:\/\/example.org\/asg-lifecycle-hook\/","datePublished": "2023-01-07T00:00:00+00:00","dateModified": "2023-01-07T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -110,7 +110,7 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">ASG Lifecycle Hook</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>aws</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-07">2023-01-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;241 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-07">2023-01-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;331 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -122,7 +122,17 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
     <li><a href="#amazon-ec2-auto-scaling-lifecycle-hook">Amazon EC2 Auto Scaling Lifecycle Hook</a>
       <ul>
         <li><a href="#lifecycle-hook-작동-방식">Lifecycle Hook 작동 방식</a></li>
-        <li><a href="#lifecycle-hook-사용해보기">Lifecycle Hook 사용해보기</a></li>
+        <li><a href="#lifecycle-hook-사용해보기">Lifecycle Hook 사용해보기</a>
+          <ul>
+            <li><a href="#lifecycle-hook-생성">Lifecycle Hook 생성</a>
+              <ul>
+                <li><a href="#heartbeat-timeout">Heartbeat timeout</a></li>
+                <li><a href="#default-result">Default result</a></li>
+              </ul>
+            </li>
+            <li><a href="#구성">구성</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -178,6 +188,52 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
     </a><figcaption class="image-caption">lifecycle hook</figcaption>
     </figure></p>
 <p>ASG Lifecycle Hook 이벤트를 Event Bridge에서 Lambda로 보내고 Lambda에서 eureka로 out of service를 호출하는 간단한 아키텍쳐를 나타낸다.</p>
+<h4 id="lifecycle-hook-생성">Lifecycle Hook 생성</h4>
+<p><figure><a class="lightgallery" href="/asg-lifecycle-hook/create-lifecycle.png" title="create lifecycle" data-thumbnail="/asg-lifecycle-hook/create-lifecycle.png" data-sub-html="<h2>create lifecycle</h2><p>create lifecycle</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="create-lifecycle.png"
+            data-srcset="/asg-lifecycle-hook/create-lifecycle.png, create-lifecycle.png 1.5x, /asg-lifecycle-hook/create-lifecycle.png 2x"
+            data-sizes="auto"
+            alt="/asg-lifecycle-hook/create-lifecycle.png" />
+    </a><figcaption class="image-caption">create lifecycle</figcaption>
+    </figure></p>
+<h5 id="heartbeat-timeout">Heartbeat timeout</h5>
+<p>Heartbeat timeout은 Lifecycle Hook Action의 유지시간이다.</p>
+<p>Hook 이벤트를 받고 ASG쪽으로 completion 처리를 해줘야한다. 만약 별도로 처리 안하면 timeout 시간만큼 기다리게 된다.</p>
+<h5 id="default-result">Default result</h5>
+<ul>
+<li>ABANDON(중단)
+<ul>
+<li>인스턴스 시작
+<ul>
+<li>사용자 정의 작업에 실패 했음을 나타내고, EC2 Auto Scaling이 인스턴스를 종료할 수 있음을 나타냄</li>
+</ul>
+</li>
+<li>인스턴스 종료
+<ul>
+<li>인스턴스 종료를 허용. 그러나 남아있는 Lifecycle hook의 모든 작업 중지</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CONTINUE(계속)
+<ul>
+<li>인스턴스 시작
+<ul>
+<li>작업에 성공했고, EC2 Auto Scaling에서 인스턴스를 서비스 상태로 전환 할 수 있음 나타냄</li>
+</ul>
+</li>
+<li>인스턴스 종료
+<ul>
+<li>인스턴스 종료를 허용. 남아있는 Lifecycle hook 모두 완료</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="구성">구성</h4>
 <hr>
 <p><strong>참고</strong></p>
 <ul>
