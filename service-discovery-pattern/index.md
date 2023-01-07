@@ -57,9 +57,9 @@ AWS ELB는 별도의 Service registry가 없고 EC2, ECS등이 ELB 자체에 등
 * LB가 배포 환경에서 제공해야함
 * 제공하지 않는다면 관리해야하는 포인트가 늘어난다.
 
-### Service registry
+## Service registry
 
-#### Netflix Eureka
+### Netflix Eureka
 
 Netflix Eureka는 service registry의 좋은 예 이다.
 
@@ -68,13 +68,13 @@ Netflix Eureka는 service registry의 좋은 예 이다.
 * DELETE 요청으로 제거하거나 인스턴스 등록 시간이 초과되면 제거 
 * GET으로 service 인스턴스 검색 할 수 있다.
 
-#### etcd
+### etcd
 
 공유 구성 및 서비스 검색에 사용되는 고가용성에 분산된 일관성있는 key value 저장소.
 
 설정을 공유하고 service discover를 위해 사용되기도 함.
 
-#### HashiCorp consul
+### HashiCorp consul
 
 음 hashicorp 여러 제품은 보긴했는데 찾아보다가 발견함
 
@@ -82,7 +82,7 @@ service들을 discover하고 설정하기 위한 툴이라고 함.
 
 API를 제공하고 health check을 통해 서비스 가용여부 판별
 
-#### Apache zookeeper
+### Apache zookeeper
 
 분산 어플러키이션을 위해 널리 사용되는 coordination 서비스
 

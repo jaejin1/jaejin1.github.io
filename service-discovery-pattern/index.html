@@ -135,14 +135,14 @@ Cloud 환경에서의 인스턴스를 구축할 때 AutoScaling등으로 인한 
             <li><a href="#단점-1">단점</a></li>
           </ul>
         </li>
-        <li><a href="#service-registry">Service registry</a>
-          <ul>
-            <li><a href="#netflix-eureka">Netflix Eureka</a></li>
-            <li><a href="#etcd">etcd</a></li>
-            <li><a href="#hashicorp-consul">HashiCorp consul</a></li>
-            <li><a href="#apache-zookeeper">Apache zookeeper</a></li>
-          </ul>
-        </li>
+      </ul>
+    </li>
+    <li><a href="#service-registry">Service registry</a>
+      <ul>
+        <li><a href="#netflix-eureka">Netflix Eureka</a></li>
+        <li><a href="#etcd">etcd</a></li>
+        <li><a href="#hashicorp-consul">HashiCorp consul</a></li>
+        <li><a href="#apache-zookeeper">Apache zookeeper</a></li>
       </ul>
     </li>
   </ul>
@@ -203,8 +203,8 @@ Cloud 환경에서의 인스턴스를 구축할 때 AutoScaling등으로 인한 
 <li>LB가 배포 환경에서 제공해야함</li>
 <li>제공하지 않는다면 관리해야하는 포인트가 늘어난다.</li>
 </ul>
-<h3 id="service-registry">Service registry</h3>
-<h4 id="netflix-eureka">Netflix Eureka</h4>
+<h2 id="service-registry">Service registry</h2>
+<h3 id="netflix-eureka">Netflix Eureka</h3>
 <p>Netflix Eureka는 service registry의 좋은 예 이다.</p>
 <ul>
 <li>service 인스턴스를 등록 및 query를 위한 REST API를 제공</li>
@@ -212,14 +212,14 @@ Cloud 환경에서의 인스턴스를 구축할 때 AutoScaling등으로 인한 
 <li>DELETE 요청으로 제거하거나 인스턴스 등록 시간이 초과되면 제거</li>
 <li>GET으로 service 인스턴스 검색 할 수 있다.</li>
 </ul>
-<h4 id="etcd">etcd</h4>
+<h3 id="etcd">etcd</h3>
 <p>공유 구성 및 서비스 검색에 사용되는 고가용성에 분산된 일관성있는 key value 저장소.</p>
 <p>설정을 공유하고 service discover를 위해 사용되기도 함.</p>
-<h4 id="hashicorp-consul">HashiCorp consul</h4>
+<h3 id="hashicorp-consul">HashiCorp consul</h3>
 <p>음 hashicorp 여러 제품은 보긴했는데 찾아보다가 발견함</p>
 <p>service들을 discover하고 설정하기 위한 툴이라고 함.</p>
 <p>API를 제공하고 health check을 통해 서비스 가용여부 판별</p>
-<h4 id="apache-zookeeper">Apache zookeeper</h4>
+<h3 id="apache-zookeeper">Apache zookeeper</h3>
 <p>분산 어플러키이션을 위해 널리 사용되는 coordination 서비스</p>
 <hr>
 <p><strong>참고</strong></p>
