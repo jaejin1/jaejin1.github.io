@@ -31,7 +31,7 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/asg-lifecycle-hook\/"
-        },"genre": "posts","keywords": "cloud, aws, asg","wordcount":  144 ,
+        },"genre": "posts","keywords": "cloud, aws, asg","wordcount":  157 ,
         "url": "http:\/\/example.org\/asg-lifecycle-hook\/","datePublished": "2023-01-07T00:00:00+00:00","dateModified": "2023-01-07T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -110,14 +110,19 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">ASG Lifecycle Hook</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>aws</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-07">2023-01-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;144 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-07">2023-01-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;157 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;One minute&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
                 </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#lifecycle-hook-작동-방식">Lifecycle Hook 작동 방식</a></li>
+    <li><a href="#lifecycle-hook-사용해보기">Lifecycle Hook 사용해보기</a></li>
+  </ul>
+</nav></div>
             </div><div class="content" id="content"><p>AWS Auto Scaling은 Lifecyle을 추가할 수 있는 기능을 제공한다.</p>
 <p>Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작업을 수행할 수 있다.</p>
 <h1 id="amazon-ec2-auto-scaling-lifecycle-hook">Amazon EC2 Auto Scaling Lifecycle Hook</h1>
@@ -132,7 +137,7 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
 </li>
 </ul>
 <p>AWS 문서에서 Lifecycle의 일반적인 용도는 인스턴스가 ELB에 등록되는 시점을 제어하는 것이라고 한다.</p>
-<h1 id="licecycle-hook-작동-방식">Licecycle Hook 작동 방식</h1>
+<h2 id="lifecycle-hook-작동-방식">Lifecycle Hook 작동 방식</h2>
 <p><figure><a class="lightgallery" href="https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/images/lifecycle_hooks.png" title="lifecycle hook" data-thumbnail="https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/images/lifecycle_hooks.png" data-sub-html="<h2>lifecycle hook</h2><p>lifecycle hook</p>">
         <img
             class="lazyload"
@@ -144,6 +149,16 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
     </a><figcaption class="image-caption">lifecycle hook</figcaption>
     </figure>
 출처 - <a href="https://github.com/donnemartin/system-design-primer#database">https://github.com/donnemartin/system-design-primer#database</a></p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Note<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">작동 방식은 aws 공식 문서에서 상세하게 안내하고 있다.
+<a href="https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/lifecycle-hooks-overview.html">https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/lifecycle-hooks-overview.html</a></div>
+        </div>
+    </div>
+<h2 id="lifecycle-hook-사용해보기">Lifecycle Hook 사용해보기</h2>
 <hr>
 <p><strong>참고</strong></p>
 <ul>

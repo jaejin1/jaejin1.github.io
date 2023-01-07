@@ -19,13 +19,17 @@ AWS EC2 ASG에서 인스턴스 시작 및 종료에 대한 이벤트를 잡아�
 
 AWS 문서에서 Lifecycle의 일반적인 용도는 인스턴스가 ELB에 등록되는 시점을 제어하는 것이라고 한다.
 
-# Licecycle Hook 작동 방식
+## Lifecycle Hook 작동 방식
 
 ![lifecycle hook](https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/images/lifecycle_hooks.png "lifecycle hook")
 출처 - https://github.com/donnemartin/system-design-primer#database
 
+{{< admonition note "Note" >}}
+작동 방식은 aws 공식 문서에서 상세하게 안내하고 있다.
+https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/lifecycle-hooks-overview.html
+{{< /admonition >}}
 
-
+## Lifecycle Hook 사용해보기
 
 ---
 
