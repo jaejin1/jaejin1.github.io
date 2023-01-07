@@ -207,19 +207,19 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
 <thead>
 <tr>
 <th style="text-align:center"></th>
-<th style="text-align:center">ABANDON(중단)</th>
-<th style="text-align:center">CONTINUE(계속)</th>
+<th style="text-align:center">인스턴스 시작</th>
+<th style="text-align:center">인스턴스 종료</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">인스턴스 시작</td>
+<td style="text-align:center">ABANDON</td>
 <td style="text-align:center">사용자 정의 작업에 실패 했음을 나타내고, EC2 Auto Scaling이 인스턴스를 종료할 수 있음을 나타냄</td>
-<td style="text-align:center">작업에 성공했고, EC2 Auto Scaling에서 인스턴스를 서비스 상태로 전환 할 수 있음 나타냄</td>
+<td style="text-align:center">인스턴스 종료를 허용. 그러나 남아있는 Lifecycle hook의 모든 작업 중지</td>
 </tr>
 <tr>
-<td style="text-align:center">인스턴스 종료</td>
-<td style="text-align:center">인스턴스 종료를 허용. 그러나 남아있는 Lifecycle hook의 모든 작업 중지</td>
+<td style="text-align:center">CONTINUE</td>
+<td style="text-align:center">작업에 성공했고, EC2 Auto Scaling에서 인스턴스를 서비스 상태로 전환 할 수 있음 나타냄</td>
 <td style="text-align:center">인스턴스 종료를 허용. 남아있는 Lifecycle hook 모두 완료</td>
 </tr>
 </tbody>

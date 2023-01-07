@@ -55,10 +55,11 @@ Hook 이벤트를 받고 ASG쪽으로 completion 처리를 해줘야한다. 만�
 
 ##### Default result
 
-|  | ABANDON(중단) | CONTINUE(계속) |
+
+|  | 인스턴스 시작 | 인스턴스 종료 |
 |:---:|:---:|:---:|
-| 인스턴스 시작 | 사용자 정의 작업에 실패 했음을 나타내고, EC2 Auto Scaling이 인스턴스를 종료할 수 있음을 나타냄 | 작업에 성공했고, EC2 Auto Scaling에서 인스턴스를 서비스 상태로 전환 할 수 있음 나타냄 |
-| 인스턴스 종료 | 인스턴스 종료를 허용. 그러나 남아있는 Lifecycle hook의 모든 작업 중지 | 인스턴스 종료를 허용. 남아있는 Lifecycle hook 모두 완료 |
+| ABANDON | 사용자 정의 작업에 실패 했음을 나타내고, EC2 Auto Scaling이 인스턴스를 종료할 수 있음을 나타냄 | 인스턴스 종료를 허용. 그러나 남아있는 Lifecycle hook의 모든 작업 중지 |
+| CONTINUE | 작업에 성공했고, EC2 Auto Scaling에서 인스턴스를 서비스 상태로 전환 할 수 있음 나타냄 | 인스턴스 종료를 허용. 남아있는 Lifecycle hook 모두 완료 |
 
 #### 구성
 
