@@ -179,7 +179,7 @@ Lifecycle 이벤트가 발생할 때 인스턴스에 대한 사용자 정의 작
     </div>
 <h3 id="lifecycle-hook-사용해보기">Lifecycle Hook 사용해보기</h3>
 <p>이제 이 Lifecycle을 이용할 간단한 예제를 만들어보자.</p>
-<p>service discovery로 eureka를 사용하고 있다고 가정해보자.</p>
+<p><a href="https://jaejin1.github.io/service-discovery-pattern/" target="_blank" rel="noopener noreffer">service discovery</a>로 eureka를 사용하고 있다고 가정해보자.</p>
 <p>scale out, in의 작업으로 인스턴스 상태에 따라서 eureka에 등록/삭제를 해줘야한다. 등록의 경우 인스턴스가 생성되고 프로스세가 생성된 이후에 등록 하면 되지만 eureka에 service out을 호출하지 않고 인스턴스가 삭제되면 graceful shutdown이 안될 수 있는 문제가 있다.</p>
 <p>이를 Lifecycle Hook을 이용해 인스턴스가 삭제 되기전에 Lambda로 eureka로 service out 호출을 하는 것을 생각해보자.</p>
 <p><figure><a class="lightgallery" href="/asg-lifecycle-hook/example.png" title="example" data-thumbnail="/asg-lifecycle-hook/example.png" data-sub-html="<h2>lifecycle hook</h2><p>example</p>">

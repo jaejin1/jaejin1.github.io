@@ -33,7 +33,7 @@ https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/lifecycle-hooks-over
 
 이제 이 Lifecycle을 이용할 간단한 예제를 만들어보자.
 
-service discovery로 eureka를 사용하고 있다고 가정해보자. 
+[service discovery](https://jaejin1.github.io/service-discovery-pattern/)로 eureka를 사용하고 있다고 가정해보자. 
 
 scale out, in의 작업으로 인스턴스 상태에 따라서 eureka에 등록/삭제를 해줘야한다. 등록의 경우 인스턴스가 생성되고 프로스세가 생성된 이후에 등록 하면 되지만 eureka에 service out을 호출하지 않고 인스턴스가 삭제되면 graceful shutdown이 안될 수 있는 문제가 있다.
 
