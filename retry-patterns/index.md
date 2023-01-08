@@ -1,4 +1,4 @@
-# Retry patterns
+# Retry patterns과 aws sdk waiters
 
 
 어플리케이션이 어떤 작업을 시도할 때 실패하게 되면 오류가 일시적인 부분이 많아 다시 요청을 하는 것이 좋다고 생각한다.
@@ -123,6 +123,92 @@ func (w Waiter) WaitWithContext(ctx aws.Context) error {
 물론 위에서 다뤘던 retry하는 것과는 다르다.
 
 https://github.com/aws/aws-sdk-go/blob/main/aws/request/waiter.go#L195
+
+### Waiter custom
+
+처음에는 단순히 시도 요청을 늘리기 위해서 custom을 하고자 했는데 aws쪽 service를 기다리는게 아니라 jenkins job 같은 것도 waiting 할 수 있게 사용할 수 있을 것 가탇는 생각을 했다.
+
+
+기존 WaitWithContext를 많이 수정한 것은 아니고 NewRequest쪽을 원하는 요청을 받을 수 있도록만 수정 했다.
+
+```go
+func (w Waiter) WaitWithContext(ctx context.Context) error {
+	for attempt := 1; ; attempt++ {
+		res, err := w.NewRequest()
+
+		if err != nil {
+			return err
+		}
+
+		for _, a := range w.Acceptors {
+			if matched, matchErr := a.match(w.Name, res, err); matched {
+				return matchErr
+			}
+		}
+
+		if attempt == w.MaxAttempts {
+			break
+		}
+
+		delay := w.Delay(attempt)
+
+		if err := sleepWithContext(ctx, delay); err != nil {
+			return awserr.New(CanceledErrorCode, "waiter context canceled", err)
+		}
+	}
+
+	return awserr.New(WaiterResourceNotReadyErrorCode,
+		"exceeded wait attempts", nil)
+}
+```
+
+이를 호출 하는 코드는 다음과 같다.
+```go
+func (j *Jenkins) WaitUntilJenkinsJobSuccessfulWithContext(ctx context.Context, jobName string, buildID int) error {
+	w := request.Waiter{
+		Name:                   "WaitUntilJenkinsJobSuccessful",
+		MaxAttempts:            120,
+		Delay:                  request.ConstantWaiterDelay(15 * time.Second),
+		ExecuteAfterFirstDelay: true,
+		Acceptors: []request.WaiterAcceptor{
+			{
+				State:   request.SuccessWaiterState,
+				Matcher: request.PathWaiterMatch, Argument: "result",
+				Expected: "SUCCESS",
+			},
+			{
+				State:   request.FailureWaiterState,
+				Matcher: request.PathWaiterMatch, Argument: "result",
+				Expected: "FAILURE",
+			},
+			{
+				State:   request.FailureWaiterState,
+				Matcher: request.PathWaiterMatch, Argument: "result",
+				Expected: "ABORTED",
+			},
+		},
+		NewRequest: func() (interface{}, error) {
+			build, err := j.GetBuild(jobName, buildID)
+
+			return build, err
+		},
+	}
+
+	return w.WaitWithContext(ctx)
+}
+```
+
+코드를 보면 aws sdk 내부에서 사용하는 waiter 형식 그대로 사용하는 걸 볼 수 있고 다른점은 jenkins쪽 job을 대기하기 위해서 NewRequest쪽에 jenkins job쪽에 request 하는 함수를 호출한다.
+
+Acceptors은 api request를 하고 response받는 쪽에서 원하는 결과 값을 넣어주면 된다. 이는 `jmespath` 라는 JSON을 위한 Query 언어를 사용한다.
+
+AWS ASG쪽에도 이를 적용한적이 있는데 Acceptors의 Argument로 쿼리를 작성하여 원하는 상태가 되었을 때 wait를 멈춘작업을 한 적도 있다.
+
+예시로 `"contains(AutoScalingGroups[].[length(Instances[?LifecycleState=='Pending:Wait']) >= MinSize][], `false`)"` 
+
+이런식으로 작성하면 json response에서 원하는 상태를 추출할 수 있다.
+
+
 
 ---
 

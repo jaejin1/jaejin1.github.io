@@ -4,7 +4,15 @@
         <link>http://example.org/tags/aws/</link>
         <description>aws - Tag - </description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Sat, 07 Jan 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/tags/aws/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Sun, 08 Jan 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/tags/aws/" rel="self" type="application/rss+xml" /><item>
+    <title>Retry patterns과 aws sdk waiters</title>
+    <link>http://example.org/retry-patterns/</link>
+    <pubDate>Sun, 08 Jan 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/retry-patterns/</guid>
+    <description><![CDATA[<p>어플리케이션이 어떤 작업을 시도할 때 실패하게 되면 오류가 일시적인 부분이 많아 다시 요청을 하는 것이 좋다고 생각한다.</p>
+<p>그에 따라 retry patterns라고 불리는 것들이 있었고 이를 정리해보려고 한다.</p>]]></description>
+</item><item>
     <title>ASG Lifecycle Hook</title>
     <link>http://example.org/asg-lifecycle-hook/</link>
     <pubDate>Sat, 07 Jan 2023 00:00:00 &#43;0000</pubDate>
