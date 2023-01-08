@@ -31,7 +31,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/retry-patterns\/"
-        },"genre": "posts","keywords": "architecture","wordcount":  141 ,
+        },"genre": "posts","keywords": "architecture","wordcount":  555 ,
         "url": "http:\/\/example.org\/retry-patterns\/","datePublished": "2023-01-08T00:00:00+00:00","dateModified": "2023-01-08T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -110,8 +110,8 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Retry patterns</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/architecture/"><i class="far fa-folder fa-fw"></i>architecture</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-08">2023-01-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;141 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;One minute&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-08">2023-01-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;555 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -120,10 +120,13 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#retry-patterns">Retry patterns</a></li>
+    <li><a href="#aws-go-sdk-내부-waiters">aws go sdk 내부 waiters</a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><p>어플리케이션이 어떤 작업을 시도할 때 실패하게 되면 오류가 일시적인 부분이 많아 다시 요청을 하는 것이 좋다고 생각한다.</p>
 <p>그에 따라 retry patterns라고 불리는 것들이 있었고 이를 정리해보려고 한다.</p>
+<p>MSA 구조에서는 서로 다른 서버와 통신을 할 일이 많다.</p>
+<p>서로 다른 서버와 통신할 때 최대한 실패를 줄이는게 중요하고 서비스 비지니스 로직을 모두 실패 처리하거나 fallback 처리하는 것은 큰 리소스 낭비가 될 수 있어서 일시적인 오류나 네트워크 이슈의 경우 retry를 하여 실패를 줄일 수 있다.</p>
 <h2 id="retry-patterns">Retry patterns</h2>
 <p><figure><a class="lightgallery" href="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F8909aa28-5822-4347-862b-000bd334d8b6_2403x1140.jpeg" title="retry patterns" data-thumbnail="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F8909aa28-5822-4347-862b-000bd334d8b6_2403x1140.jpeg" data-sub-html="<h2>retry patterns</h2><p>retry patterns</p>">
         <img
@@ -164,7 +167,119 @@
 <p>재시도 할 때 어떠한 randomness을 줘서 재시도 함</p>
 </li>
 </ul>
+<p>일반적으로는 점진적으로 대기 시간이 늘어나는 Exponential Backoff 전략을 많이 사용한다고 하는데, 이 또한 여러 트래픽이 동시에 몰린다면 똑같은 시간 간격으로 모두 재시도를 하기 때문에 결국 과부하가 걸릴 수도 있을 것이다.</p>
+<p>따라서 <code>Jitter</code>라는 개념이 등장했다.</p>
+<p>Jitter는 원래 통신 언어로 패킷 지연이 일정하지 않고 수시로 변하면서 간격이 일정하지 않다는 용어라고 한다.</p>
+<p>간단하게는 randomness을 줘서 요청하는 시간대를 분산시키는 것이라고 보면 될 것 같다.</p>
+<p>Jitter 자체도 여러 알고리즘이 있고, 이를 aws쪽에서 정리 해놓은 문서가 있다.</p>
+<ul>
+<li>Equal Jitter</li>
+<li>Decorrelated Jitter</li>
+<li>Full Jitter</li>
+<li>&hellip;</li>
+</ul>
+<p><a href="https://aws.amazon.com/ko/blogs/architecture/exponential-backoff-and-jitter/">https://aws.amazon.com/ko/blogs/architecture/exponential-backoff-and-jitter/</a></p>
+<h2 id="aws-go-sdk-내부-waiters">aws go sdk 내부 waiters</h2>
 <p>AWS Go SDK를 사용하다가 보니 각 서비스별 <a href="https://github.com/aws/aws-sdk-go/blob/main/service/codedeploy/waiters.go" target="_blank" rel="noopener noreffer">waiters</a>가 있어 내부는 어떻게 동작하나 궁금해서 확인해본적이 있다.</p>
+<p>waiter들은 내부적으로 15초 간격으로 최대 120번 요청을 해서 완료나 실패가 될 때까지 기다리는데, 개발하다보니 30분 이상으로 대기해야할 때가 있어서 커스텀해서 사용하려고 내부를 보니 위에서 말한 retry와는 다르지만 지속적으로 요청을 하기 떄문에 어떤 시간 간격으로 보내는지 확인해봤다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">w</span> <span class="nx">Waiter</span><span class="p">)</span> <span class="nf">WaitWithContext</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">aws</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+
+	<span class="k">for</span> <span class="nx">attempt</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="p">;</span> <span class="nx">attempt</span><span class="o">++</span> <span class="p">{</span>
+		<span class="nx">req</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nf">NewRequest</span><span class="p">(</span><span class="nx">w</span><span class="p">.</span><span class="nx">RequestOptions</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="nf">waiterLogf</span><span class="p">(</span><span class="nx">w</span><span class="p">.</span><span class="nx">Logger</span><span class="p">,</span> <span class="s">&#34;unable to create request %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+			<span class="k">return</span> <span class="nx">err</span>
+		<span class="p">}</span>
+		<span class="nx">req</span><span class="p">.</span><span class="nx">Handlers</span><span class="p">.</span><span class="nx">Build</span><span class="p">.</span><span class="nf">PushBack</span><span class="p">(</span><span class="nf">MakeAddToUserAgentFreeFormHandler</span><span class="p">(</span><span class="s">&#34;Waiter&#34;</span><span class="p">))</span>
+		<span class="nx">err</span> <span class="p">=</span> <span class="nx">req</span><span class="p">.</span><span class="nf">Send</span><span class="p">()</span>
+
+		<span class="c1">// See if any of the acceptors match the request&#39;s response, or error
+</span><span class="c1"></span>		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">a</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">w</span><span class="p">.</span><span class="nx">Acceptors</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="nx">matched</span><span class="p">,</span> <span class="nx">matchErr</span> <span class="o">:=</span> <span class="nx">a</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="nx">w</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">w</span><span class="p">.</span><span class="nx">Logger</span><span class="p">,</span> <span class="nx">req</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span> <span class="nx">matched</span> <span class="p">{</span>
+				<span class="k">return</span> <span class="nx">matchErr</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="c1">// The Waiter should only check the resource state MaxAttempts times
+</span><span class="c1"></span>		<span class="c1">// This is here instead of in the for loop above to prevent delaying
+</span><span class="c1"></span>		<span class="c1">// unnecessary when the waiter will not retry.
+</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">attempt</span> <span class="o">==</span> <span class="nx">w</span><span class="p">.</span><span class="nx">MaxAttempts</span> <span class="p">{</span>
+			<span class="k">break</span>
+		<span class="p">}</span>
+
+		<span class="c1">// Delay to wait before inspecting the resource again
+</span><span class="c1"></span>		<span class="nx">delay</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nf">Delay</span><span class="p">(</span><span class="nx">attempt</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">sleepFn</span> <span class="o">:=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">Config</span><span class="p">.</span><span class="nx">SleepDelay</span><span class="p">;</span> <span class="nx">sleepFn</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="c1">// Support SleepDelay for backwards compatibility and testing
+</span><span class="c1"></span>			<span class="nf">sleepFn</span><span class="p">(</span><span class="nx">delay</span><span class="p">)</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="nx">sleepCtxFn</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nx">SleepWithContext</span>
+			<span class="k">if</span> <span class="nx">sleepCtxFn</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+				<span class="nx">sleepCtxFn</span> <span class="p">=</span> <span class="nx">aws</span><span class="p">.</span><span class="nx">SleepWithContext</span>
+			<span class="p">}</span>
+
+			<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">sleepCtxFn</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">delay</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+				<span class="k">return</span> <span class="nx">awserr</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">CanceledErrorCode</span><span class="p">,</span> <span class="s">&#34;waiter context canceled&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="nx">awserr</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">WaiterResourceNotReadyErrorCode</span><span class="p">,</span> <span class="s">&#34;exceeded wait attempts&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>코드를 보면 attempt에 따라 Delay를 걸고 재 요청하는 것으로 확인했다.</p>
+<p>굳이 위의 retry pattern으로 따지자면 Incremental interval 쪽으로 속하려나..</p>
+<p>물론 위에서 다뤘던 retry하는 것과는 다르다.</p>
+<p><a href="https://github.com/aws/aws-sdk-go/blob/main/aws/request/waiter.go#L195">https://github.com/aws/aws-sdk-go/blob/main/aws/request/waiter.go#L195</a></p>
 <hr>
 <p><strong>참고</strong></p>
 <ul>
