@@ -31,7 +31,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/retry-patterns\/"
-        },"genre": "posts","keywords": "architecture","wordcount":  57 ,
+        },"genre": "posts","keywords": "architecture","wordcount":  141 ,
         "url": "http:\/\/example.org\/retry-patterns\/","datePublished": "2023-01-08T00:00:00+00:00","dateModified": "2023-01-08T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -110,16 +110,21 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Retry patterns</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/architecture/"><i class="far fa-folder fa-fw"></i>architecture</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-08">2023-01-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;57 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-08">2023-01-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;141 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;One minute&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
                 </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#retry-patterns">Retry patterns</a></li>
+  </ul>
+</nav></div>
             </div><div class="content" id="content"><p>어플리케이션이 어떤 작업을 시도할 때 실패하게 되면 오류가 일시적인 부분이 많아 다시 요청을 하는 것이 좋다고 생각한다.</p>
 <p>그에 따라 retry patterns라고 불리는 것들이 있었고 이를 정리해보려고 한다.</p>
+<h2 id="retry-patterns">Retry patterns</h2>
 <p><figure><a class="lightgallery" href="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F8909aa28-5822-4347-862b-000bd334d8b6_2403x1140.jpeg" title="retry patterns" data-thumbnail="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F8909aa28-5822-4347-862b-000bd334d8b6_2403x1140.jpeg" data-sub-html="<h2>retry patterns</h2><p>retry patterns</p>">
         <img
             class="lazyload"
@@ -131,10 +136,32 @@
     </a><figcaption class="image-caption">retry patterns</figcaption>
     </figure>
 출처 - <a href="https://blog.bytebytego.com/p/retry-patterns-episode-9">https://blog.bytebytego.com/p/retry-patterns-episode-9</a></p>
+<p>서버의 어떤 문제 때문에 요청이 실패 하고 재요청을 하게 되었을 때 많은 Client들이 있다면 시스템에 과부하가 걸릴 수 있다.</p>
+<p>이로 인해 재시도의 시간을 제어하거나등의 작업으로 서비스 과부하를 방지 한다.</p>
 <ul>
 <li>
 <p>Cancel</p>
 <p>요청 취소</p>
+</li>
+<li>
+<p>Immediate retry</p>
+<p>Client쪽에서 즉시 재시도</p>
+</li>
+<li>
+<p>Fixed intervals</p>
+<p>실패 후 일정 시간 후에 재시도</p>
+</li>
+<li>
+<p>Incremental intervals</p>
+<p>실패 후 일정 시간 후에 재시도 하고 또 실패발생시 점점 대기시간을 늘림</p>
+</li>
+<li>
+<p>Exponential backoff</p>
+<p>실패 후 재시도 사이 대기 시간을 2배씩 늘림 1초, 2초, 4초&hellip; 이런식으로</p>
+</li>
+<li>
+<p>Exponential backoff with jitter</p>
+<p>재시도 할 때 어떠한 randomness을 줘서 재시도 함</p>
 </li>
 </ul>
 <p>AWS Go SDK를 사용하다가 보니 각 서비스별 <a href="https://github.com/aws/aws-sdk-go/blob/main/service/codedeploy/waiters.go" target="_blank" rel="noopener noreffer">waiters</a>가 있어 내부는 어떻게 동작하나 궁금해서 확인해본적이 있다.</p>
