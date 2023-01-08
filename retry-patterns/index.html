@@ -423,7 +423,7 @@
 </div><p>코드를 보면 aws sdk 내부에서 사용하는 waiter 형식 그대로 사용하는 걸 볼 수 있고 다른점은 jenkins쪽 job을 대기하기 위해서 NewRequest쪽에 jenkins job쪽에 request 하는 함수를 호출한다.</p>
 <p>Acceptors은 api request를 하고 response받는 쪽에서 원하는 결과 값을 넣어주면 된다. 이는 <code>jmespath</code> 라는 JSON을 위한 Query 언어를 사용한다.</p>
 <p>좀 더 복잡하게 이를 적용한적이 있는데 Acceptors의 Argument로 쿼리를 작성하여 원하는 상태가 되었을 때 wait를 멈추게 한다.</p>
-<p>예시로 <code>&quot;contains(AutoScalingGroups[].[length(Instances[?LifecycleState=='Pending:Wait']) &gt;= MinSize][], </code>false<code>)&quot;</code></p>
+<p>예시로 <code>contains(AutoScalingGroups[].[length(Instances[?LifecycleState=='Pending:Wait']) &gt;= MinSize][], 'false')</code></p>
 <p>이런식으로 작성하면 json response에서 원하는 상태에 waiter를 멈출 수 있다.</p>
 <hr>
 <p><strong>참고</strong></p>

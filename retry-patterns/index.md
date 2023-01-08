@@ -204,7 +204,7 @@ Acceptors은 api request를 하고 response받는 쪽에서 원하는 결과 값
 
 좀 더 복잡하게 이를 적용한적이 있는데 Acceptors의 Argument로 쿼리를 작성하여 원하는 상태가 되었을 때 wait를 멈추게 한다.
 
-예시로 `"contains(AutoScalingGroups[].[length(Instances[?LifecycleState=='Pending:Wait']) >= MinSize][], `false`)"` 
+예시로 `contains(AutoScalingGroups[].[length(Instances[?LifecycleState=='Pending:Wait']) >= MinSize][], 'false')`
 
 이런식으로 작성하면 json response에서 원하는 상태에 waiter를 멈출 수 있다.
 
