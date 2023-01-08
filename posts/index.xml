@@ -4,7 +4,15 @@
         <link>http://example.org/posts/</link>
         <description>All Posts | </description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Sat, 07 Jan 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Sun, 08 Jan 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Retry patterns</title>
+    <link>http://example.org/retry-patterns/</link>
+    <pubDate>Sun, 08 Jan 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/retry-patterns/</guid>
+    <description><![CDATA[<p>어플리케이션이 어떤 작업을 시도할 때 실패하게 되면 오류가 일시적인 부분이 많아 다시 요청을 하는 것이 좋다고 생각한다.</p>
+<p>그에 따라 retry patterns라고 불리는 것들이 있었고 이를 정리해보려고 한다.</p>]]></description>
+</item><item>
     <title>ASG Lifecycle Hook</title>
     <link>http://example.org/asg-lifecycle-hook/</link>
     <pubDate>Sat, 07 Jan 2023 00:00:00 &#43;0000</pubDate>
@@ -78,12 +86,5 @@
     <author>Author</author>
     <guid>http://example.org/https/</guid>
     <description><![CDATA[<p>HTTP(Hypertext Transfer Protocal)는 Hypertext인 HTML을 전송하기 위한 통신 규약을 의미한다. HTTPS는 보안이 강화된 HTTP라는 것은 누구나 알고 있을 것이다.</p>]]></description>
-</item><item>
-    <title>Goroutines vs Threads</title>
-    <link>http://example.org/goroutinesvsthreads/</link>
-    <pubDate>Fri, 26 Feb 2021 23:49:00 &#43;0900</pubDate>
-    <author>Author</author>
-    <guid>http://example.org/goroutinesvsthreads/</guid>
-    <description><![CDATA[<p>go routine과 thread를 비교해보자</p>]]></description>
 </item></channel>
 </rss>
