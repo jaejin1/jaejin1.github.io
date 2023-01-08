@@ -95,6 +95,28 @@ AWS Lambda를 생성 후 IAM 권한에 `ASG CompleteLifecycleAction` 정책을 �
 
 EventBridge에서 받은 event에 대해서 정보를 확인 하고 Eureka에 service out request를 호출 및 Slack 알림등의 작업을 한 후 
 
+```json event 예시
+{
+  "version": "0",
+  "id": "468fe059-f4b7-445f-bb22-2a271b94974d",
+  "detail-type": "EC2 Instance-terminate Lifecycle Action",
+  "source": "aws.autoscaling",
+  "account": "123456789012",
+  "time": "2015-12-22T18:43:48Z",
+  "region": "us-east-1",
+  "resources": [
+    "arn:aws:autoscaling:us-east-1:123456789012:autoScalingGroup:59fcbb81-bd02-485d-80ce-563ef5b237bf:autoScalingGroupName/sampleASG"
+  ],
+  "detail": {
+    "LifecycleActionToken": "630aa23f-48eb-45e7-aba6-799ea6093a0f",
+    "AutoScalingGroupName": "sampleASG",
+    "LifecycleHookName": "SampleLifecycleHook-6789",
+    "EC2InstanceId": "i-004365c01913204a0",
+    "LifecycleTransition": "autoscaling:EC2_INSTANCE_TERMINATING"
+  }
+}
+```
+
 ASG로 complete lifecycle action을 날려준다.
 
 ```python
