@@ -95,7 +95,7 @@ AWS Lambda를 생성 후 IAM 권한에 `ASG CompleteLifecycleAction` 정책을 �
 
 EventBridge에서 받은 event에 대해서 정보를 확인 하고 Eureka에 service out request를 호출 및 Slack 알림등의 작업을 한 후 
 
-```json event 예시
+```json
 {
   "version": "0",
   "id": "468fe059-f4b7-445f-bb22-2a271b94974d",
