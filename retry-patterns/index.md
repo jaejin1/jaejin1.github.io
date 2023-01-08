@@ -126,7 +126,7 @@ https://github.com/aws/aws-sdk-go/blob/main/aws/request/waiter.go#L195
 
 ### Waiter custom
 
-처음에는 단순히 시도 요청을 늘리기 위해서 custom을 하고자 했는데 aws쪽 service를 기다리는게 아니라 jenkins job 같은 것도 waiting 할 수 있게 사용할 수 있을 것 가탇는 생각을 했다.
+처음에는 단순히 시도 요청을 늘리기 위해서 custom을 하고자 했는데 aws쪽 service를 기다리는게 아니라 jenkins job 같은 것도 waiting 할 수 있게 사용할 수 있을 것 같다는 생각을 했다.
 
 
 기존 WaitWithContext를 많이 수정한 것은 아니고 NewRequest쪽을 원하는 요청을 받을 수 있도록만 수정 했다.
@@ -202,13 +202,11 @@ func (j *Jenkins) WaitUntilJenkinsJobSuccessfulWithContext(ctx context.Context, 
 
 Acceptors은 api request를 하고 response받는 쪽에서 원하는 결과 값을 넣어주면 된다. 이는 `jmespath` 라는 JSON을 위한 Query 언어를 사용한다.
 
-AWS ASG쪽에도 이를 적용한적이 있는데 Acceptors의 Argument로 쿼리를 작성하여 원하는 상태가 되었을 때 wait를 멈춘작업을 한 적도 있다.
+좀 더 복잡하게 이를 적용한적이 있는데 Acceptors의 Argument로 쿼리를 작성하여 원하는 상태가 되었을 때 wait를 멈추게 한다.
 
 예시로 `"contains(AutoScalingGroups[].[length(Instances[?LifecycleState=='Pending:Wait']) >= MinSize][], `false`)"` 
 
-이런식으로 작성하면 json response에서 원하는 상태를 추출할 수 있다.
-
-
+이런식으로 작성하면 json response에서 원하는 상태에 waiter를 멈출 수 있다.
 
 ---
 
