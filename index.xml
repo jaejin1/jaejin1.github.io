@@ -4,9 +4,16 @@
         <link>http://example.org/</link>
         <description>This is jaejin&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Sun, 08 Jan 2023 00:00:00 &#43;0000</lastBuildDate>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Sat, 14 Jan 2023 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>JWT signing using AWS KMS</title>
+    <link>http://example.org/jwt-signing-using-aws-kms/</link>
+    <pubDate>Sat, 14 Jan 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/jwt-signing-using-aws-kms/</guid>
+    <description><![CDATA[<p>JWT 인증을 AWS KMS에서 key를 생성하여 이를 이용하여 token을 발급 받고 인증하는 것을 구현해보자</p>]]></description>
+</item><item>
     <title>Retry patterns과 aws sdk waiters</title>
     <link>http://example.org/retry-patterns/</link>
     <pubDate>Sun, 08 Jan 2023 00:00:00 &#43;0000</pubDate>
@@ -81,12 +88,5 @@
         
     </a><figcaption class="image-caption">application layer</figcaption>
     </figure></p>]]></description>
-</item><item>
-    <title>Https</title>
-    <link>http://example.org/https/</link>
-    <pubDate>Sat, 27 Feb 2021 12:49:00 &#43;0900</pubDate>
-    <author>Author</author>
-    <guid>http://example.org/https/</guid>
-    <description><![CDATA[<p>HTTP(Hypertext Transfer Protocal)는 Hypertext인 HTML을 전송하기 위한 통신 규약을 의미한다. HTTPS는 보안이 강화된 HTTP라는 것은 누구나 알고 있을 것이다.</p>]]></description>
 </item></channel>
 </rss>
