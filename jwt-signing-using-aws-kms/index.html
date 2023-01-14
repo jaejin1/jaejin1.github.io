@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/jwt-signing-using-aws-kms\/"
-        },"genre": "posts","keywords": "aws, go, jwt","wordcount":  1091 ,
+        },"genre": "posts","keywords": "aws, go, jwt","wordcount":  1417 ,
         "url": "http:\/\/example.org\/jwt-signing-using-aws-kms\/","datePublished": "2023-01-14T00:00:00+00:00","dateModified": "2023-01-14T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -108,8 +108,8 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">JWT signing using AWS KMS</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>aws</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-14">2023-01-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1091 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;6 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-14">2023-01-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1417 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;7 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -122,6 +122,7 @@
       <ul>
         <li><a href="#kms-sign">KMS sign</a></li>
         <li><a href="#kms-verify">KMS verify</a></li>
+        <li><a href="#main">main</a></li>
       </ul>
     </li>
   </ul>
@@ -217,7 +218,7 @@
         <span class="nx">ExpiresAt</span><span class="p">:</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewNumericDate</span><span class="p">(</span><span class="nx">now</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Hour</span> <span class="o">*</span> <span class="mi">24</span><span class="p">)),</span>
         <span class="nx">IssuedAt</span><span class="p">:</span>  <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewNumericDate</span><span class="p">(</span><span class="nx">now</span><span class="p">),</span>
         <span class="nx">NotBefore</span><span class="p">:</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewNumericDate</span><span class="p">(</span><span class="nx">now</span><span class="p">),</span>
-        <span class="nx">ID</span><span class="p">:</span>        <span class="nf">generateRandomString</span><span class="p">(</span><span class="mi">40</span><span class="p">),</span>
+        <span class="nx">ID</span><span class="p">:</span>        <span class="s">&#34;id&#34;</span><span class="p">,</span>
         <span class="nx">Issuer</span><span class="p">:</span>    <span class="s">&#34;jaejin&#34;</span><span class="p">,</span>
         <span class="nx">Subject</span><span class="p">:</span>   <span class="s">&#34;1&#34;</span><span class="p">,</span>
     <span class="p">})</span>
@@ -318,7 +319,7 @@
 
 	<span class="c1">// Decode the signature
 </span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">sig</span> <span class="p">[]</span><span class="kt">byte</span>
-	<span class="k">if</span> <span class="nx">sig</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nf">DecodeSegment</span><span class="p">(</span><span class="nx">signature</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="nx">sig</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">RawURLEncoding</span><span class="p">.</span><span class="nf">DecodeString</span><span class="p">(</span><span class="nx">signature</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
 		<span class="k">return</span> <span class="nx">err</span>
 	<span class="p">}</span>
 
@@ -361,7 +362,7 @@
 
 	<span class="c1">// Sign the string and return the encoded bytes
 </span><span class="c1"></span>	<span class="k">if</span> <span class="nx">sigBytes</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">rsa</span><span class="p">.</span><span class="nf">SignPKCS1v15</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span> <span class="nx">rsaKey</span><span class="p">,</span> <span class="nx">m</span><span class="p">.</span><span class="nx">Hash</span><span class="p">,</span> <span class="nx">hasher</span><span class="p">.</span><span class="nf">Sum</span><span class="p">(</span><span class="kc">nil</span><span class="p">));</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nf">EncodeSegment</span><span class="p">(</span><span class="nx">sigBytes</span><span class="p">),</span> <span class="kc">nil</span>
+		<span class="k">return</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">RawURLEncoding</span><span class="p">.</span><span class="nf">EncodeToString</span><span class="p">(</span><span class="nx">sigBytes</span><span class="p">),</span> <span class="kc">nil</span>
 	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 		<span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">err</span>
 	<span class="p">}</span>
@@ -410,6 +411,18 @@
 </span><span class="lnt">36
 </span><span class="lnt">37
 </span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">KMSConfig</span> <span class="kd">struct</span> <span class="p">{</span>
@@ -418,9 +431,21 @@
 	<span class="nx">keyID</span>  <span class="kt">string</span>
 <span class="p">}</span>
 
+<span class="kd">func</span> <span class="nf">NewKMSConfig</span><span class="p">(</span><span class="nx">client</span> <span class="o">*</span><span class="nx">kms</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span> <span class="nx">keyID</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">KMSConfig</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">KMSConfig</span><span class="p">{</span>
+		<span class="nx">ctx</span><span class="p">:</span>    <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">(),</span>
+		<span class="nx">Client</span><span class="p">:</span> <span class="nx">client</span><span class="p">,</span>
+		<span class="nx">keyID</span><span class="p">:</span>  <span class="nx">keyID</span><span class="p">,</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
 <span class="kd">type</span> <span class="nx">RSASigningMethod</span> <span class="kd">struct</span> <span class="p">{</span>
 	<span class="nx">Name</span> <span class="kt">string</span>
 	<span class="nx">Hash</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">Hash</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">m</span> <span class="o">*</span><span class="nx">RSASigningMethod</span><span class="p">)</span> <span class="nf">Alg</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">m</span><span class="p">.</span><span class="nx">name</span>
 <span class="p">}</span>
 
 <span class="kd">func</span> <span class="p">(</span><span class="nx">m</span> <span class="o">*</span><span class="nx">RSASigningMethod</span><span class="p">)</span> <span class="nf">Sign</span><span class="p">(</span><span class="nx">signingString</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">key</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
@@ -453,6 +478,17 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>먼저 Sign 부분을 수정해보았다. 위의 jwt package와 다른 점은 sign 하는 부분을 crypto/rsa 쪽이 아니라 KMS를 호출하여 Sign을 진행한다.</p>
+<p>signing 알고리즘은 KMS에서 제공해주는 알고리즘 중에 하나를 택한다. (RSASSA_PKCS1_V1_5_SHA_256)</p>
+<p><figure><a class="lightgallery" href="/jwt-signing-using-aws-kms/signing.png" title="signing algorithms" data-thumbnail="/jwt-signing-using-aws-kms/signing.png" data-sub-html="<h2>signing algorithms</h2><p>signing algorithms</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="signing.png"
+            data-srcset="/jwt-signing-using-aws-kms/signing.png, signing.png 1.5x, /jwt-signing-using-aws-kms/signing.png 2x"
+            data-sizes="auto"
+            alt="/jwt-signing-using-aws-kms/signing.png" />
+    </a><figcaption class="image-caption">signing algorithms</figcaption>
+    </figure></p>
 <h3 id="kms-verify">KMS verify</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -572,7 +608,7 @@
 		<span class="k">return</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">ErrInvalidKeyType</span>
 	<span class="p">}</span>
 
-	<span class="nx">sig</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">decodeSegment</span><span class="p">(</span><span class="nx">signature</span><span class="p">)</span>
+	<span class="nx">sig</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">RawURLEncoding</span><span class="p">.</span><span class="nf">DecodeString</span><span class="p">(</span><span class="nx">signature</span><span class="p">)</span>
 	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
 		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;decoding signature: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
 	<span class="p">}</span>
@@ -621,8 +657,162 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>verify 부분은 public key가 사용되고 KMS에서 생성된 key의 public key를 가져와 이용한다.</p>
-<p>이미 구현되어 있는 <a href="https://github.com/matelang/jwt-go-aws-kms">https://github.com/matelang/jwt-go-aws-kms</a>를 살펴보니 public key를 메모리에 cache하고 있는 것을 볼 수 있었고 그대로 가져와 사용했다.</p>
-<p>verify할 때마다 public key를 요청하여 사용하는 것도 성능상 문제가 있으므로</p>
+<p>verify할 때마다 public key를 요청하여 사용하는 것도 성능상 문제가 있으므로 이미 구현되어 있는 <a href="https://github.com/matelang/jwt-go-aws-kms">https://github.com/matelang/jwt-go-aws-kms</a>를 살펴보니 public key를 메모리에 cache하고 있는 것을 볼 수 있었고 그대로 가져와 사용했다.</p>
+<h3 id="main">main</h3>
+<p>이제 구현은 되었으니 사용해볼 main function을 만들자.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="p">(</span>
+	<span class="nx">SigningMethodRS256</span> <span class="o">*</span><span class="nx">RSASigningMethod</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">SigningMethodRS256</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">RSASigningMethod</span><span class="p">{</span>
+		<span class="nx">name</span><span class="p">:</span> <span class="s">&#34;RS256&#34;</span><span class="p">,</span>
+		<span class="nx">hash</span><span class="p">:</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">SHA256</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="nx">jwt</span><span class="p">.</span><span class="nf">RegisterSigningMethod</span><span class="p">(</span><span class="nx">SigningMethodRS256</span><span class="p">.</span><span class="nf">Alg</span><span class="p">(),</span> <span class="kd">func</span><span class="p">()</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">SigningMethod</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">SigningMethodRS256</span>
+	<span class="p">})</span>
+
+    
+    <span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">TODO</span><span class="p">()</span>
+	<span class="nx">cfg</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">config</span><span class="p">.</span><span class="nf">LoadDefaultConfig</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span>
+		<span class="nx">config</span><span class="p">.</span><span class="nf">WithRegion</span><span class="p">(</span><span class="s">&#34;ap-northeast-2&#34;</span><span class="p">),</span>
+	<span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+    <span class="c1">// sts assume role
+</span><span class="c1"></span>	<span class="nx">stsclient</span> <span class="o">:=</span> <span class="nx">sts</span><span class="p">.</span><span class="nf">NewFromConfig</span><span class="p">(</span><span class="nx">cfg</span><span class="p">)</span>
+	<span class="nx">awsCfg</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">config</span><span class="p">.</span><span class="nf">LoadDefaultConfig</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">(),</span>
+		<span class="nx">config</span><span class="p">.</span><span class="nf">WithRegion</span><span class="p">(</span><span class="s">&#34;ap-northeast-2&#34;</span><span class="p">),</span>
+		<span class="nx">config</span><span class="p">.</span><span class="nf">WithCredentialsProvider</span><span class="p">(</span><span class="nx">aws</span><span class="p">.</span><span class="nf">NewCredentialsCache</span><span class="p">(</span>
+			<span class="nx">stscreds</span><span class="p">.</span><span class="nf">NewAssumeRoleProvider</span><span class="p">(</span>
+				<span class="nx">stsclient</span><span class="p">,</span>
+				<span class="s">&#34;{role arn}&#34;</span><span class="p">,</span>
+			<span class="p">)),</span>
+		<span class="p">))</span>
+
+	<span class="nx">now</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()</span>
+	<span class="nx">jwtToken</span> <span class="o">:=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewWithClaims</span><span class="p">(</span><span class="nx">SigningMethodRS256</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">jwt</span><span class="p">.</span><span class="nx">RegisteredClaims</span><span class="p">{</span>
+		<span class="nx">ExpiresAt</span><span class="p">:</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewNumericDate</span><span class="p">(</span><span class="nx">now</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Hour</span> <span class="o">*</span> <span class="mi">24</span><span class="p">)),</span>
+		<span class="nx">IssuedAt</span><span class="p">:</span>  <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewNumericDate</span><span class="p">(</span><span class="nx">now</span><span class="p">),</span>
+		<span class="nx">NotBefore</span><span class="p">:</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewNumericDate</span><span class="p">(</span><span class="nx">now</span><span class="p">),</span>
+		<span class="nx">ID</span><span class="p">:</span>        <span class="nf">generateRandomString</span><span class="p">(</span><span class="mi">40</span><span class="p">),</span>
+		<span class="nx">Issuer</span><span class="p">:</span>    <span class="s">&#34;jaejin@dreamus.io&#34;</span><span class="p">,</span>
+		<span class="nx">Subject</span><span class="p">:</span>   <span class="s">&#34;1&#34;</span><span class="p">,</span>
+	<span class="p">})</span>
+
+    <span class="nx">kmsClient</span> <span class="o">:=</span> <span class="nx">kms</span><span class="p">.</span><span class="nf">NewFromConfig</span><span class="p">(</span><span class="nx">awsCfg</span><span class="p">)</span>
+
+	<span class="nx">kmsConfig</span> <span class="o">:=</span> <span class="nf">NewKMSConfig</span><span class="p">(</span><span class="nx">kmsClient</span><span class="p">,</span> <span class="nx">keyID</span><span class="p">)</span>
+
+	<span class="nx">str</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">jwtToken</span><span class="p">.</span><span class="nf">SignedString</span><span class="p">(</span><span class="nx">kmsConfig</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;can not sign jwt %s&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="nx">str</span><span class="p">)</span>
+
+    <span class="nx">claims</span> <span class="o">:=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">RegisteredClaims</span><span class="p">{}</span>
+
+	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">ParseWithClaims</span><span class="p">(</span><span class="nx">str</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">claims</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">token</span> <span class="o">*</span><span class="nx">jwt</span><span class="p">.</span><span class="nx">Token</span><span class="p">)</span> <span class="p">(</span><span class="kd">interface</span><span class="p">{},</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">kmsConfig</span><span class="p">,</span> <span class="kc">nil</span>
+	<span class="p">})</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%v&#34;</span><span class="p">,</span> <span class="nx">claims</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>AWS 인증을 STS Assume role을 이용해서 한번 더 임시 token을 발급해서 사용하기 위해 sts client와 role arn을 추가 적으로 설정하는 부분이 있었고</p>
+<p>verify하는 부분에 <code>jwt.ParseWithClaims</code> 내부에서 등록된 jwt signing method를 처리하는 로직이 존재하여서 초반부분에 새로 구성한 RSASigningMethod을 등록한 부분까지 확인 할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">jwt</span><span class="p">.</span><span class="nf">RegisterSigningMethod</span><span class="p">(</span><span class="nx">SigningMethodRS256</span><span class="p">.</span><span class="nf">Alg</span><span class="p">(),</span> <span class="kd">func</span><span class="p">()</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">SigningMethod</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">SigningMethodRS256</span>
+	<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>이제 KMS를 이용해 JWT token을 발급받고 verify 하는 구성이 완료 되었다.</p>
 <hr>
 <p><strong>참고</strong></p>
 <ul>

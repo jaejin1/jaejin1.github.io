@@ -51,7 +51,7 @@ func main() {
         ExpiresAt: jwt.NewNumericDate(now.Add(1 * time.Hour * 24)),
         IssuedAt:  jwt.NewNumericDate(now),
         NotBefore: jwt.NewNumericDate(now),
-        ID:        generateRandomString(40),
+        ID:        "id",
         Issuer:    "jaejin",
         Subject:   "1",
     })
@@ -86,7 +86,7 @@ func (m *SigningMethodRSA) Verify(signingString, signature string, key interface
 
 	// Decode the signature
 	var sig []byte
-	if sig, err = DecodeSegment(signature); err != nil {
+	if sig, err = base64.RawURLEncoding.DecodeString(signature); err != nil {
 		return err
 	}
 
@@ -129,7 +129,7 @@ func (m *SigningMethodRSA) Sign(signingString string, key interface{}) (string, 
 
 	// Sign the string and return the encoded bytes
 	if sigBytes, err := rsa.SignPKCS1v15(rand.Reader, rsaKey, m.Hash, hasher.Sum(nil)); err == nil {
-		return EncodeSegment(sigBytes), nil
+		return base64.RawURLEncoding.EncodeToString(sigBytes), nil
 	} else {
 		return "", err
 	}
@@ -147,9 +147,21 @@ type KMSConfig struct {
 	keyID  string
 }
 
+func NewKMSConfig(client *kms.Client, keyID string) *KMSConfig {
+	return &KMSConfig{
+		ctx:    context.Background(),
+		Client: client,
+		keyID:  keyID,
+	}
+}
+
 type RSASigningMethod struct {
 	Name string
 	Hash crypto.Hash
+}
+
+func (m *RSASigningMethod) Alg() string {
+	return m.name
 }
 
 func (m *RSASigningMethod) Sign(signingString string, key interface{}) (string, error) {
@@ -182,6 +194,11 @@ func (m *RSASigningMethod) Sign(signingString string, key interface{}) (string, 
 ```
 
 먼저 Sign 부분을 수정해보았다. 위의 jwt package와 다른 점은 sign 하는 부분을 crypto/rsa 쪽이 아니라 KMS를 호출하여 Sign을 진행한다.
+
+signing 알고리즘은 KMS에서 제공해주는 알고리즘 중에 하나를 택한다. (RSASSA_PKCS1_V1_5_SHA_256)
+
+![signing algorithms](signing.png "signing algorithms")
+
 
 ### KMS verify
 
@@ -220,7 +237,7 @@ func (m *RSASigningMethod) Verify(signingString, signature string, keyConfig int
 		return jwt.ErrInvalidKeyType
 	}
 
-	sig, err := decodeSegment(signature)
+	sig, err := base64.RawURLEncoding.DecodeString(signature)
 	if err != nil {
 		return fmt.Errorf("decoding signature: %w", err)
 	}
@@ -270,14 +287,94 @@ func verifyRSA(kmsConfig *KMSConfig, hash crypto.Hash, hashedSigningString []byt
 
 verify 부분은 public key가 사용되고 KMS에서 생성된 key의 public key를 가져와 이용한다.
 
-이미 구현되어 있는 https://github.com/matelang/jwt-go-aws-kms를 살펴보니 public key를 메모리에 cache하고 있는 것을 볼 수 있었고 그대로 가져와 사용했다. 
+verify할 때마다 public key를 요청하여 사용하는 것도 성능상 문제가 있으므로 이미 구현되어 있는 https://github.com/matelang/jwt-go-aws-kms를 살펴보니 public key를 메모리에 cache하고 있는 것을 볼 수 있었고 그대로 가져와 사용했다. 
 
-verify할 때마다 public key를 요청하여 사용하는 것도 성능상 문제가 있으므로
+### main
 
+이제 구현은 되었으니 사용해볼 main function을 만들자.
 
+```go
+var (
+	SigningMethodRS256 *RSASigningMethod
+)
+
+func main() {
+    SigningMethodRS256 = &RSASigningMethod{
+		name: "RS256",
+		hash: crypto.SHA256,
+	}
+
+	jwt.RegisterSigningMethod(SigningMethodRS256.Alg(), func() jwt.SigningMethod {
+		return SigningMethodRS256
+	})
+
+    
+    ctx := context.TODO()
+	cfg, err := config.LoadDefaultConfig(ctx,
+		config.WithRegion("ap-northeast-2"),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+    // sts assume role
+	stsclient := sts.NewFromConfig(cfg)
+	awsCfg, err := config.LoadDefaultConfig(context.Background(),
+		config.WithRegion("ap-northeast-2"),
+		config.WithCredentialsProvider(aws.NewCredentialsCache(
+			stscreds.NewAssumeRoleProvider(
+				stsclient,
+				"{role arn}",
+			)),
+		))
+
+	now := time.Now()
+	jwtToken := jwt.NewWithClaims(SigningMethodRS256, &jwt.RegisteredClaims{
+		ExpiresAt: jwt.NewNumericDate(now.Add(1 * time.Hour * 24)),
+		IssuedAt:  jwt.NewNumericDate(now),
+		NotBefore: jwt.NewNumericDate(now),
+		ID:        generateRandomString(40),
+		Issuer:    "jaejin@dreamus.io",
+		Subject:   "1",
+	})
+
+    kmsClient := kms.NewFromConfig(awsCfg)
+
+	kmsConfig := NewKMSConfig(kmsClient, keyID)
+
+	str, err := jwtToken.SignedString(kmsConfig)
+	if err != nil {
+		log.Fatalf("can not sign jwt %s", err)
+	}
+
+	log.Printf("%s\n", str)
+
+    claims := jwt.RegisteredClaims{}
+
+	_, err = jwt.ParseWithClaims(str, &claims, func(token *jwt.Token) (interface{}, error) {
+		return kmsConfig, nil
+	})
+	if err != nil {
+		log.Fatalf("%s", err)
+	}
+
+	log.Printf("%v", claims)
+}
+```
+
+AWS 인증을 STS Assume role을 이용해서 한번 더 임시 token을 발급해서 사용하기 위해 sts client와 role arn을 추가 적으로 설정하는 부분이 있었고
+
+verify하는 부분에 `jwt.ParseWithClaims` 내부에서 등록된 jwt signing method를 처리하는 로직이 존재하여서 초반부분에 새로 구성한 RSASigningMethod을 등록한 부분까지 확인 할 수 있다.
+
+```go
+jwt.RegisterSigningMethod(SigningMethodRS256.Alg(), func() jwt.SigningMethod {
+		return SigningMethodRS256
+	})
+```
+
+이제 KMS를 이용해 JWT token을 발급받고 verify 하는 구성이 완료 되었다.
 
 ---
-
 
 **참고**
 
