@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/jwt-signing-using-aws-kms\/"
-        },"genre": "posts","keywords": "aws, go, jwt","wordcount":  16 ,
+        },"genre": "posts","keywords": "aws, go, jwt","wordcount":  126 ,
         "url": "http:\/\/example.org\/jwt-signing-using-aws-kms\/","datePublished": "2023-01-14T00:00:00+00:00","dateModified": "2023-01-14T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -108,15 +108,47 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">JWT signing using AWS KMS</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>aws</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-14">2023-01-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;16 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-14">2023-01-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;126 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;One minute&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
                 </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#kms-key-생성">KMS Key 생성</a></li>
+  </ul>
+</nav></div>
             </div><div class="content" id="content"><p>JWT 인증을 AWS KMS에서 key를 생성하여 이를 이용하여 token을 발급 받고 인증하는 것을 구현해보자</p>
+<p>기존엔 private key와 public key를 서버에다 생성하고 파일을 읽어서 token을 생성하고 인증을 했었다.</p>
+<p>최근에 lambda로 api서버를 구성하면서 그런 구조는 이용할 수 없어 KMS를 이용해서 인증 처리를 진행해보고자 했었다.</p>
+<h2 id="kms-key-생성">KMS Key 생성</h2>
+<p><figure><a class="lightgallery" href="/jwt-signing-using-aws-kms/kms.png" title="kms 생성" data-thumbnail="/jwt-signing-using-aws-kms/kms.png" data-sub-html="<h2>kms 생성</h2><p>kms 생성</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="kms.png"
+            data-srcset="/jwt-signing-using-aws-kms/kms.png, kms.png 1.5x, /jwt-signing-using-aws-kms/kms.png 2x"
+            data-sizes="auto"
+            alt="/jwt-signing-using-aws-kms/kms.png" />
+    </a><figcaption class="image-caption">kms 생성</figcaption>
+    </figure></p>
+<p>비대칭키, sign and verify를 선택하고 key는 RSA 2048을 선택하여 생성 한다.</p>
+<p><figure><a class="lightgallery" href="/jwt-signing-using-aws-kms/kms-permissions.png" title="kms permissions" data-thumbnail="/jwt-signing-using-aws-kms/kms-permissions.png" data-sub-html="<h2>kms permissions</h2><p>kms permissions</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="kms-permissions.png"
+            data-srcset="/jwt-signing-using-aws-kms/kms-permissions.png, kms-permissions.png 1.5x, /jwt-signing-using-aws-kms/kms-permissions.png 2x"
+            data-sizes="auto"
+            alt="/jwt-signing-using-aws-kms/kms-permissions.png" />
+    </a><figcaption class="image-caption">kms permissions</figcaption>
+    </figure></p>
+<p>해당 key를 사용하는 AWS IAM user나 role을 설정 한다.</p>
+<p>보통은 user에서 발급받은 key를 사용하지 않고 assume role이나 instance profile을 사용할 것이기 때문에 Role만 설정 하는 것이 좋다고 생각한다.</p>
+<p>입력값은 이정도로 넣고 생성하게되면, Public key를 web console에서 확인할 수 있고 파일로 다운로드 받을 수 있지만 이를 API 콜로 받아오는 걸 짜보려고 한다.</p>
+<p>생성했으니 KMS Key ID를 기억해두자.</p>
 <hr>
 <p><strong>참고</strong></p>
 <ul>
