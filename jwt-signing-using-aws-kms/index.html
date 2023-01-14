@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/jwt-signing-using-aws-kms\/"
-        },"genre": "posts","keywords": "aws, go, jwt","wordcount":  126 ,
+        },"genre": "posts","keywords": "aws, go, jwt","wordcount":  1091 ,
         "url": "http:\/\/example.org\/jwt-signing-using-aws-kms\/","datePublished": "2023-01-14T00:00:00+00:00","dateModified": "2023-01-14T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -108,8 +108,8 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">JWT signing using AWS KMS</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>aws</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-14">2023-01-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;126 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;One minute&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-14">2023-01-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1091 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;6 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -118,11 +118,17 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#kms-key-생성">KMS Key 생성</a></li>
+    <li><a href="#jwt-in-go">JWT in go</a>
+      <ul>
+        <li><a href="#kms-sign">KMS sign</a></li>
+        <li><a href="#kms-verify">KMS verify</a></li>
+      </ul>
+    </li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><p>JWT 인증을 AWS KMS에서 key를 생성하여 이를 이용하여 token을 발급 받고 인증하는 것을 구현해보자</p>
 <p>기존엔 private key와 public key를 서버에다 생성하고 파일을 읽어서 token을 생성하고 인증을 했었다.</p>
-<p>최근에 lambda로 api서버를 구성하면서 그런 구조는 이용할 수 없어 KMS를 이용해서 인증 처리를 진행해보고자 했었다.</p>
+<p>최근에 lambda로 api서버를 구성하면서 그런 구조는 이용할 수 없어 KMS를 이용해서 인증 처리를 진행해보고자 한다.</p>
 <h2 id="kms-key-생성">KMS Key 생성</h2>
 <p><figure><a class="lightgallery" href="/jwt-signing-using-aws-kms/kms.png" title="kms 생성" data-thumbnail="/jwt-signing-using-aws-kms/kms.png" data-sub-html="<h2>kms 생성</h2><p>kms 생성</p>">
         <img
@@ -149,6 +155,474 @@
 <p>보통은 user에서 발급받은 key를 사용하지 않고 assume role이나 instance profile을 사용할 것이기 때문에 Role만 설정 하는 것이 좋다고 생각한다.</p>
 <p>입력값은 이정도로 넣고 생성하게되면, Public key를 web console에서 확인할 수 있고 파일로 다운로드 받을 수 있지만 이를 API 콜로 받아오는 걸 짜보려고 한다.</p>
 <p>생성했으니 KMS Key ID를 기억해두자.</p>
+<h2 id="jwt-in-go">JWT in go</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">rsaSignKey</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">privKeyPath</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nf">Join</span><span class="p">(</span><span class="nx">utils</span><span class="p">.</span><span class="nf">GetRootPath</span><span class="p">(),</span> <span class="s">&#34;key folder&#34;</span><span class="p">,</span> <span class="s">&#34;private key file&#34;</span><span class="p">)</span>
+
+	<span class="nx">signBytes</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nf">ReadFile</span><span class="p">(</span><span class="nx">privKeyPath</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+	<span class="p">}</span>
+
+	<span class="nx">signKey</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">ParseRSAPrivateKeyFromPEM</span><span class="p">(</span><span class="nx">signBytes</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">signKey</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">signKey</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">rsaSignKey</span><span class="p">()</span>
+
+    <span class="nx">now</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()</span>
+    <span class="nx">jwtToken</span> <span class="o">:=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewWithClaims</span><span class="p">(</span><span class="nx">jwt</span><span class="p">.</span><span class="nf">GetSigningMethod</span><span class="p">(</span><span class="s">&#34;RS256&#34;</span><span class="p">),</span> <span class="o">&amp;</span><span class="nx">jwt</span><span class="p">.</span><span class="nx">RegisteredClaims</span><span class="p">{</span>
+        <span class="nx">ExpiresAt</span><span class="p">:</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewNumericDate</span><span class="p">(</span><span class="nx">now</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Hour</span> <span class="o">*</span> <span class="mi">24</span><span class="p">)),</span>
+        <span class="nx">IssuedAt</span><span class="p">:</span>  <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewNumericDate</span><span class="p">(</span><span class="nx">now</span><span class="p">),</span>
+        <span class="nx">NotBefore</span><span class="p">:</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewNumericDate</span><span class="p">(</span><span class="nx">now</span><span class="p">),</span>
+        <span class="nx">ID</span><span class="p">:</span>        <span class="nf">generateRandomString</span><span class="p">(</span><span class="mi">40</span><span class="p">),</span>
+        <span class="nx">Issuer</span><span class="p">:</span>    <span class="s">&#34;jaejin&#34;</span><span class="p">,</span>
+        <span class="nx">Subject</span><span class="p">:</span>   <span class="s">&#34;1&#34;</span><span class="p">,</span>
+    <span class="p">})</span>
+
+    <span class="nx">str</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">jwtToken</span><span class="p">.</span><span class="nf">SignedString</span><span class="p">(</span><span class="nx">signKey</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;can not sign JWT %s&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Signed JWT %s\n&#34;</span><span class="p">,</span> <span class="nx">str</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>golang에서 예전에 token인증을 위해 작성했던 코드이다. 기존엔 private key를 파일로 읽어서 SignedString function에 파라미터로 넣어주고 jwt pacakage 내부의 Sign fucntion으로 인해 jwt token값을 바로 받을 수 있었다.</p>
+<p>jwt package 내부에 각 알고리즘 마다 <a href="https://github.com/golang-jwt/jwt/blob/main/rsa.go" target="_blank" rel="noopener noreffer">Sign, Verify 메소드들이 interface로 미리 정의</a> 되어 있고 이를 이용한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">SigningMethod</span> <span class="kd">interface</span> <span class="p">{</span>
+	<span class="nf">Verify</span><span class="p">(</span><span class="nx">signingString</span><span class="p">,</span> <span class="nx">signature</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">key</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">error</span> <span class="c1">// Returns nil if signature is valid
+</span><span class="c1"></span>	<span class="nf">Sign</span><span class="p">(</span><span class="nx">signingString</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">key</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>    <span class="c1">// Returns encoded signature or error
+</span><span class="c1"></span>	<span class="nf">Alg</span><span class="p">()</span> <span class="kt">string</span>                                                   <span class="c1">// returns the alg identifier for this method (example: &#39;HS256&#39;)
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">m</span> <span class="o">*</span><span class="nx">SigningMethodRSA</span><span class="p">)</span> <span class="nf">Alg</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">m</span><span class="p">.</span><span class="nx">Name</span>
+<span class="p">}</span>
+
+<span class="c1">// Verify implements token verification for the SigningMethod
+</span><span class="c1">// For this signing method, must be an *rsa.PublicKey structure.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">m</span> <span class="o">*</span><span class="nx">SigningMethodRSA</span><span class="p">)</span> <span class="nf">Verify</span><span class="p">(</span><span class="nx">signingString</span><span class="p">,</span> <span class="nx">signature</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">key</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">err</span> <span class="kt">error</span>
+
+	<span class="c1">// Decode the signature
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">sig</span> <span class="p">[]</span><span class="kt">byte</span>
+	<span class="k">if</span> <span class="nx">sig</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nf">DecodeSegment</span><span class="p">(</span><span class="nx">signature</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">err</span>
+	<span class="p">}</span>
+
+	<span class="kd">var</span> <span class="nx">rsaKey</span> <span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PublicKey</span>
+	<span class="kd">var</span> <span class="nx">ok</span> <span class="kt">bool</span>
+
+	<span class="k">if</span> <span class="nx">rsaKey</span><span class="p">,</span> <span class="nx">ok</span> <span class="p">=</span> <span class="nx">key</span><span class="p">.(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">);</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">ErrInvalidKeyType</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Create hasher
+</span><span class="c1"></span>	<span class="k">if</span> <span class="p">!</span><span class="nx">m</span><span class="p">.</span><span class="nx">Hash</span><span class="p">.</span><span class="nf">Available</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">ErrHashUnavailable</span>
+	<span class="p">}</span>
+	<span class="nx">hasher</span> <span class="o">:=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">Hash</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
+	<span class="nx">hasher</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">signingString</span><span class="p">))</span>
+
+	<span class="c1">// Verify the signature
+</span><span class="c1"></span>	<span class="k">return</span> <span class="nx">rsa</span><span class="p">.</span><span class="nf">VerifyPKCS1v15</span><span class="p">(</span><span class="nx">rsaKey</span><span class="p">,</span> <span class="nx">m</span><span class="p">.</span><span class="nx">Hash</span><span class="p">,</span> <span class="nx">hasher</span><span class="p">.</span><span class="nf">Sum</span><span class="p">(</span><span class="kc">nil</span><span class="p">),</span> <span class="nx">sig</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Sign implements token signing for the SigningMethod
+</span><span class="c1">// For this signing method, must be an *rsa.PrivateKey structure.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">m</span> <span class="o">*</span><span class="nx">SigningMethodRSA</span><span class="p">)</span> <span class="nf">Sign</span><span class="p">(</span><span class="nx">signingString</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">key</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">rsaKey</span> <span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span>
+	<span class="kd">var</span> <span class="nx">ok</span> <span class="kt">bool</span>
+
+	<span class="c1">// Validate type of key
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">rsaKey</span><span class="p">,</span> <span class="nx">ok</span> <span class="p">=</span> <span class="nx">key</span><span class="p">.(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">);</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">ErrInvalidKey</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Create the hasher
+</span><span class="c1"></span>	<span class="k">if</span> <span class="p">!</span><span class="nx">m</span><span class="p">.</span><span class="nx">Hash</span><span class="p">.</span><span class="nf">Available</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">ErrHashUnavailable</span>
+	<span class="p">}</span>
+
+	<span class="nx">hasher</span> <span class="o">:=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">Hash</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
+	<span class="nx">hasher</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">signingString</span><span class="p">))</span>
+
+	<span class="c1">// Sign the string and return the encoded bytes
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">sigBytes</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">rsa</span><span class="p">.</span><span class="nf">SignPKCS1v15</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span> <span class="nx">rsaKey</span><span class="p">,</span> <span class="nx">m</span><span class="p">.</span><span class="nx">Hash</span><span class="p">,</span> <span class="nx">hasher</span><span class="p">.</span><span class="nf">Sum</span><span class="p">(</span><span class="kc">nil</span><span class="p">));</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nf">EncodeSegment</span><span class="p">(</span><span class="nx">sigBytes</span><span class="p">),</span> <span class="kc">nil</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">err</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>KMS를 이용하면 따로 private key를 받는 것이 아닌 KMS쪽으로 api를 날려서 인증을 받아야하기 때문에 이 interface를 재 정의하고 KMS쪽으로 인증을 받아오는 방식으로 구현하면 될 것 같다.</p>
+<h3 id="kms-sign">KMS sign</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">KMSConfig</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ctx</span>    <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span>
+	<span class="nx">Client</span> <span class="o">*</span><span class="nx">kms</span><span class="p">.</span><span class="nx">Client</span>
+	<span class="nx">keyID</span>  <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">RSASigningMethod</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">Name</span> <span class="kt">string</span>
+	<span class="nx">Hash</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">Hash</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">m</span> <span class="o">*</span><span class="nx">RSASigningMethod</span><span class="p">)</span> <span class="nf">Sign</span><span class="p">(</span><span class="nx">signingString</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">key</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">kmsConfig</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">key</span><span class="p">.(</span><span class="o">*</span><span class="nx">KMSConfig</span><span class="p">)</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">ErrInvalidKeyType</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">!</span><span class="nx">m</span><span class="p">.</span><span class="nx">hash</span><span class="p">.</span><span class="nf">Available</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">ErrHashUnavailable</span>
+	<span class="p">}</span>
+
+	<span class="nx">hasher</span> <span class="o">:=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">hash</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
+	<span class="nx">hasher</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">signingString</span><span class="p">))</span>
+
+	<span class="nx">signInput</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">kms</span><span class="p">.</span><span class="nx">SignInput</span><span class="p">{</span>
+		<span class="nx">KeyId</span><span class="p">:</span>            <span class="nx">aws</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="nx">kmsConfig</span><span class="p">.</span><span class="nx">keyID</span><span class="p">),</span>
+		<span class="nx">Message</span><span class="p">:</span>          <span class="nx">hasher</span><span class="p">.</span><span class="nf">Sum</span><span class="p">(</span><span class="kc">nil</span><span class="p">),</span>
+		<span class="nx">MessageType</span><span class="p">:</span>      <span class="nx">types</span><span class="p">.</span><span class="nx">MessageTypeDigest</span><span class="p">,</span>
+		<span class="nx">SigningAlgorithm</span><span class="p">:</span> <span class="nx">types</span><span class="p">.</span><span class="nf">SigningAlgorithmSpec</span><span class="p">(</span><span class="s">&#34;RSASSA_PKCS1_V1_5_SHA_256&#34;</span><span class="p">),</span>
+	<span class="p">}</span>
+
+	<span class="nx">signOutput</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">kmsConfig</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nf">Sign</span><span class="p">(</span><span class="nx">kmsConfig</span><span class="p">.</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">signInput</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;signing digest: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">RawURLEncoding</span><span class="p">.</span><span class="nf">EncodeToString</span><span class="p">(</span><span class="nx">signOutput</span><span class="p">.</span><span class="nx">Signature</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>먼저 Sign 부분을 수정해보았다. 위의 jwt package와 다른 점은 sign 하는 부분을 crypto/rsa 쪽이 아니라 KMS를 호출하여 Sign을 진행한다.</p>
+<h3 id="kms-verify">KMS verify</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">pubkeyCache</span> <span class="p">=</span> <span class="nf">newPubKeyCache</span><span class="p">()</span>
+
+<span class="kd">type</span> <span class="nx">pubKeyCache</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">pubKeys</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">PublicKey</span>
+	<span class="nx">mutex</span>   <span class="nx">sync</span><span class="p">.</span><span class="nx">RWMutex</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">newPubKeyCache</span><span class="p">()</span> <span class="o">*</span><span class="nx">pubKeyCache</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">pubKeyCache</span><span class="p">{</span>
+		<span class="nx">pubKeys</span><span class="p">:</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">pubKeyCache</span><span class="p">)</span> <span class="nf">Add</span><span class="p">(</span><span class="nx">keyID</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">key</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">mutex</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+	<span class="k">defer</span> <span class="nx">c</span><span class="p">.</span><span class="nx">mutex</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+
+	<span class="nx">c</span><span class="p">.</span><span class="nx">pubKeys</span><span class="p">[</span><span class="nx">keyID</span><span class="p">]</span> <span class="p">=</span> <span class="nx">key</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">pubKeyCache</span><span class="p">)</span> <span class="nf">Get</span><span class="p">(</span><span class="nx">keyID</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">PublicKey</span> <span class="p">{</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">mutex</span><span class="p">.</span><span class="nf">RLock</span><span class="p">()</span>
+	<span class="k">defer</span> <span class="nx">c</span><span class="p">.</span><span class="nx">mutex</span><span class="p">.</span><span class="nf">RUnlock</span><span class="p">()</span>
+
+	<span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nx">pubKeys</span><span class="p">[</span><span class="nx">keyID</span><span class="p">]</span>
+<span class="p">}</span>
+
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">m</span> <span class="o">*</span><span class="nx">RSASigningMethod</span><span class="p">)</span> <span class="nf">Verify</span><span class="p">(</span><span class="nx">signingString</span><span class="p">,</span> <span class="nx">signature</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">keyConfig</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="nx">kmsConfig</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">keyConfig</span><span class="p">.(</span><span class="o">*</span><span class="nx">KMSConfig</span><span class="p">)</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">ErrInvalidKeyType</span>
+	<span class="p">}</span>
+
+	<span class="nx">sig</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">decodeSegment</span><span class="p">(</span><span class="nx">signature</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;decoding signature: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">!</span><span class="nx">m</span><span class="p">.</span><span class="nx">hash</span><span class="p">.</span><span class="nf">Available</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">ErrHashUnavailable</span>
+	<span class="p">}</span>
+
+	<span class="nx">hasher</span> <span class="o">:=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">hash</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
+	<span class="nx">hasher</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">signingString</span><span class="p">))</span>
+
+	<span class="k">return</span> <span class="nf">verifyRSA</span><span class="p">(</span><span class="nx">kmsConfig</span><span class="p">,</span> <span class="nx">m</span><span class="p">.</span><span class="nx">hash</span><span class="p">,</span> <span class="nx">hasher</span><span class="p">.</span><span class="nf">Sum</span><span class="p">(</span><span class="kc">nil</span><span class="p">),</span> <span class="nx">sig</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">verifyRSA</span><span class="p">(</span><span class="nx">kmsConfig</span> <span class="o">*</span><span class="nx">KMSConfig</span><span class="p">,</span> <span class="nx">hash</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">Hash</span><span class="p">,</span> <span class="nx">hashedSigningString</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">,</span> <span class="nx">sig</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">rsaPublicKey</span> <span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PublicKey</span>
+
+	<span class="nx">cachedKey</span> <span class="o">:=</span> <span class="nx">pubkeyCache</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">kmsConfig</span><span class="p">.</span><span class="nx">keyID</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">cachedKey</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">getPubKeyOutput</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">kmsConfig</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nf">GetPublicKey</span><span class="p">(</span><span class="nx">kmsConfig</span><span class="p">.</span><span class="nx">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">kms</span><span class="p">.</span><span class="nx">GetPublicKeyInput</span><span class="p">{</span>
+			<span class="nx">KeyId</span><span class="p">:</span> <span class="nx">aws</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="nx">kmsConfig</span><span class="p">.</span><span class="nx">keyID</span><span class="p">),</span>
+		<span class="p">})</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;getting public key: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+
+		<span class="nx">cachedKey</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">x509</span><span class="p">.</span><span class="nf">ParsePKIXPublicKey</span><span class="p">(</span><span class="nx">getPubKeyOutput</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;parsing public key: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+
+		<span class="nx">pubkeyCache</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nx">kmsConfig</span><span class="p">.</span><span class="nx">keyID</span><span class="p">,</span> <span class="nx">cachedKey</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">rsaPublicKey</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">cachedKey</span><span class="p">.(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;invalid key type for key&#34;</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">rsa</span><span class="p">.</span><span class="nf">VerifyPKCS1v15</span><span class="p">(</span><span class="nx">rsaPublicKey</span><span class="p">,</span> <span class="nx">hash</span><span class="p">,</span> <span class="nx">hashedSigningString</span><span class="p">,</span> <span class="nx">sig</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;verifying signature locally: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>verify 부분은 public key가 사용되고 KMS에서 생성된 key의 public key를 가져와 이용한다.</p>
+<p>이미 구현되어 있는 <a href="https://github.com/matelang/jwt-go-aws-kms">https://github.com/matelang/jwt-go-aws-kms</a>를 살펴보니 public key를 메모리에 cache하고 있는 것을 볼 수 있었고 그대로 가져와 사용했다.</p>
+<p>verify할 때마다 public key를 요청하여 사용하는 것도 성능상 문제가 있으므로</p>
 <hr>
 <p><strong>참고</strong></p>
 <ul>
