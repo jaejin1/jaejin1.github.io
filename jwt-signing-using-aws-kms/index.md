@@ -58,9 +58,10 @@ func main() {
 
     str, err := jwtToken.SignedString(signKey)
     if err != nil {
-        log.Fatalf("can not sign JWT %s", err)
-    }
-    log.Printf("Signed JWT %s\n", str)
+		log.Fatalf("can not sign jwt %s", err)
+	}
+
+	log.Printf("%s\n", str)
 }
 ```
 
@@ -199,7 +200,6 @@ signing 알고리즘은 KMS에서 제공해주는 알고리즘 중에 하나를 
 
 ![signing algorithms](signing.png "signing algorithms")
 
-
 ### KMS verify
 
 ```go
@@ -334,7 +334,7 @@ func main() {
 		IssuedAt:  jwt.NewNumericDate(now),
 		NotBefore: jwt.NewNumericDate(now),
 		ID:        generateRandomString(40),
-		Issuer:    "jaejin@dreamus.io",
+		Issuer:    "jaejin",
 		Subject:   "1",
 	})
 
@@ -374,9 +374,15 @@ jwt.RegisterSigningMethod(SigningMethodRS256.Alg(), func() jwt.SigningMethod {
 
 이제 KMS를 이용해 JWT token을 발급받고 verify 하는 구성이 완료 되었다.
 
+
+![result](result.png "result")
+
+![result](resultweb.png "result")
+
 ---
 
 **참고**
 
 * https://github.com/matelang/jwt-go-aws-kms
+* https://github.com/golang-jwt/jwt
 

@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/jwt-signing-using-aws-kms\/"
-        },"genre": "posts","keywords": "aws, go, jwt","wordcount":  1417 ,
+        },"genre": "posts","keywords": "aws, go, jwt","wordcount":  1423 ,
         "url": "http:\/\/example.org\/jwt-signing-using-aws-kms\/","datePublished": "2023-01-14T00:00:00+00:00","dateModified": "2023-01-14T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -108,7 +108,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">JWT signing using AWS KMS</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>aws</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-14">2023-01-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1417 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-14">2023-01-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1423 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;7 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -193,6 +193,7 @@
 </span><span class="lnt">32
 </span><span class="lnt">33
 </span><span class="lnt">34
+</span><span class="lnt">35
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">rsaSignKey</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
@@ -225,9 +226,10 @@
 
     <span class="nx">str</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">jwtToken</span><span class="p">.</span><span class="nf">SignedString</span><span class="p">(</span><span class="nx">signKey</span><span class="p">)</span>
     <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;can not sign JWT %s&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="nx">log</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Signed JWT %s\n&#34;</span><span class="p">,</span> <span class="nx">str</span><span class="p">)</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;can not sign jwt %s&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="nx">str</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
@@ -770,7 +772,7 @@
 		<span class="nx">IssuedAt</span><span class="p">:</span>  <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewNumericDate</span><span class="p">(</span><span class="nx">now</span><span class="p">),</span>
 		<span class="nx">NotBefore</span><span class="p">:</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewNumericDate</span><span class="p">(</span><span class="nx">now</span><span class="p">),</span>
 		<span class="nx">ID</span><span class="p">:</span>        <span class="nf">generateRandomString</span><span class="p">(</span><span class="mi">40</span><span class="p">),</span>
-		<span class="nx">Issuer</span><span class="p">:</span>    <span class="s">&#34;jaejin@dreamus.io&#34;</span><span class="p">,</span>
+		<span class="nx">Issuer</span><span class="p">:</span>    <span class="s">&#34;jaejin&#34;</span><span class="p">,</span>
 		<span class="nx">Subject</span><span class="p">:</span>   <span class="s">&#34;1&#34;</span><span class="p">,</span>
 	<span class="p">})</span>
 
@@ -813,10 +815,31 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>이제 KMS를 이용해 JWT token을 발급받고 verify 하는 구성이 완료 되었다.</p>
+<p><figure><a class="lightgallery" href="/jwt-signing-using-aws-kms/result.png" title="result" data-thumbnail="/jwt-signing-using-aws-kms/result.png" data-sub-html="<h2>result</h2><p>result</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="result.png"
+            data-srcset="/jwt-signing-using-aws-kms/result.png, result.png 1.5x, /jwt-signing-using-aws-kms/result.png 2x"
+            data-sizes="auto"
+            alt="/jwt-signing-using-aws-kms/result.png" />
+    </a><figcaption class="image-caption">result</figcaption>
+    </figure></p>
+<p><figure><a class="lightgallery" href="/jwt-signing-using-aws-kms/resultweb.png" title="result" data-thumbnail="/jwt-signing-using-aws-kms/resultweb.png" data-sub-html="<h2>result</h2><p>result</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="resultweb.png"
+            data-srcset="/jwt-signing-using-aws-kms/resultweb.png, resultweb.png 1.5x, /jwt-signing-using-aws-kms/resultweb.png 2x"
+            data-sizes="auto"
+            alt="/jwt-signing-using-aws-kms/resultweb.png" />
+    </a><figcaption class="image-caption">result</figcaption>
+    </figure></p>
 <hr>
 <p><strong>참고</strong></p>
 <ul>
 <li><a href="https://github.com/matelang/jwt-go-aws-kms">https://github.com/matelang/jwt-go-aws-kms</a></li>
+<li><a href="https://github.com/golang-jwt/jwt">https://github.com/golang-jwt/jwt</a></li>
 </ul></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
