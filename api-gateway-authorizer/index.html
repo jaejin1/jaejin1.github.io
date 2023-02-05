@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/api-gateway-authorizer\/"
-        },"genre": "posts","keywords": "cloud, aws, apigateway","wordcount":  38 ,
+        },"genre": "posts","keywords": "cloud, aws, apigateway","wordcount":  627 ,
         "url": "http:\/\/example.org\/api-gateway-authorizer\/","datePublished": "2023-02-05T00:00:00+00:00","dateModified": "2023-02-05T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -108,20 +108,296 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">API Gateway Authorizer</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>aws</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-05">2023-02-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;38 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;One minute&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-05">2023-02-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;627 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
                 </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#api-gateway-authorizer">API Gateway authorizer</a></li>
+        <li><a href="#authorizer-워크-플로우">authorizer 워크 플로우</a></li>
+        <li><a href="#authorizer-lambda-function">authorizer lambda function</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
             </div><div class="content" id="content"><p>AWS Lambda로 끄적이다가 API Gateway를 붙여보자! 해서 보던 중 API Gateway는 인증 및 권한부여 기능을 제공 해주고 있었고 그 중 Authorizers의 존재를 봐서 api를 위한 Lambda 호출 전에 인증을 위한 Lambda를 호출 하는 것을 구성해봤다.</p>
-<hr>
+<h3 id="api-gateway-authorizer">API Gateway authorizer</h3>
+<p>먼저 API Gateway는 요청에 대한 인증을 처리하기 위한 방법이 크게 2가지가 있다고 한다.</p>
+<ul>
+<li>authorizer lambda function 이용
+<ul>
+<li>token 기반</li>
+<li>request 기반</li>
+</ul>
+</li>
+<li>AWS Cognito를 이용하여 인증</li>
+</ul>
+<p>cognito는 간단하게 써보기 위해서 굳이 사용하진 않을거고 lambda를 이용해보려고 한다.</p>
+<p>token과 reuqest 차이는 authorizer lambda function에서 받는 <code>event 정보</code> 차이 이다.</p>
+<ul>
+<li>token은 Authorization 정보만 event.AuthorizationToken으로 값이 들어오고</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">APIGatewayCustomAuthorizerRequest</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">Type</span>               <span class="kt">string</span> <span class="s">`json:&#34;type&#34;`</span>
+	<span class="nx">AuthorizationToken</span> <span class="kt">string</span> <span class="s">`json:&#34;authorizationToken&#34;`</span>
+	<span class="nx">MethodArn</span>          <span class="kt">string</span> <span class="s">`json:&#34;methodArn&#34;`</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>request는 HTTP header, pathParam, queryString등 여러가지 정보를 받을 수 있다. 즉 HTTP 요청 정보를 세세히 받을 수 있다고 보면 된다.</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">APIGatewayCustomAuthorizerRequestTypeRequest</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">Type</span>                            <span class="kt">string</span>                                              <span class="s">`json:&#34;type&#34;`</span>
+	<span class="nx">MethodArn</span>                       <span class="kt">string</span>                                              <span class="s">`json:&#34;methodArn&#34;`</span> <span class="c1">//nolint: stylecheck
+</span><span class="c1"></span>	<span class="nx">Resource</span>                        <span class="kt">string</span>                                              <span class="s">`json:&#34;resource&#34;`</span>
+	<span class="nx">Path</span>                            <span class="kt">string</span>                                              <span class="s">`json:&#34;path&#34;`</span>
+	<span class="nx">HTTPMethod</span>                      <span class="kt">string</span>                                              <span class="s">`json:&#34;httpMethod&#34;`</span>
+	<span class="nx">Headers</span>                         <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span>                                   <span class="s">`json:&#34;headers&#34;`</span>
+	<span class="nx">MultiValueHeaders</span>               <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span>                                 <span class="s">`json:&#34;multiValueHeaders&#34;`</span>
+	<span class="nx">QueryStringParameters</span>           <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span>                                   <span class="s">`json:&#34;queryStringParameters&#34;`</span>
+	<span class="nx">MultiValueQueryStringParameters</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span>                                 <span class="s">`json:&#34;multiValueQueryStringParameters&#34;`</span>
+	<span class="nx">PathParameters</span>                  <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span>                                   <span class="s">`json:&#34;pathParameters&#34;`</span>
+	<span class="nx">StageVariables</span>                  <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span>                                   <span class="s">`json:&#34;stageVariables&#34;`</span>
+	<span class="nx">RequestContext</span>                  <span class="nx">APIGatewayCustomAuthorizerRequestTypeRequestContext</span> <span class="s">`json:&#34;requestContext&#34;`</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>일반적으로 많이사용하는 JWT인증의 경우 token 기반 인증으로도 충분하기 때문에 token 기반 인증으로 구성하고 사용해보려 한다.</p>
+<h3 id="authorizer-워크-플로우">authorizer 워크 플로우</h3>
+<p>AWS 공식 문서의 인증 워크플로우 그림을 보자.</p>
+<p><figure><a class="lightgallery" href="https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/images/custom-auth-workflow.png" title="auth workflow" data-thumbnail="https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/images/custom-auth-workflow.png" data-sub-html="<h2>auth workflow</h2><p>auth workflow</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/images/custom-auth-workflow.png"
+            data-srcset="https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/images/custom-auth-workflow.png, https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/images/custom-auth-workflow.png 1.5x, https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/images/custom-auth-workflow.png 2x"
+            data-sizes="auto"
+            alt="https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/images/custom-auth-workflow.png" />
+    </a><figcaption class="image-caption">auth workflow</figcaption>
+    </figure></p>
+<ol>
+<li>클라이언트가 요청을 보낼 때 token이나 request 파라미터 전달하고 API Gateway에서는 Lambda authorizer가 구성되어 있는지 확인한다.</li>
+<li>authorizer가 Allow, Deny 여부를 판단해서 policy document를 반환한다.</li>
+<li>Deny면 API Gateway에서 403을 반환하고 Allow면 각 method에 연결되어있는 서비스를 실행한다. 이때 authorizer의 cache 설정이 활성화 되어있다면 authorizer를 다시 실행하지 않도록 caching하여 비용을 절감할 수 있다.</li>
+</ol>
+<h3 id="authorizer-lambda-function">authorizer lambda function</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">lambda</span><span class="p">.</span><span class="nf">Start</span><span class="p">(</span><span class="nx">authorizerRequest</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">authorizerRequest</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">event</span> <span class="nx">events</span><span class="p">.</span><span class="nx">APIGatewayCustomAuthorizerRequest</span><span class="p">)</span> <span class="p">(</span><span class="nx">events</span><span class="p">.</span><span class="nx">APIGatewayCustomAuthorizerResponse</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 인증 처리
+</span><span class="c1"></span>    <span class="c1">// ...
+</span><span class="c1"></span>    <span class="c1">//
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="nx">allow</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">generatePolicy</span><span class="p">(</span><span class="s">&#34;user&#34;</span><span class="p">,</span> <span class="s">&#34;Allow&#34;</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">MethodArn</span><span class="p">),</span> <span class="kc">nil</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">generatePolicy</span><span class="p">(</span><span class="s">&#34;user&#34;</span><span class="p">,</span> <span class="s">&#34;Deny&#34;</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">MethodArn</span><span class="p">),</span> <span class="kc">nil</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">generatePolicy</span><span class="p">(</span><span class="nx">principalId</span><span class="p">,</span> <span class="nx">effect</span><span class="p">,</span> <span class="nx">resource</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">events</span><span class="p">.</span><span class="nx">APIGatewayCustomAuthorizerResponse</span> <span class="p">{</span>
+	<span class="nx">authResponse</span> <span class="o">:=</span> <span class="nx">events</span><span class="p">.</span><span class="nx">APIGatewayCustomAuthorizerResponse</span><span class="p">{</span><span class="nx">PrincipalID</span><span class="p">:</span> <span class="nx">principalId</span><span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">effect</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="o">&amp;&amp;</span> <span class="nx">resource</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+		<span class="nx">authResponse</span><span class="p">.</span><span class="nx">PolicyDocument</span> <span class="p">=</span> <span class="nx">events</span><span class="p">.</span><span class="nx">APIGatewayCustomAuthorizerPolicy</span><span class="p">{</span>
+			<span class="nx">Version</span><span class="p">:</span> <span class="s">&#34;2012-10-17&#34;</span><span class="p">,</span>
+			<span class="nx">Statement</span><span class="p">:</span> <span class="p">[]</span><span class="nx">events</span><span class="p">.</span><span class="nx">IAMPolicyStatement</span><span class="p">{</span>
+				<span class="p">{</span>
+					<span class="nx">Action</span><span class="p">:</span>   <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;execute-api:Invoke&#34;</span><span class="p">},</span>
+					<span class="nx">Effect</span><span class="p">:</span>   <span class="nx">effect</span><span class="p">,</span>
+					<span class="nx">Resource</span><span class="p">:</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">resource</span><span class="p">},</span>
+				<span class="p">},</span>
+			<span class="p">},</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Optional output with custom properties of the String, Number or Boolean type.
+</span><span class="c1"></span>	<span class="nx">authResponse</span><span class="p">.</span><span class="nx">Context</span> <span class="p">=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}{</span>
+		<span class="s">&#34;stringKey&#34;</span><span class="p">:</span>  <span class="s">&#34;stringval&#34;</span><span class="p">,</span>
+		<span class="s">&#34;numberKey&#34;</span><span class="p">:</span>  <span class="mi">123</span><span class="p">,</span>
+		<span class="s">&#34;booleanKey&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">authResponse</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>구성했던 전체 코드는 아니고 일부 코드이다. 인증로직은 JWT를 사용한다면 token 유효성 검사를 하는 부분 key file로 하거나 AWS KMS를 사용해서 유효하는지등의 작업을 하고 token이 정상적이라면 generatePolicy function에 ALLOW값을 넘겨주고 그게 아니라면 DENY를 넘겨서 return되게 구성했다.</p>
+<p>token의 유효성에 따라 IAM Policy를 생성하면 된다. 이 때 resource에는 요청온 resource arn을 그대로 넣어주고 있는데, 여러개의 api를 사용하고 cache를 이용할 시 Resource 권한 문제로 이슈가 발생할 수 있으니 주의하자.</p>
+<p>방법은 간단히 요청으로 받은 resource가 아닌 범위로 설정하여 return하면 될 것이다.</p>
+<p>참고로 request는 다음과 같이 처리 할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">ValidateToken</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">token</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">events</span><span class="p">.</span><span class="nx">APIGatewayCustomAuthorizerResponse</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+
+	<span class="nx">apiGatewayProxyRequestContext</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">core</span><span class="p">.</span><span class="nf">GetAPIGatewayContextFromContext</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+
+	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">apiGatewayProxyRequestContext</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">region</span> <span class="o">:=</span> <span class="s">&#34;ap-northeast-2&#34;</span>
+	<span class="nx">effect</span> <span class="o">:=</span> <span class="s">&#34;Allow&#34;</span>
+	<span class="nx">principalId</span> <span class="o">:=</span> <span class="s">&#34;user&#34;</span>
+	<span class="nx">resource</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;arn:aws:execute-api:%s:%s:%s/%s/%s/%s&#34;</span><span class="p">,</span>
+		<span class="nx">region</span><span class="p">,</span>
+		<span class="nx">apiGatewayProxyRequestContext</span><span class="p">.</span><span class="nx">AccountID</span><span class="p">,</span>
+		<span class="nx">apiGatewayProxyRequestContext</span><span class="p">.</span><span class="nx">APIID</span><span class="p">,</span>
+		<span class="nx">apiGatewayProxyRequestContext</span><span class="p">.</span><span class="nx">Stage</span><span class="p">,</span>
+		<span class="nx">apiGatewayProxyRequestContext</span><span class="p">.</span><span class="nx">HTTPMethod</span><span class="p">,</span>
+		<span class="s">&#34;&#34;</span><span class="p">)</span>
+
+	<span class="nx">authResponse</span> <span class="o">:=</span> <span class="nx">events</span><span class="p">.</span><span class="nx">APIGatewayCustomAuthorizerResponse</span><span class="p">{</span><span class="nx">PrincipalID</span><span class="p">:</span> <span class="nx">principalId</span><span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">resource</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+		<span class="nx">authResponse</span><span class="p">.</span><span class="nx">PolicyDocument</span> <span class="p">=</span> <span class="nx">events</span><span class="p">.</span><span class="nx">APIGatewayCustomAuthorizerPolicy</span><span class="p">{</span>
+			<span class="nx">Version</span><span class="p">:</span> <span class="s">&#34;2012-10-17&#34;</span><span class="p">,</span>
+			<span class="nx">Statement</span><span class="p">:</span> <span class="p">[]</span><span class="nx">events</span><span class="p">.</span><span class="nx">IAMPolicyStatement</span><span class="p">{</span>
+				<span class="p">{</span>
+					<span class="nx">Action</span><span class="p">:</span>   <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;execute-api:Invoke&#34;</span><span class="p">},</span>
+					<span class="nx">Effect</span><span class="p">:</span>   <span class="nx">effect</span><span class="p">,</span>
+					<span class="nx">Resource</span><span class="p">:</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">resource</span><span class="p">},</span>
+				<span class="p">},</span>
+			<span class="p">},</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Optional output with custom properties of the String, Number or Boolean type.
+</span><span class="c1"></span>	<span class="nx">authResponse</span><span class="p">.</span><span class="nx">Context</span> <span class="p">=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}{</span>
+		<span class="s">&#34;stringKey&#34;</span><span class="p">:</span>  <span class="s">&#34;stringval&#34;</span><span class="p">,</span>
+		<span class="s">&#34;numberKey&#34;</span><span class="p">:</span>  <span class="mi">123</span><span class="p">,</span>
+		<span class="s">&#34;booleanKey&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">authResponse</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><hr>
 <p><strong>참고</strong></p>
 <ul>
-<li><a href="https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/lifecycle-hooks.html">https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/lifecycle-hooks.html</a></li>
-<li><a href="https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/lifecycle-hooks-overview.html">https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/lifecycle-hooks-overview.html</a></li>
+<li><a href="https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html</a></li>
+<li><a href="https://lacti.github.io/2019/08/01/api-gateway-custom-authorizer/">https://lacti.github.io/2019/08/01/api-gateway-custom-authorizer/</a></li>
 </ul></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">

@@ -21,7 +21,7 @@ AWS 문서에서 Lifecycle의 일반적인 용도는 인스턴스가 ELB에 등�
 
 ### Lifecycle Hook 작동 방식
 
-![lifecycle hook](https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/images/lifecycle_hooks.png "lifecycle hook")
+![lifecycle hook](https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/images/lifecycle_hooks.png  "lifecycle hook")
 출처 - https://github.com/donnemartin/system-design-primer#database
 
 {{< admonition note "Note" >}}
