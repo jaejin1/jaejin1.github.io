@@ -374,7 +374,6 @@ jwt.RegisterSigningMethod(SigningMethodRS256.Alg(), func() jwt.SigningMethod {
 
 이제 KMS를 이용해 JWT token을 발급받고 verify 하는 구성이 완료 되었다.
 
-
 ![result](result.png "result")
 
 ![result](resultweb.png "result")
