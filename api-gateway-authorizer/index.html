@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/api-gateway-authorizer\/"
-        },"genre": "posts","keywords": "cloud, aws, apigateway","wordcount":  627 ,
+        },"genre": "posts","keywords": "cloud, aws, apigateway","wordcount":  770 ,
         "url": "http:\/\/example.org\/api-gateway-authorizer\/","datePublished": "2023-02-05T00:00:00+00:00","dateModified": "2023-02-05T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -108,8 +108,8 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">API Gateway Authorizer</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>aws</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-05">2023-02-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;627 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-05">2023-02-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;770 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;4 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -119,9 +119,18 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#api-gateway-authorizer">API Gateway authorizer</a></li>
-        <li><a href="#authorizer-워크-플로우">authorizer 워크 플로우</a></li>
-        <li><a href="#authorizer-lambda-function">authorizer lambda function</a></li>
+        <li><a href="#api-gateway-authorizer">API Gateway authorizer</a>
+          <ul>
+            <li><a href="#authorizer-워크-플로우">authorizer 워크 플로우</a></li>
+          </ul>
+        </li>
+        <li><a href="#authorizer">authorizer</a>
+          <ul>
+            <li><a href="#lambda-function">lambda function</a></li>
+            <li><a href="#구성">구성</a></li>
+            <li><a href="#결과">결과</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -197,7 +206,7 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>일반적으로 많이사용하는 JWT인증의 경우 token 기반 인증으로도 충분하기 때문에 token 기반 인증으로 구성하고 사용해보려 한다.</p>
-<h3 id="authorizer-워크-플로우">authorizer 워크 플로우</h3>
+<h4 id="authorizer-워크-플로우">authorizer 워크 플로우</h4>
 <p>AWS 공식 문서의 인증 워크플로우 그림을 보자.</p>
 <p><figure><a class="lightgallery" href="https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/images/custom-auth-workflow.png" title="auth workflow" data-thumbnail="https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/images/custom-auth-workflow.png" data-sub-html="<h2>auth workflow</h2><p>auth workflow</p>">
         <img
@@ -214,7 +223,8 @@
 <li>authorizer가 Allow, Deny 여부를 판단해서 policy document를 반환한다.</li>
 <li>Deny면 API Gateway에서 403을 반환하고 Allow면 각 method에 연결되어있는 서비스를 실행한다. 이때 authorizer의 cache 설정이 활성화 되어있다면 authorizer를 다시 실행하지 않도록 caching하여 비용을 절감할 수 있다.</li>
 </ol>
-<h3 id="authorizer-lambda-function">authorizer lambda function</h3>
+<h3 id="authorizer">authorizer</h3>
+<h4 id="lambda-function">lambda function</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -302,7 +312,7 @@
 </div><p>구성했던 전체 코드는 아니고 일부 코드이다. 인증로직은 JWT를 사용한다면 token 유효성 검사를 하는 부분 key file로 하거나 AWS KMS를 사용해서 유효하는지등의 작업을 하고 token이 정상적이라면 generatePolicy function에 ALLOW값을 넘겨주고 그게 아니라면 DENY를 넘겨서 return되게 구성했다.</p>
 <p>token의 유효성에 따라 IAM Policy를 생성하면 된다. 이 때 resource에는 요청온 resource arn을 그대로 넣어주고 있는데, 여러개의 api를 사용하고 cache를 이용할 시 Resource 권한 문제로 이슈가 발생할 수 있으니 주의하자.</p>
 <p>방법은 간단히 요청으로 받은 resource가 아닌 범위로 설정하여 return하면 될 것이다.</p>
-<p>참고로 request는 다음과 같이 처리 할 수 있다.</p>
+<p>참고로 token기반이 아닌 request기반은 다음과 같이 처리 할 수 있다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -393,7 +403,70 @@
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><hr>
+</div><h4 id="구성">구성</h4>
+<p>이제 lambda는 위에 처럼 생성을 미리 해놓고 API Gateway의 authorizers를 설정해보자.</p>
+<p><figure><a class="lightgallery" href="/api-gateway-authorizer/authorizer.png" title="authorizer" data-thumbnail="/api-gateway-authorizer/authorizer.png" data-sub-html="<h2>authorizer</h2><p>authorizer</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="authorizer.png"
+            data-srcset="/api-gateway-authorizer/authorizer.png, authorizer.png 1.5x, /api-gateway-authorizer/authorizer.png 2x"
+            data-sizes="auto"
+            alt="/api-gateway-authorizer/authorizer.png" />
+    </a><figcaption class="image-caption">authorizer</figcaption>
+    </figure></p>
+<p>Token방식으로 설정하고, Source는 <code>Authorization</code>으로 했다.</p>
+<p><figure><a class="lightgallery" href="/api-gateway-authorizer/settingAuthorizer.png" title="authorizer" data-thumbnail="/api-gateway-authorizer/settingAuthorizer.png" data-sub-html="<h2>authorizer</h2><p>authorizer</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="settingAuthorizer.png"
+            data-srcset="/api-gateway-authorizer/settingAuthorizer.png, settingAuthorizer.png 1.5x, /api-gateway-authorizer/settingAuthorizer.png 2x"
+            data-sizes="auto"
+            alt="/api-gateway-authorizer/settingAuthorizer.png" />
+    </a><figcaption class="image-caption">authorizer</figcaption>
+    </figure></p>
+<p>api 호출시 인증이 필요한 method에 Authorization 설정을 생성한 것으로 설정한다.</p>
+<h4 id="결과">결과</h4>
+<p>이제 api 호출을 해보자.</p>
+<p><figure><a class="lightgallery" href="/api-gateway-authorizer/unauthorized.png" title="unauthorized" data-thumbnail="/api-gateway-authorizer/unauthorized.png" data-sub-html="<h2>unauthorized</h2><p>unauthorized</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="unauthorized.png"
+            data-srcset="/api-gateway-authorizer/unauthorized.png, unauthorized.png 1.5x, /api-gateway-authorizer/unauthorized.png 2x"
+            data-sizes="auto"
+            alt="/api-gateway-authorizer/unauthorized.png" />
+    </a><figcaption class="image-caption">unauthorized</figcaption>
+    </figure></p>
+<p>auth값을 아무것도 넣어주지 않았을 때 API Gateway에서 401을 뱉고 있는 것을 볼 수 있다.</p>
+<p><figure><a class="lightgallery" href="/api-gateway-authorizer/allow.png" title="allow" data-thumbnail="/api-gateway-authorizer/allow.png" data-sub-html="<h2>allow</h2><p>allow</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="allow.png"
+            data-srcset="/api-gateway-authorizer/allow.png, allow.png 1.5x, /api-gateway-authorizer/allow.png 2x"
+            data-sizes="auto"
+            alt="/api-gateway-authorizer/allow.png" />
+    </a><figcaption class="image-caption">allow</figcaption>
+    </figure></p>
+<p>유효한 token을 넣어주고 authorizer lambda function에서 ALLOW를 넘겨줬다면? 요청한 Method가 정상적으로 호출 된 것을 볼 수 있다.</p>
+<p>만약 token값이 유효하지 않아서 DENY를 return했다면?</p>
+<p><figure><a class="lightgallery" href="/api-gateway-authorizer/deny.png" title="deny" data-thumbnail="/api-gateway-authorizer/deny.png" data-sub-html="<h2>deny</h2><p>deny</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="deny.png"
+            data-srcset="/api-gateway-authorizer/deny.png, deny.png 1.5x, /api-gateway-authorizer/deny.png 2x"
+            data-sizes="auto"
+            alt="/api-gateway-authorizer/deny.png" />
+    </a><figcaption class="image-caption">deny</figcaption>
+    </figure></p>
+<p>API Gateway 403과 함께 deny된 메세지가 출력된다.</p>
+<p>간단히 사용을 해보았는데 Lambda로 API구성을 한번 해보고 싶어서 어찌저찌 API Gateway까지 건들게 되서 authorizer를 사용해봤다.</p>
+<p>기능적으로는 ELB뒤에 Lambda를 붙이는 것보다 API Gateway가 기능적으로 인증 및 권한과 요청 및 응답 매핑 정도가 있을 것 같은데 비용도 비싸기도 하고.. 실제 운영 환경에 적용할 때는 여러가지로 확인이 필요할듯 하다.</p>
+<p>참고 할만한 페이지 <a href="https://serverless-training.com/articles/api-gateway-vs-application-load-balancer-technical-details/">https://serverless-training.com/articles/api-gateway-vs-application-load-balancer-technical-details/</a></p>
+<hr>
 <p><strong>참고</strong></p>
 <ul>
 <li><a href="https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html</a></li>

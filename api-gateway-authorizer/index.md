@@ -46,7 +46,7 @@ type APIGatewayCustomAuthorizerRequestTypeRequest struct {
 
 일반적으로 많이사용하는 JWT인증의 경우 token 기반 인증으로도 충분하기 때문에 token 기반 인증으로 구성하고 사용해보려 한다.
 
-### authorizer 워크 플로우
+#### authorizer 워크 플로우
 
 AWS 공식 문서의 인증 워크플로우 그림을 보자.
 
@@ -56,7 +56,9 @@ AWS 공식 문서의 인증 워크플로우 그림을 보자.
 2. authorizer가 Allow, Deny 여부를 판단해서 policy document를 반환한다.
 3. Deny면 API Gateway에서 403을 반환하고 Allow면 각 method에 연결되어있는 서비스를 실행한다. 이때 authorizer의 cache 설정이 활성화 되어있다면 authorizer를 다시 실행하지 않도록 caching하여 비용을 절감할 수 있다.
 
-### authorizer lambda function
+### authorizer
+
+#### lambda function
 
 ```go
 func main() {
@@ -106,7 +108,7 @@ token의 유효성에 따라 IAM Policy를 생성하면 된다. 이 때 resource
 
 방법은 간단히 요청으로 받은 resource가 아닌 범위로 설정하여 return하면 될 것이다.
 
-참고로 request는 다음과 같이 처리 할 수 있다.
+참고로 token기반이 아닌 request기반은 다음과 같이 처리 할 수 있다.
 
 ```go
 func ValidateToken(ctx context.Context, token string) (events.APIGatewayCustomAuthorizerResponse, error) {
@@ -152,6 +154,42 @@ func ValidateToken(ctx context.Context, token string) (events.APIGatewayCustomAu
 	return authResponse, nil
 }
 ```
+
+#### 구성
+
+이제 lambda는 위에 처럼 생성을 미리 해놓고 API Gateway의 authorizers를 설정해보자.
+
+![authorizer](authorizer.png "authorizer")
+
+Token방식으로 설정하고, Source는 `Authorization`으로 했다.
+
+![authorizer](settingAuthorizer.png "authorizer")
+
+api 호출시 인증이 필요한 method에 Authorization 설정을 생성한 것으로 설정한다.
+
+#### 결과
+
+이제 api 호출을 해보자.
+
+![unauthorized](unauthorized.png "unauthorized")
+
+auth값을 아무것도 넣어주지 않았을 때 API Gateway에서 401을 뱉고 있는 것을 볼 수 있다.
+
+![allow](allow.png "allow")
+
+유효한 token을 넣어주고 authorizer lambda function에서 ALLOW를 넘겨줬다면? 요청한 Method가 정상적으로 호출 된 것을 볼 수 있다.
+
+만약 token값이 유효하지 않아서 DENY를 return했다면?
+
+![deny](deny.png "deny")
+
+API Gateway 403과 함께 deny된 메세지가 출력된다.
+
+간단히 사용을 해보았는데 Lambda로 API구성을 한번 해보고 싶어서 어찌저찌 API Gateway까지 건들게 되서 authorizer를 사용해봤다.
+
+기능적으로는 ELB뒤에 Lambda를 붙이는 것보다 API Gateway가 기능적으로 인증 및 권한과 요청 및 응답 매핑 정도가 있을 것 같은데 비용도 비싸기도 하고.. 실제 운영 환경에 적용할 때는 여러가지로 확인이 필요할듯 하다.
+
+참고 할만한 페이지 https://serverless-training.com/articles/api-gateway-vs-application-load-balancer-technical-details/
 
 ---
 
