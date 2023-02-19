@@ -5,7 +5,7 @@ https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
 
 <!--more-->
 
-
+문제 조건이 `0 <= digits.length <= 4` 이기 때문에 연속 for문을 돌려도 시간상 문제가 될 것 같지는 않아 보였음
 
 ```go
 func letterCombinations(digits string) []string {
