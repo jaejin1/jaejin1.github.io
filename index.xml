@@ -7,6 +7,20 @@
             <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Sun, 19 Feb 2023 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>[Leetcode] 11. Container With Most Water</title>
+    <link>http://example.org/container-with-most-water/</link>
+    <pubDate>Sun, 19 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/container-with-most-water/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/container-with-most-water/description/">https://leetcode.com/problems/container-with-most-water/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 15. 3Sum</title>
+    <link>http://example.org/3sum/</link>
+    <pubDate>Sun, 19 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/3sum/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/3sum/description/">https://leetcode.com/problems/3sum/description/</a></p>]]></description>
+</item><item>
     <title>[Leetcode] 17. Letter Combinations of a Phone Number</title>
     <link>http://example.org/letter-combinations-of-a-phone-number/</link>
     <pubDate>Sun, 19 Feb 2023 00:00:00 &#43;0000</pubDate>
@@ -67,19 +81,5 @@
     <author>Author</author>
     <guid>http://example.org/tty/</guid>
     <description><![CDATA[<p>리눅스의 <code>/dev</code> 디렉토리에서 볼 수 있는 <code>/dev/tty*</code>, <code>/dev/pts/*</code> 파일들이 입출력에 관련된 파일들이며 외부 터미널 장치를 연결할 때, 리눅스에서 가상콘솔을 제공할 때 xterm이나 telnet, ssh 같은 리모트 로그인 프로그램등에 의해 사용된다.</p>]]></description>
-</item><item>
-    <title>Job Control</title>
-    <link>http://example.org/jobcontrol/</link>
-    <pubDate>Wed, 19 May 2021 13:58:26 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>http://example.org/jobcontrol/</guid>
-    <description><![CDATA[<p>터미널에서 단순히 한나의 명령을 실행시키는게 아니라 <code>&amp;</code>을 이용해 background job을 생성할 수 있다.</p>]]></description>
-</item><item>
-    <title>browser에서 url을 입력하면 무슨일이 일어날까?</title>
-    <link>http://example.org/cs/</link>
-    <pubDate>Mon, 10 May 2021 23:01:00 &#43;0900</pubDate>
-    <author>Author</author>
-    <guid>http://example.org/cs/</guid>
-    <description><![CDATA[<p>웹 browser에 url을 입력하면 무슨일이 일어날지 정리해보자.</p>]]></description>
 </item></channel>
 </rss>
