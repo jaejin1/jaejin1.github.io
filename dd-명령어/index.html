@@ -5,32 +5,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>[Leetcode] 300. Longest Increasing Subsequence - </title><meta name="Description" content="This is jaejin&#39;s blog"><meta property="og:title" content="[Leetcode] 300. Longest Increasing Subsequence" />
-<meta property="og:description" content="https://leetcode.com/problems/longest-increasing-subsequence/description/" />
+        <title>AWS volume 복제를 위해 dd 명령어를 사용해보자 - </title><meta name="Description" content="This is jaejin&#39;s blog"><meta property="og:title" content="AWS volume 복제를 위해 dd 명령어를 사용해보자" />
+<meta property="og:description" content="AWS volmue을 복제하여 mount 하는 작업이 필요한 상황에서 dd 명령어를 통해 파일을 복제 해보자." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/longest-increasing-subsequence/" />
+<meta property="og:url" content="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" />
 <meta property="og:image" content="http://example.org/images/jaejin.png"/>
-<meta property="article:published_time" content="2023-02-24T00:00:00+00:00" />
-<meta property="article:modified_time" content="2023-02-24T00:00:00+00:00" />
+<meta property="article:published_time" content="2023-05-03T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-05-03T00:00:00+00:00" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://example.org/images/jaejin.png"/>
 
-<meta name="twitter:title" content="[Leetcode] 300. Longest Increasing Subsequence"/>
-<meta name="twitter:description" content="https://leetcode.com/problems/longest-increasing-subsequence/description/"/>
+<meta name="twitter:title" content="AWS volume 복제를 위해 dd 명령어를 사용해보자"/>
+<meta name="twitter:description" content="AWS volmue을 복제하여 mount 하는 작업이 필요한 상황에서 dd 명령어를 통해 파일을 복제 해보자."/>
 <meta name="application-name" content="LoveIt">
 <meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/longest-increasing-subsequence/" /><link rel="prev" href="http://example.org/top-k-frequent-elements/" /><link rel="next" href="http://example.org/merge-intervals/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" /><link rel="prev" href="http://example.org/merge-intervals/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "[Leetcode] 300. Longest Increasing Subsequence",
+        "headline": "AWS volume 복제를 위해 dd 명령어를 사용해보자",
         "inLanguage": "en",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "http:\/\/example.org\/longest-increasing-subsequence\/"
-        },"genre": "posts","keywords": "algorithm, leetcode","wordcount":  131 ,
-        "url": "http:\/\/example.org\/longest-increasing-subsequence\/","datePublished": "2023-02-24T00:00:00+00:00","dateModified": "2023-02-24T00:00:00+00:00","publisher": {
+            "@id": "http:\/\/example.org\/dd-%EB%AA%85%EB%A0%B9%EC%96%B4\/"
+        },"genre": "posts","keywords": "os, linux, aws, volume","wordcount":  15 ,
+        "url": "http:\/\/example.org\/dd-%EB%AA%85%EB%A0%B9%EC%96%B4\/","datePublished": "2023-05-03T00:00:00+00:00","dateModified": "2023-05-03T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
@@ -106,9 +106,9 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">[Leetcode] 300. Longest Increasing Subsequence</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/algorithm/"><i class="far fa-folder fa-fw"></i>algorithm</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-24">2023-02-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;131 words&nbsp;
+        </div><article class="page single"><h1 class="single-title animated flipInX">AWS volume 복제를 위해 dd 명령어를 사용해보자</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/os/"><i class="far fa-folder fa-fw"></i>os</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-05-03">2023-05-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;15 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;One minute&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -116,102 +116,33 @@
                     <span><i class="details-icon fas fa-angle-right"></i></span>
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
-            </div><div class="content" id="content"><p><a href="https://leetcode.com/problems/longest-increasing-subsequence/description/">https://leetcode.com/problems/longest-increasing-subsequence/description/</a></p>
-<p>이것도 결국 개수를 구하는 거기 때문에 DP로 접근을 했다.</p>
-<p>주어진 nums를 하나씩 보면서 지나온 배열의 최대 값을 저장하면서 진행</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">lengthOfLIS</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
-    <span class="nx">dp</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">))</span>
-
-    <span class="nx">res</span> <span class="o">:=</span> <span class="mi">0</span>
-
-    <span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">num</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">nums</span> <span class="p">{</span>
-        <span class="nx">max</span> <span class="o">:=</span> <span class="mi">0</span>
-        <span class="nx">maxIndex</span> <span class="o">:=</span> <span class="mi">0</span>
-
-        <span class="k">for</span> <span class="nx">j</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="p">&lt;</span> <span class="nx">i</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span> <span class="p">{</span>
-
-            <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">&lt;</span> <span class="nx">num</span> <span class="o">&amp;&amp;</span> <span class="nx">max</span> <span class="p">&lt;</span> <span class="nx">dp</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">{</span>
-                <span class="nx">max</span> <span class="p">=</span> <span class="nx">dp</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span>
-                <span class="nx">maxIndex</span> <span class="p">=</span> <span class="nx">j</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        
-        <span class="k">if</span> <span class="nx">max</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
-            <span class="nx">dp</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">dp</span><span class="p">[</span><span class="nx">maxIndex</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="nx">dp</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="mi">1</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span> <span class="nx">res</span> <span class="p">&lt;</span> <span class="nx">dp</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">{</span>
-            <span class="nx">res</span> <span class="p">=</span> <span class="nx">dp</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="nx">res</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div></div><div class="post-footer" id="post-footer">
+            </div><div class="content" id="content"><p>AWS volmue을 복제하여 mount 하는 작업이 필요한 상황에서 dd 명령어를 통해 파일을 복제 해보자.</p>
+<p>dd</p></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2023-02-24</span>
+                <span>Updated on 2023-05-03</span>
             </div>
             <div class="post-info-license"></div>
         </div>
         <div class="post-info-line">
             <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/longest-increasing-subsequence/index.md" target="_blank">Read Markdown</a>
+                            <a class="link-to-markdown" href="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/index.md" target="_blank">Read Markdown</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/longest-increasing-subsequence/" data-title="[Leetcode] 300. Longest Increasing Subsequence" data-hashtags="algorithm,leetcode"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/longest-increasing-subsequence/" data-hashtag="algorithm"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/longest-increasing-subsequence/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/longest-increasing-subsequence/" data-title="[Leetcode] 300. Longest Increasing Subsequence" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/longest-increasing-subsequence/" data-title="[Leetcode] 300. Longest Increasing Subsequence"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/longest-increasing-subsequence/" data-title="[Leetcode] 300. Longest Increasing Subsequence"><i class="fab fa-evernote fa-fw"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" data-title="AWS volume 복제를 위해 dd 명령어를 사용해보자" data-hashtags="os,linux,aws,volume"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" data-hashtag="os"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" data-title="AWS volume 복제를 위해 dd 명령어를 사용해보자" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" data-title="AWS volume 복제를 위해 dd 명령어를 사용해보자"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" data-title="AWS volume 복제를 위해 dd 명령어를 사용해보자"><i class="fab fa-evernote fa-fw"></i></a></span>
             </div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/algorithm/">algorithm</a>,&nbsp;<a href="/tags/leetcode/">leetcode</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/os/">os</a>,&nbsp;<a href="/tags/linux/">linux</a>,&nbsp;<a href="/tags/aws/">aws</a>,&nbsp;<a href="/tags/volume/">volume</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/top-k-frequent-elements/" class="prev" rel="prev" title="[Leetcode] 347. Top K Frequent Elements"><i class="fas fa-angle-left fa-fw"></i>[Leetcode] 347. Top K Frequent Elements</a>
-            <a href="/merge-intervals/" class="next" rel="next" title="[Leetcode] 56. Merge Intervals">[Leetcode] 56. Merge Intervals<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/merge-intervals/" class="prev" rel="prev" title="[Leetcode] 56. Merge Intervals"><i class="fas fa-angle-left fa-fw"></i>[Leetcode] 56. Merge Intervals</a></div>
 </div>
 <div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
