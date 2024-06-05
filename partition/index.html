@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Partition - </title><meta name="Description" content="파티션이란 연속된 저장 공간을 하나 이상의 연속되고 독립된 영역으로 나누어서 사용할 수 있도록 정의한 규약."><meta property="og:url" content="http://example.org/partition/">
+  <meta property="og:title" content="Partition">
+  <meta property="og:description" content="파티션이란 연속된 저장 공간을 하나 이상의 연속되고 독립된 영역으로 나누어서 사용할 수 있도록 정의한 규약.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-06-28T15:58:26+08:00">
+    <meta property="article:modified_time" content="2020-06-28T15:58:26+08:00">
+    <meta property="article:tag" content="Os">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Filesystem">
+    <meta property="og:image" content="http://example.org/images/jaejin.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/images/jaejin.png">
+  <meta name="twitter:title" content="Partition">
+  <meta name="twitter:description" content="파티션이란 연속된 저장 공간을 하나 이상의 연속되고 독립된 영역으로 나누어서 사용할 수 있도록 정의한 규약.">
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/partition/" /><link rel="prev" href="http://example.org/sector/" /><link rel="next" href="http://example.org/cap/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Partition",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/partition\/"
+        },"genre": "posts","keywords": "os, linux, filesystem","wordcount":  503 ,
+        "url": "http:\/\/example.org\/partition\/","datePublished": "2020-06-28T15:58:26+08:00","dateModified": "2020-06-28T15:58:26+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": "파티션이란 연속된 저장 공간을 하나 이상의 연속되고 독립된 영역으로 나누어서 사용할 수 있도록 정의한 규약."
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Partition</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/os/"><i class="far fa-folder fa-fw"></i>Os</a>&nbsp;<a href="/categories/linux/"><i class="far fa-folder fa-fw"></i>Linux</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-06-28">2020-06-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;503 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#사용-용도">사용 용도</a></li>
+    <li><a href="#partition-vs-volume">partition vs volume</a></li>
+    <li><a href="#mbr">MBR</a></li>
+    <li><a href="#linux-partition">linux partition</a></li>
+    <li><a href="#실습">실습</a>
+      <ul>
+        <li><a href="#파티션-나누기">파티션 나누기</a></li>
+        <li><a href="#파일-시스템-설정">파일 시스템 설정</a></li>
+        <li><a href="#마운트">마운트</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>파티션이란 연속된 저장 공간을 하나 이상의 연속되고 독립된 영역으로 나누어서 사용할 수 있도록 정의한 규약.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled.png" title="partition" data-thumbnail="/partition/Untitled.png" data-sub-html="<h2>partition</h2><p>partition</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled.png"
+            data-srcset="/partition/Untitled.png, Untitled.png 1.5x, /partition/Untitled.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled.png" />
+    </a><figcaption class="image-caption">partition</figcaption>
+    </figure></p>
+<p>파티션을 나누기 위해서는 저장장치에 연속된 공간에 있어야한다.  <code>하나의 하드디스크에는 여러 개의 파티션을 나눌 수 있지만, 두 개의 하드디스크를 가지고 하나의 파티션을 만들 순 없다.</code></p>
+<h2 id="사용-용도">사용 용도</h2>
+<ol>
+<li>하나의 물리적인 디스크를 여러 논리 영역으로 나누어 관리를 용이하게 함.</li>
+<li>OS영역과 Data 영역으로 나누어 OS 영역만 따로 포맷 및 관리를 하기 위해 사용</li>
+<li>여러 OS를 설치하기 위해 사용</li>
+<li>하드 디스크의 물리적인 배드 섹터로 특정 영역을 잘라서 사용하기 위해 사용한다.</li>
+</ol>
+<h2 id="partition-vs-volume">partition vs volume</h2>
+<p>볼륨은 OS나 Application등에서 이용할 수 있는 저장공간, 즉 섹터의 집합이다.</p>
+<p><strong>연속된 공간이 아니여도 볼륨으로 볼 수 있다.</strong> 즉 2개의 하드디스크를 사용하는 경우 하나의 하드디스크처럼 인식하여 사용할 수 있다.</p>
+<p>보통 partition에 FS를 설정해주면 volume으로 보기에 partition역시 volume으로 볼 수 있다.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%201.png" title="hard disk" data-thumbnail="/partition/Untitled%201.png" data-sub-html="<h2>hard disk</h2><p>hard disk</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%201.png"
+            data-srcset="/partition/Untitled%201.png, Untitled%201.png 1.5x, /partition/Untitled%201.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%201.png" />
+    </a><figcaption class="image-caption">hard disk</figcaption>
+    </figure></p>
+<h2 id="mbr">MBR</h2>
+<p>Master Boot Record</p>
+<p>각 boot record는 각 partition의 첫 번째 섹터에 위치하며, 주로 해당 partition의 설치된 OS를 부팅하는 역할을 하게 된다. 즉 OS 실행을 위한 boot loader를 호출하는 것이다. partition을 나누지 않은 경우라면 boot record는 MBR에 있을 것이다.</p>
+<p>단일 partition을 사용하는 경우 (플로피) boot record는 1개만 있을 것이므로 MBR이 필요없다.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%202.png" title="MBR" data-thumbnail="/partition/Untitled%202.png" data-sub-html="<h2>MBR</h2><p>MBR</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%202.png"
+            data-srcset="/partition/Untitled%202.png, Untitled%202.png 1.5x, /partition/Untitled%202.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%202.png" />
+    </a><figcaption class="image-caption">MBR</figcaption>
+    </figure></p>
+<p>MBR 호출과정</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%203.png" title="MBR 호출과정" data-thumbnail="/partition/Untitled%203.png" data-sub-html="<h2>MBR 호출과정</h2><p>MBR 호출과정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%203.png"
+            data-srcset="/partition/Untitled%203.png, Untitled%203.png 1.5x, /partition/Untitled%203.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%203.png" />
+    </a><figcaption class="image-caption">MBR 호출과정</figcaption>
+    </figure></p>
+<h2 id="linux-partition">linux partition</h2>
+<ul>
+<li>Primary partition
+<ul>
+<li>주 영역 파티션</li>
+<li>4개까지 생성가능 (1개 ~ 4개)</li>
+</ul>
+</li>
+<li>Extend partition
+<ul>
+<li>확장 영역 파티션</li>
+<li>1개 까지 생성가능</li>
+</ul>
+</li>
+<li>Ligical partition
+<ul>
+<li>논리 영역 파티션</li>
+<li>SCSI 한 개의 총 partition 15개만 넘지 않게 사용가능 12개 이상은 좋지 않다고함</li>
+</ul>
+</li>
+</ul>
+<h2 id="실습">실습</h2>
+<h3 id="파티션-나누기">파티션 나누기</h3>
+<p>aws에 ec2하나 띄워놓고 파티션을 나눠보장</p>
+<p>먼저 파티션할 volume을 하나 생성하고 해당 ec2와 연결한다.</p>
+<p>16GB짜리 disk를 연결했다.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%204.png" title="disk" data-thumbnail="/partition/Untitled%204.png" data-sub-html="<h2>disk</h2><p>disk</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%204.png"
+            data-srcset="/partition/Untitled%204.png, Untitled%204.png 1.5x, /partition/Untitled%204.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%204.png" />
+    </a><figcaption class="image-caption">disk</figcaption>
+    </figure></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ fdisk -l
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><figure><a class="lightgallery" href="/partition/Untitled%205.png" title="fdisk -l" data-thumbnail="/partition/Untitled%205.png" data-sub-html="<h2>fdisk -l</h2><p>fdisk -l</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%205.png"
+            data-srcset="/partition/Untitled%205.png, Untitled%205.png 1.5x, /partition/Untitled%205.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%205.png" />
+    </a><figcaption class="image-caption">fdisk -l</figcaption>
+    </figure></p>
+<p>파티션 생성을 위해 파티션 설정으로 들어가자.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ fdisk /dev/xvdd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><figure><a class="lightgallery" href="/partition/Untitled%206.png" title="partition 설정" data-thumbnail="/partition/Untitled%206.png" data-sub-html="<h2>partition 설정</h2><p>partition 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%206.png"
+            data-srcset="/partition/Untitled%206.png, Untitled%206.png 1.5x, /partition/Untitled%206.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%206.png" />
+    </a><figcaption class="image-caption">partition 설정</figcaption>
+    </figure></p>
+<ul>
+<li>Primary 2GB</li>
+<li>Extended 4GB
+<ul>
+<li>Logical 2GB</li>
+<li>Logical 2GB</li>
+</ul>
+</li>
+<li>사용안함 10GB</li>
+</ul>
+<p>로 설정해보자.</p>
+<ol>
+<li>먼저 2G 짜리 Primary 파티션을 만들기 위해 <code>n</code> 입력</li>
+</ol>
+<p><figure><a class="lightgallery" href="/partition/Untitled%207.png" title="partition 설정" data-thumbnail="/partition/Untitled%207.png" data-sub-html="<h2>partition 설정</h2><p>partition 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%207.png"
+            data-srcset="/partition/Untitled%207.png, Untitled%207.png 1.5x, /partition/Untitled%207.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%207.png" />
+    </a><figcaption class="image-caption">partition 설정</figcaption>
+    </figure></p>
+<p>다음 primary 파티션을 생성해야하므로 p를 입력</p>
+<p>순서대로 partition 번호는 1, sector 시작은 default, primary를 2GB로 설정하기위해서 last sector는 <code>+2G</code> 로 설정했다.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%208.png" title="partition 설정" data-thumbnail="/partition/Untitled%208.png" data-sub-html="<h2>partition 설정</h2><p>partition 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%208.png"
+            data-srcset="/partition/Untitled%208.png, Untitled%208.png 1.5x, /partition/Untitled%208.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%208.png" />
+    </a><figcaption class="image-caption">partition 설정</figcaption>
+    </figure></p>
+<p>설정이 완료되었고 다시 p를 입력해 확인해보면 생성된 것을 확인 할 수 있다.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%209.png" title="partition 설정" data-thumbnail="/partition/Untitled%209.png" data-sub-html="<h2>partition 설정</h2><p>partition 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%209.png"
+            data-srcset="/partition/Untitled%209.png, Untitled%209.png 1.5x, /partition/Untitled%209.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%209.png" />
+    </a><figcaption class="image-caption">partition 설정</figcaption>
+    </figure></p>
+<p>primary를 생성 했으므로 extended 파티션을 생성해보자.</p>
+<p>똑같이 <code>n</code> 명령으로 생성하자.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%2010.png" title="partition 설정" data-thumbnail="/partition/Untitled%2010.png" data-sub-html="<h2>partition 설정</h2><p>partition 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2010.png"
+            data-srcset="/partition/Untitled%2010.png, Untitled%2010.png 1.5x, /partition/Untitled%2010.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2010.png" />
+    </a><figcaption class="image-caption">partition 설정</figcaption>
+    </figure></p>
+<p>xvdd2 이름으로 4GB Extended 파티션이 생성된 것을 확인 할 수 있다.</p>
+<p>이제 Extended 파티션에 2개의 logical 파티션을 생성해보자.</p>
+<p>Extended 파티션을 생성하고 <code>n</code> 명령어를 입력하면 extended 대신 logical이 보일 것이다.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%2011.png" title="partition 설정" data-thumbnail="/partition/Untitled%2011.png" data-sub-html="<h2>partition 설정</h2><p>partition 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2011.png"
+            data-srcset="/partition/Untitled%2011.png, Untitled%2011.png 1.5x, /partition/Untitled%2011.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2011.png" />
+    </a><figcaption class="image-caption">partition 설정</figcaption>
+    </figure></p>
+<p>이제 2개의 logical 파티션을 생성하자</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%2012.png" title="partition 설정" data-thumbnail="/partition/Untitled%2012.png" data-sub-html="<h2>partition 설정</h2><p>partition 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2012.png"
+            data-srcset="/partition/Untitled%2012.png, Untitled%2012.png 1.5x, /partition/Untitled%2012.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2012.png" />
+    </a><figcaption class="image-caption">partition 설정</figcaption>
+    </figure></p>
+<p>2개째 설정하는 단계에서 <code>Value out of range</code> 에러가 발생했는데 Extended 파티션을 4GB로 설정했지만 완벽히 4GB가 아닐꺼라 남은 용량이 2GB보다 적어서 발생하는 에러 일 것이므로 default로 설정해주었더니 잘 할달 받은 것을 볼 수 있다.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%2013.png" title="partition 설정" data-thumbnail="/partition/Untitled%2013.png" data-sub-html="<h2>partition 설정</h2><p>partition 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2013.png"
+            data-srcset="/partition/Untitled%2013.png, Untitled%2013.png 1.5x, /partition/Untitled%2013.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2013.png" />
+    </a><figcaption class="image-caption">partition 설정</figcaption>
+    </figure></p>
+<p><code>w</code> 명령으로 저장한다.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%2014.png" title="partition 설정" data-thumbnail="/partition/Untitled%2014.png" data-sub-html="<h2>partition 설정</h2><p>partition 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2014.png"
+            data-srcset="/partition/Untitled%2014.png, Untitled%2014.png 1.5x, /partition/Untitled%2014.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2014.png" />
+    </a><figcaption class="image-caption">partition 설정</figcaption>
+    </figure></p>
+<p>혹시 모르니 <code>partprobe</code> 명령으로 os에게 변경사항을 알려준다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ partprobe
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>다시 확인하면 잘 나눠진것을 볼 수 있다.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%2015.png" title="partition 설정" data-thumbnail="/partition/Untitled%2015.png" data-sub-html="<h2>partition 설정</h2><p>partition 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2015.png"
+            data-srcset="/partition/Untitled%2015.png, Untitled%2015.png 1.5x, /partition/Untitled%2015.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2015.png" />
+    </a><figcaption class="image-caption">partition 설정</figcaption>
+    </figure></p>
+<h3 id="파일-시스템-설정">파일 시스템 설정</h3>
+<p>파티션 생성을 완료하면 물리적인 공간만 나눠놓았고 파일시스템을 지정해줘야한다.</p>
+<p>ext4 파일 시스템으로 /dev/xvdd1에 적용한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ mkfs.ext4 /dev/xvdd1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><figure><a class="lightgallery" href="/partition/Untitled%2016.png" title="fs 설정" data-thumbnail="/partition/Untitled%2016.png" data-sub-html="<h2>fs 설정</h2><p>fs 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2016.png"
+            data-srcset="/partition/Untitled%2016.png, Untitled%2016.png 1.5x, /partition/Untitled%2016.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2016.png" />
+    </a><figcaption class="image-caption">fs 설정</figcaption>
+    </figure></p>
+<p>xvdd5, xvdd6도 설정해주자.</p>
+<p>xvdd5는 ext4로 , xvdd6은 ext3으로 설정해봤다.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%2017.png" title="fs 설정" data-thumbnail="/partition/Untitled%2017.png" data-sub-html="<h2>fs 설정</h2><p>fs 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2017.png"
+            data-srcset="/partition/Untitled%2017.png, Untitled%2017.png 1.5x, /partition/Untitled%2017.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2017.png" />
+    </a><figcaption class="image-caption">fs 설정</figcaption>
+    </figure></p>
+<h3 id="마운트">마운트</h3>
+<p>파일시스템 설정까지 해줬으니 마운트를 해줘서 파티션한 공간을 사용해보자.</p>
+<p>/dev/xvdd1, /dev/xvdd5, /dev/xvdd6 을 연결하기 위해 3개의 마운트 포인트가 필요하다.</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%2018.png" title="mount 설정" data-thumbnail="/partition/Untitled%2018.png" data-sub-html="<h2>mount 설정</h2><p>mount 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2018.png"
+            data-srcset="/partition/Untitled%2018.png, Untitled%2018.png 1.5x, /partition/Untitled%2018.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2018.png" />
+    </a><figcaption class="image-caption">mount 설정</figcaption>
+    </figure></p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%2019.png" title="mount 설정" data-thumbnail="/partition/Untitled%2019.png" data-sub-html="<h2>mount 설정</h2><p>mount 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2019.png"
+            data-srcset="/partition/Untitled%2019.png, Untitled%2019.png 1.5x, /partition/Untitled%2019.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2019.png" />
+    </a><figcaption class="image-caption">mount 설정</figcaption>
+    </figure></p>
+<p>마운트가 잘 된것을 볼 수 있고 user를 할당해서 home 디렉토리로 설정해보장</p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%2019.png" title="user 설정" data-thumbnail="/partition/Untitled%2019.png" data-sub-html="<h2>user 설정</h2><p>user 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2019.png"
+            data-srcset="/partition/Untitled%2019.png, Untitled%2019.png 1.5x, /partition/Untitled%2019.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2019.png" />
+    </a><figcaption class="image-caption">user 설정</figcaption>
+    </figure></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ tail /etc/passwd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><figure><a class="lightgallery" href="/partition/Untitled%2021.png" title="user 설정" data-thumbnail="/partition/Untitled%2021.png" data-sub-html="<h2>user 설정</h2><p>user 설정</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2021.png"
+            data-srcset="/partition/Untitled%2021.png, Untitled%2021.png 1.5x, /partition/Untitled%2021.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2021.png" />
+    </a><figcaption class="image-caption">user 설정</figcaption>
+    </figure></p>
+<p><figure><a class="lightgallery" href="/partition/Untitled%2022.png" title="mount 확인" data-thumbnail="/partition/Untitled%2022.png" data-sub-html="<h2>mount 확인</h2><p>mount 확인</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="Untitled%2022.png"
+            data-srcset="/partition/Untitled%2022.png, Untitled%2022.png 1.5x, /partition/Untitled%2022.png 2x"
+            data-sizes="auto"
+            alt="/partition/Untitled%2022.png" />
+    </a><figcaption class="image-caption">mount 확인</figcaption>
+    </figure></p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2020-06-28</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/partition/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/partition/" data-title="Partition" data-hashtags="os,linux,filesystem"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/partition/" data-hashtag="os"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/partition/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/partition/" data-title="Partition" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/partition/" data-title="Partition"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/partition/" data-title="Partition"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/os/">Os</a>,&nbsp;<a href="/tags/linux/">Linux</a>,&nbsp;<a href="/tags/filesystem/">Filesystem</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/sector/" class="prev" rel="prev" title="Sector"><i class="fas fa-angle-left fa-fw"></i>Sector</a>
+            <a href="/cap/" class="next" rel="next" title="Availability vs consistency">Availability vs consistency<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="https://https-jaejin1-github-io.disqus.com/embed.js" defer></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

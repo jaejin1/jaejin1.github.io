@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Kubernetes cluster on aws with kops - </title><meta name="Description" content="MacOS에서 cluster를 구성한뒤 AWS에 노드들을 띄우는 작업을 해봅시다."><meta property="og:url" content="http://example.org/kops/">
+  <meta property="og:title" content="Kubernetes cluster on aws with kops">
+  <meta property="og:description" content="MacOS에서 cluster를 구성한뒤 AWS에 노드들을 띄우는 작업을 해봅시다.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2018-12-21T15:58:26+08:00">
+    <meta property="article:modified_time" content="2018-12-21T15:58:26+08:00">
+    <meta property="article:tag" content="Kubernetes">
+    <meta property="article:tag" content="Kops">
+    <meta property="og:image" content="http://example.org/images/jaejin.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/images/jaejin.png">
+  <meta name="twitter:title" content="Kubernetes cluster on aws with kops">
+  <meta name="twitter:description" content="MacOS에서 cluster를 구성한뒤 AWS에 노드들을 띄우는 작업을 해봅시다.">
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/kops/" /><link rel="prev" href="http://example.org/basic/" /><link rel="next" href="http://example.org/godep/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Kubernetes cluster on aws with kops",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/kops\/"
+        },"genre": "posts","keywords": "kubernetes, kops","wordcount":  461 ,
+        "url": "http:\/\/example.org\/kops\/","datePublished": "2018-12-21T15:58:26+08:00","dateModified": "2018-12-21T15:58:26+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": "MacOS에서 cluster를 구성한뒤 AWS에 노드들을 띄우는 작업을 해봅시다."
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Kubernetes cluster on aws with kops</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/kubernetes/"><i class="far fa-folder fa-fw"></i>Kubernetes</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-12-21">2018-12-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;461 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#kubernetes-cluster-setting-for-mac">kubernetes cluster setting for mac</a>
+      <ul>
+        <li><a href="#설치">설치</a></li>
+        <li><a href="#설치-확인">설치 확인</a></li>
+        <li><a href="#aws-cli">AWS CLI</a></li>
+        <li><a href="#kops">Kops</a></li>
+        <li><a href="#key">Key</a></li>
+        <li><a href="#cluster">Cluster</a></li>
+        <li><a href="#update-cluster">Update Cluster</a></li>
+        <li><a href="#create-cluster">Create Cluster</a></li>
+        <li><a href="#validate-cluster">Validate Cluster</a></li>
+      </ul>
+    </li>
+    <li><a href="#클러스터-확인-및-수정">클러스터 확인 및 수정</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>MacOS에서 cluster를 구성한뒤 AWS에 노드들을 띄우는 작업을 해봅시다.</p>
+<h2 id="kubernetes-cluster-setting-for-mac">kubernetes cluster setting for mac</h2>
+<h3 id="설치">설치</h3>
+<p>먼저
+kubernetes를 다루기 위해 kubectl을 다운로드 한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -LO https://storage.googleapis.com/kubernetes-release/release/<span class="k">$(</span>curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt<span class="k">)</span>/bin/darwin/amd64/kubectl
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>에러가 날 것인데 최신 릴리즈 버전을 확인하자</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>예를들어 위의 결과가 이렇게 나왔다면.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">v1.12.2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.12.2/bin/darwin/amd64/kubectl
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>이런식으로 다운로드 받으면 된다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chmod +x ./kubectl
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>실행 모드로 변경하고</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mv ./kubectl /usr/local/bin/kubectl
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Move the binary in to your PATH</p>
+<h3 id="설치-확인">설치 확인</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl version
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&gt;
+</span></span><span class="line"><span class="cl">Client Version: version.Info<span class="o">{</span>Major:<span class="s2">&#34;1&#34;</span>, Minor:<span class="s2">&#34;12&#34;</span>, GitVersion:<span class="s2">&#34;v1.12.2&#34;</span>, GitCommit:<span class="s2">&#34;17c77c7898218073f14c8d573582e8d2313dc740&#34;</span>, GitTreeState:<span class="s2">&#34;clean&#34;</span>, BuildDate:<span class="s2">&#34;2018-10-24T06:54:59Z&#34;</span>, GoVersion:<span class="s2">&#34;go1.10.4&#34;</span>, Compiler:<span class="s2">&#34;gc&#34;</span>, Platform:<span class="s2">&#34;darwin/amd64&#34;</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">Server Version: version.Info<span class="o">{</span>Major:<span class="s2">&#34;1&#34;</span>, Minor:<span class="s2">&#34;10&#34;</span>, GitVersion:<span class="s2">&#34;v1.10.6&#34;</span>, GitCommit:<span class="s2">&#34;a21fdbd78dde8f5447f5f6c331f7eb6f80bd684e&#34;</span>, GitTreeState:<span class="s2">&#34;clean&#34;</span>, BuildDate:<span class="s2">&#34;2018-07-26T10:04:08Z&#34;</span>, GoVersion:<span class="s2">&#34;go1.9.3&#34;</span>, Compiler:<span class="s2">&#34;gc&#34;</span>, Platform:<span class="s2">&#34;linux/amd64&#34;</span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>이런식으로 client와 server가 둘다 나와야 잘 설치 된 것이다.</p>
+<h3 id="aws-cli">AWS CLI</h3>
+<p>AWS에 노드를 띄우기 위해 AWS의 설정을 해준다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ sudo apt update
+</span></span><span class="line"><span class="cl">$ sudo apt install -y awscli
+</span></span><span class="line"><span class="cl">$ aws configure
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&gt;
+</span></span><span class="line"><span class="cl">public, secret key 입력
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="kops">Kops</h3>
+<p>쉽게 클러스터를 전개 하기 위해 kops를 설치한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ wget https://github.com/kubernetes/kops/releases/download/1.10.0/kops-darwin-amd64
+</span></span><span class="line"><span class="cl">$ chmod +x kops-darwin-amd64
+</span></span><span class="line"><span class="cl">$ sudo mv kops-darwin-amd64 /usr/local/bin/kops
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>설치 완료되면</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kops 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>명령어가 잘 먹을 것이다.</p>
+<p>kops로 전개한 AWS EC2에 접속하기 위한 key 생성을 해보자</p>
+<h3 id="key">Key</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ssh-keygen -q -f ~/.ssh/id_rsa -N <span class="s2">&#34;&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>or</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kops create secret --name awskrug.k8s.local sshpublickey admin -i ~/.ssh/id_rsa.pub
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>이제 본격적인 Cluster를 만들어보자.</p>
+<h3 id="cluster">Cluster</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">KOPS_CLUSTER_NAME</span><span class="o">=</span>awskrug.k8s.local
+</span></span><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">KOPS_STATE_STORE</span><span class="o">=</span>s3://kops-awskrug-test
+</span></span><span class="line"><span class="cl">$ aws s3 mb <span class="si">${</span><span class="nv">KOPS_STATE_STORE</span><span class="si">}</span> --region us-east-1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>환경 변수 설정을 해주고 S3에 데이터를 저장하기위해 버킷을 생성을 한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kops create cluster <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--cloud<span class="o">=</span>aws <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--name<span class="o">=</span><span class="si">${</span><span class="nv">KOPS_CLUSTER_NAME</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--state<span class="o">=</span><span class="si">${</span><span class="nv">KOPS_STATE_STORE</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--master-size<span class="o">=</span>t2.medium <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--node-size<span class="o">=</span>t2.medium <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--node-count<span class="o">=</span><span class="m">2</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--zones<span class="o">=</span>us-east-1b,us-east-1b <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--ssh-public-key<span class="o">=</span>~/.ssh/k8s.pub <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--network-cidr<span class="o">=</span>10.10.0.0/16
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>원하는 대로 설정이 가능하고  <code>--ssh-public-key=~/.ssh/k8s.pub</code> 부분은 위에 Key 생성한 걸로 해주면 노드에 접속할 수 있다.</p>
+<p>노드 접속은</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -i ~/.ssh/k8s admin@184.73.133.76
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>이런식으로 EC2 instance의 IP를 써주면 접속이 가능하다.</p>
+<h3 id="update-cluster">Update Cluster</h3>
+<ul>
+<li>클러스터 생성 하기 전 수정하기</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kops edit cluster --name<span class="o">=</span><span class="si">${</span><span class="nv">KOPS_CLUSTER_NAME</span><span class="si">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="create-cluster">Create Cluster</h3>
+<ul>
+<li>kops update에 &ndash;yes 옵션을 주면 실제 클러스터가 생성된다.</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kops update cluster --name<span class="o">=</span><span class="si">${</span><span class="nv">KOPS_CLUSTER_NAME</span><span class="si">}</span> --yes
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="validate-cluster">Validate Cluster</h3>
+<ul>
+<li>kops validate 명령으로 생성이 완료 되었는지 확인 할 수 있다.</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kops validate cluster --name<span class="o">=</span><span class="si">${</span><span class="nv">KOPS_CLUSTER_NAME</span><span class="si">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>create cluster 했는데 생성이 안되면 기다려야한다. 클러스터 생성까지 5~10분 정도소요되기 때문이다.</li>
+</ul>
+<h2 id="클러스터-확인-및-수정">클러스터 확인 및 수정</h2>
+<ul>
+<li>다음 명령어로 클러스터(master &amp; node) 확인 할 수 있다.</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kops get ig
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>AWS 인스턴스들을 정지 시키고 싶을때 혹은 다시 실행 시키고 싶을 때</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kops edit ig nodes
+</span></span><span class="line"><span class="cl">$ kops edit ig &lt;master_name&gt;
+</span></span><span class="line"><span class="cl">maxSize, minSize를 0으로 바꾸면 인스턴스 생성이 중지된다. 또는 1이나 2같은 숫자를 쓰면 그만큼 생성 된다.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>update cluster configuration</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kops update cluster --yes
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Rollling update</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kops rolling-update cluster --yes
+</span></span><span class="line"><span class="cl">$ kops rolling-update cluster --cloudonly --force --yes
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<p>kops로 cluster를 구성하게되면 cluster의 정보가 amazon S3에 저장 되기 때문에 어느 환경에서든 kops와 kubectl만 깔려있으면 어디서든 cluster를 조작할 수 있다.</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2018-12-21</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/kops/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/kops/" data-title="Kubernetes cluster on aws with kops" data-hashtags="kubernetes,kops"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/kops/" data-hashtag="kubernetes"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/kops/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/kops/" data-title="Kubernetes cluster on aws with kops" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/kops/" data-title="Kubernetes cluster on aws with kops"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/kops/" data-title="Kubernetes cluster on aws with kops"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/kubernetes/">Kubernetes</a>,&nbsp;<a href="/tags/kops/">Kops</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/basic/" class="prev" rel="prev" title="Kubernetes basics"><i class="fas fa-angle-left fa-fw"></i>Kubernetes basics</a>
+            <a href="/godep/" class="next" rel="next" title="Go dependency management tool (dep)">Go dependency management tool (dep)<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="https://https-jaejin1-github-io.disqus.com/embed.js" defer></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

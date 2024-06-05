@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Abouts on </title>
+    <link>http://example.org/about/</link>
+    <description>Recent content in Abouts on </description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+    <webMaster>opiximeo@gmail.com (jaejin)</webMaster>
+    <lastBuildDate>Sat, 09 Jan 2021 11:04:49 +0800</lastBuildDate>
+    <atom:link href="http://example.org/about/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About Jaejin</title>
+      <link>http://example.org/about/index.kr/</link>
+      <pubDate>Sat, 09 Jan 2021 11:04:49 +0800</pubDate><author>opiximeo@gmail.com (jaejin)</author>
+      <guid>http://example.org/about/index.kr/</guid>
+      <description>developer 👨‍💻&#xA;updated: Jan 09, 2021&#xA;Work History 🔥 Cloud Engineer @ DreamusCompany(FLO)&#xA;2020.2.17 ~ Present&#xA;Junior Software Developer @ ICONLOOP&#xA;2018.10 ~ 2020.2.14&#xA;Intern @ ICONLOOP&#xA;2018.07 ~ 2018.09&#xA;Undergraduate Research Assistant @ UNClab&#xA;2016.06 ~ 2018.06&#xA;Education 🎓 2013-2019&#xA;Hongik University&#xA;Computer Information Communications Engineering&#xA;Links 🔗 Github https://www.github.com/jaejin1 Blog https://jaejin1.github.io/ Linkedin https://www.linkedin.com/in/jaejin-lee-425161173/ Thanks for reading! 👋</description>
+    </item>
+  </channel>
+</rss>

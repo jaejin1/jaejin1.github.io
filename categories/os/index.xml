@@ -1,0 +1,71 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Os - Category - </title>
+        <link>http://example.org/categories/os/</link>
+        <description>Os - Category - </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Wed, 03 May 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/categories/os/" rel="self" type="application/rss+xml" /><item>
+    <title>AWS volume 복제를 위해 dd 명령어를 사용해보자</title>
+    <link>http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/</link>
+    <pubDate>Wed, 03 May 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/</guid>
+    <description><![CDATA[<p>AWS volmue을 복제하여 mount 하는 작업이 필요한 상황에서 dd 명령어를 통해 파일을 복제 해보자.</p>]]></description>
+</item><item>
+    <title>tty</title>
+    <link>http://example.org/tty/</link>
+    <pubDate>Mon, 28 Jun 2021 13:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/tty/</guid>
+    <description><![CDATA[<p>리눅스의 <code>/dev</code> 디렉토리에서 볼 수 있는 <code>/dev/tty*</code>, <code>/dev/pts/*</code> 파일들이 입출력에 관련된 파일들이며 외부 터미널 장치를 연결할 때, 리눅스에서 가상콘솔을 제공할 때 xterm이나 telnet, ssh 같은 리모트 로그인 프로그램등에 의해 사용된다.</p>]]></description>
+</item><item>
+    <title>Job Control</title>
+    <link>http://example.org/jobcontrol/</link>
+    <pubDate>Wed, 19 May 2021 13:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/jobcontrol/</guid>
+    <description><![CDATA[<p>터미널에서 단순히 한나의 명령을 실행시키는게 아니라 <code>&amp;</code>을 이용해 background job을 생성할 수 있다.</p>]]></description>
+</item><item>
+    <title>Partition</title>
+    <link>http://example.org/partition/</link>
+    <pubDate>Sun, 28 Jun 2020 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/partition/</guid>
+    <description><![CDATA[<p>파티션이란 연속된 저장 공간을 하나 이상의 연속되고 독립된 영역으로 나누어서 사용할 수 있도록 정의한 규약.</p>]]></description>
+</item><item>
+    <title>Sector</title>
+    <link>http://example.org/sector/</link>
+    <pubDate>Sun, 28 Jun 2020 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/sector/</guid>
+    <description><![CDATA[<p>sector란 물리 디스크에 입출력을 요청하는 최소 단위이다.</p>]]></description>
+</item><item>
+    <title>FileSystem</title>
+    <link>http://example.org/filesystem/</link>
+    <pubDate>Sun, 21 Jun 2020 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/filesystem/</guid>
+    <description><![CDATA[<p>FS는 <code>저장장치 내에서 데이터를 읽고 쓰기 위해 미리 정해진 약속</code> 이라고 볼 수 있다.</p>]]></description>
+</item><item>
+    <title>메모리 영역 Heap, Stack 살펴보기</title>
+    <link>http://example.org/memory/</link>
+    <pubDate>Wed, 20 Nov 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/memory/</guid>
+    <description><![CDATA[<p>Application memory 구조의 Heap과 Stack을 살펴보자.</p>]]></description>
+</item><item>
+    <title>Computer structure and socket</title>
+    <link>http://example.org/computerstructure/</link>
+    <pubDate>Wed, 06 Nov 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/computerstructure/</guid>
+    <description><![CDATA[<p>갑자기 컴퓨터 구조에 대해서 정리해보고 싶어서 머리속에 있는것을 더해 끄적여본다.</p>]]></description>
+</item><item>
+    <title>Introduction to Linux Namespaces</title>
+    <link>http://example.org/namespace/</link>
+    <pubDate>Sun, 27 Oct 2019 15:58:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/namespace/</guid>
+    <description><![CDATA[<p>linux에서 container가 내부적으로 어떻게 동작하는지 알아보자.</p>]]></description>
+</item></channel>
+</rss>

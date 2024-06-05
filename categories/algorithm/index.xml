@@ -1,0 +1,78 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Algorithm - Category - </title>
+        <link>http://example.org/categories/algorithm/</link>
+        <description>Algorithm - Category - </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Fri, 05 May 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/categories/algorithm/" rel="self" type="application/rss+xml" /><item>
+    <title>[Leetcode] 1456. Maximum Number of Vowels in a Substring of Given Length</title>
+    <link>http://example.org/maximum-number-of-vowels-in-a-substring-of-given-length/</link>
+    <pubDate>Fri, 05 May 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/maximum-number-of-vowels-in-a-substring-of-given-length/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 56. Merge Intervals</title>
+    <link>http://example.org/merge-intervals/</link>
+    <pubDate>Sat, 25 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/merge-intervals/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/merge-intervals/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/merge-intervals/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 300. Longest Increasing Subsequence</title>
+    <link>http://example.org/longest-increasing-subsequence/</link>
+    <pubDate>Fri, 24 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/longest-increasing-subsequence/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/longest-increasing-subsequence/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/longest-increasing-subsequence/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 347. Top K Frequent Elements</title>
+    <link>http://example.org/top-k-frequent-elements/</link>
+    <pubDate>Fri, 24 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/top-k-frequent-elements/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/top-k-frequent-elements/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/top-k-frequent-elements/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 46. Permutations</title>
+    <link>http://example.org/permutations/</link>
+    <pubDate>Fri, 24 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/permutations/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/permutations/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/permutations/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 33. Search in Rotated Sorted Array</title>
+    <link>http://example.org/search-in-rotated-sorted-array/</link>
+    <pubDate>Thu, 23 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/search-in-rotated-sorted-array/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/search-in-rotated-sorted-array/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 540. Single Element in a Sorted Array</title>
+    <link>http://example.org/single-element-in-a-sorted-array/</link>
+    <pubDate>Tue, 21 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/single-element-in-a-sorted-array/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/single-element-in-a-sorted-array/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/single-element-in-a-sorted-array/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 45. Jump Game II</title>
+    <link>http://example.org/jump-game-ii/</link>
+    <pubDate>Mon, 20 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/jump-game-ii/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/jump-game-ii/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/jump-game-ii/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 11. Container With Most Water</title>
+    <link>http://example.org/container-with-most-water/</link>
+    <pubDate>Sun, 19 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/container-with-most-water/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/container-with-most-water/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/container-with-most-water/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 15. 3Sum</title>
+    <link>http://example.org/3sum/</link>
+    <pubDate>Sun, 19 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/3sum/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/3sum/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/3sum/description/</a></p>]]></description>
+</item></channel>
+</rss>

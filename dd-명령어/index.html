@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>AWS volume 복제를 위해 dd 명령어를 사용해보자 - </title><meta name="Description" content="This is jaejin&#39;s blog"><meta property="og:url" content="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/">
+  <meta property="og:title" content="AWS volume 복제를 위해 dd 명령어를 사용해보자">
+  <meta property="og:description" content="AWS volmue을 복제하여 mount 하는 작업이 필요한 상황에서 dd 명령어를 통해 파일을 복제 해보자.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-05-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-05-03T00:00:00+00:00">
+    <meta property="article:tag" content="Os">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Aws">
+    <meta property="article:tag" content="Volume">
+    <meta property="og:image" content="http://example.org/images/jaejin.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/images/jaejin.png">
+  <meta name="twitter:title" content="AWS volume 복제를 위해 dd 명령어를 사용해보자">
+  <meta name="twitter:description" content="AWS volmue을 복제하여 mount 하는 작업이 필요한 상황에서 dd 명령어를 통해 파일을 복제 해보자.">
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" /><link rel="prev" href="http://example.org/merge-intervals/" /><link rel="next" href="http://example.org/maximum-number-of-vowels-in-a-substring-of-given-length/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "AWS volume 복제를 위해 dd 명령어를 사용해보자",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/dd-%EB%AA%85%EB%A0%B9%EC%96%B4\/"
+        },"genre": "posts","keywords": "os, linux, aws, volume","wordcount":  413 ,
+        "url": "http:\/\/example.org\/dd-%EB%AA%85%EB%A0%B9%EC%96%B4\/","datePublished": "2023-05-03T00:00:00+00:00","dateModified": "2023-05-03T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">AWS volume 복제를 위해 dd 명령어를 사용해보자</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/os/"><i class="far fa-folder fa-fw"></i>Os</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-05-03">2023-05-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;413 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>AWS volmue을 복제하여 mount 하는 작업이 필요한 상황에서 dd 명령어를 통해 파일을 복제 해보자.</p>
+<p>Jenkins를 이용하는 도중 web 페이지가 너무 느려서 확인해보니 jenkins는 파일기반으로 job들을 관리하고 있었다.
+또한 Web에서 job을 불러오거나 설정을 불러올 때 xml 파일을 읽어 뿌려주는 형태로 동작하는 것 같다.</p>
+<p>따라서 너무 느려서 확인해보니 HDD로 mount하여 운영중이였고 이를 SSD로 이전하는 작업을 진행하였는데, HDD의 volume size는 500G였고 aws volume 특성상 그 크기보다 작은 size로 데이터를 쉽게 이관하는 것은 불가능 했다. 따라서 150G정도의 SSD volume를 생성하고 데이터 이관하는 작업에 대한 내용을 기록해보자.</p>
+<p>가장 쉽게 하는 방법은 두개의 volume을 mount 시켜놓고 파일을 cp명령으로 복사 하는 것이였다.</p>
+<p>같은 volume의 경우 mv 명령어가 inode 주소는 같게 옮겨 지기 떄문에 속도가 더 빠르겠지만 현재는 다른 volume이니까 mv 명령어를 사용해도 inode 주소도 새로 생서되어 복사 되므로 속도면에서 이점이 없다. 심지어 cp 명령어보다 기존 파일을 지워야하기 때문에 속도면에서는 느릴 수 있을 것 같다.</p>
+<p>그다음 생각해볼건 rsync 명령어였고 이것도 결국 내부적으로 mv와 같은 방식으로 동작하는 것으로 어디서 본것 같다.</p>
+<p>찾아보다가 dd 명령어를 확인했고, 이는 블록 단위로 파일을 복사하거나 이동할 수 있는 명령어라고 한다.
+속도면에서는 가장 좋을 것 같아 바로 테스트를 진행했다.</p>
+<p>volmume 사이에 데이터 복제를 하는 것이기 때문에 1개의 volmue은 jenkins에서 사용하는 volume을 스냅샷 떠두고, 다른 하나의 volmue은 SSD로 생성하였다.
+이 두개의 volmue을 하나의 작은 인스턴스에 attach 시켜둔다.</p>
+<p>dd 명령어는 block 단위로 파일을 복사하는 것이기 때문에 기존 volume에 block size를 다음과 같이 확인한다.</p>
+<p><figure><a class="lightgallery" href="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/e2fsck.png" title="e2fsck" data-thumbnail="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/e2fsck.png" data-sub-html="<h2>e2fsck</h2><p>e2fsck</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="e2fsck.png"
+            data-srcset="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/e2fsck.png, e2fsck.png 1.5x, /dd-%EB%AA%85%EB%A0%B9%EC%96%B4/e2fsck.png 2x"
+            data-sizes="auto"
+            alt="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/e2fsck.png" />
+    </a><figcaption class="image-caption">e2fsck</figcaption>
+    </figure></p>
+<p>먼저 <code>e2fsck -f /dev/nvme3n1</code> 명령어로 check 해주고 <code>resize2fs -M -p /dev/nvme3n1</code> 명령으로 block size를 확인한다. 이때 -M 옵션은 파일시스템의 크기를 최소로 줄여준다.</p>
+<p>이로 인해 /dev/nvme3n1 volume의 사용중인 block size는 9063464로 확인되었다.</p>
+<p><figure><a class="lightgallery" href="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/mke2fs.png" title="mke2fs" data-thumbnail="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/mke2fs.png" data-sub-html="<h2>mke2fs</h2><p>mke2fs</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="mke2fs.png"
+            data-srcset="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/mke2fs.png, mke2fs.png 1.5x, /dd-%EB%AA%85%EB%A0%B9%EC%96%B4/mke2fs.png 2x"
+            data-sizes="auto"
+            alt="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/mke2fs.png" />
+    </a><figcaption class="image-caption">mke2fs</figcaption>
+    </figure></p>
+<p>amazon linux2는 default blocksize가 4096로 설정되어있어 있는 것도 확인 할 수 있다.</p>
+<p>blockcount * 4 / (16 * 1024)</p>
+<p>dd 명령어 사용시 한번에 읽고 쓸 byte 크기를 지정할 수 있는데 (bs 옵션) 여기서 지정할 byte값도 구해야한다. 물론 bs 옵션을 주지않고 돌려도 되지만 효율적이지 않을 것이라 생각되서..</p>
+<p>여기서는 16M 으로 설정하고 옵션을 주면 또 다른 옵션인 count 옵션이 있는데 이는 지정된 block 수 만큼 복사 할 수 있다.
+따라서 이 count 값을 구해서 dd 명령어 날릴때 같이 넣어 줘야한다.</p>
+<p>아까 위에서 block size는 9003315 확인했고, default block size는 4K 이므로 9003315 * 4 Kbyte 가 될 것이고.</p>
+<p>16M씩 읽고 쓰기로 했으니 K로 변환하면 16 * 1000.</p>
+<p>결과적으로 (9003315 * 4) / (16 * 1000) = 2251로 block 수를 지정하면 될 것 이라 생각했다.</p>
+<p><figure><a class="lightgallery" href="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/dd.png" title="dd" data-thumbnail="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/dd.png" data-sub-html="<h2>dd</h2><p>dd</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="dd.png"
+            data-srcset="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/dd.png, dd.png 1.5x, /dd-%EB%AA%85%EB%A0%B9%EC%96%B4/dd.png 2x"
+            data-sizes="auto"
+            alt="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/dd.png" />
+    </a><figcaption class="image-caption">dd</figcaption>
+    </figure></p>
+<p>그대로 복사를 시작하고 확인하니 38G가 복사된 것을 볼 수 있다. 이제 mount 해서 데이터를 확인해보자.</p>
+<p><figure><a class="lightgallery" href="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/resize2fs.png" title="resize2fs" data-thumbnail="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/resize2fs.png" data-sub-html="<h2>resize2fs</h2><p>resize2fs</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="resize2fs.png"
+            data-srcset="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/resize2fs.png, resize2fs.png 1.5x, /dd-%EB%AA%85%EB%A0%B9%EC%96%B4/resize2fs.png 2x"
+            data-sizes="auto"
+            alt="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/resize2fs.png" />
+    </a><figcaption class="image-caption">resize2fs</figcaption>
+    </figure></p>
+<p>dd 명령 직후 df -h로 확인해보면 Size가 34G로 설정되어 있는데 이를 다시 <code>resize2fs -p /dev/nvme1n1</code>하면 150G에 34G로 정상적으로 보이는 것을 확인할 수 있다.</p>
+<hr>
+<p><strong>참고</strong></p>
+<ul>
+<li><a href="https://matt.berther.io/2015/02/03/how-to-resize-aws-ec2-ebs-volumes/" target="_blank" rel="noopener noreffer">https://matt.berther.io/2015/02/03/how-to-resize-aws-ec2-ebs-volumes/</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2023-05-03</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" data-title="AWS volume 복제를 위해 dd 명령어를 사용해보자" data-hashtags="os,linux,aws,volume"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" data-hashtag="os"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" data-title="AWS volume 복제를 위해 dd 명령어를 사용해보자" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" data-title="AWS volume 복제를 위해 dd 명령어를 사용해보자"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/" data-title="AWS volume 복제를 위해 dd 명령어를 사용해보자"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/os/">Os</a>,&nbsp;<a href="/tags/linux/">Linux</a>,&nbsp;<a href="/tags/aws/">Aws</a>,&nbsp;<a href="/tags/volume/">Volume</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/merge-intervals/" class="prev" rel="prev" title="[Leetcode] 56. Merge Intervals"><i class="fas fa-angle-left fa-fw"></i>[Leetcode] 56. Merge Intervals</a>
+            <a href="/maximum-number-of-vowels-in-a-substring-of-given-length/" class="next" rel="next" title="[Leetcode] 1456. Maximum Number of Vowels in a Substring of Given Length">[Leetcode] 1456. Maximum Number of Vowels in a Substring of Given Length<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="https://https-jaejin1-github-io.disqus.com/embed.js" defer></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

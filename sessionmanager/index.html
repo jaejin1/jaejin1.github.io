@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>AWS Session Manager - </title><meta name="Description" content="This is jaejin&#39;s blog"><meta property="og:url" content="http://example.org/sessionmanager/">
+  <meta property="og:title" content="AWS Session Manager">
+  <meta property="og:description" content="공격의 표면, Bastion을 관리 하는 운영상의 부담 및 발생하는 추가 비용을 더욱 줄이기 위해, AWS Systems Manager Session Manager를 사용하여, Bastion을 운영하거나 조작 할 필요없이 EC2 인스턴스에 안전하게 연결 할 수 있다.
+Bastion실행에 수반되는 불편함과 인스턴스의 inbound SSH port 개방으로 유발되는 위험을 피하고자 한다.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-04-02T15:58:26+08:00">
+    <meta property="article:modified_time" content="2020-04-02T15:58:26+08:00">
+    <meta property="article:tag" content="Cloud">
+    <meta property="article:tag" content="Aws">
+    <meta property="og:image" content="http://example.org/images/jaejin.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/images/jaejin.png">
+  <meta name="twitter:title" content="AWS Session Manager">
+  <meta name="twitter:description" content="공격의 표면, Bastion을 관리 하는 운영상의 부담 및 발생하는 추가 비용을 더욱 줄이기 위해, AWS Systems Manager Session Manager를 사용하여, Bastion을 운영하거나 조작 할 필요없이 EC2 인스턴스에 안전하게 연결 할 수 있다.
+Bastion실행에 수반되는 불편함과 인스턴스의 inbound SSH port 개방으로 유발되는 위험을 피하고자 한다.">
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/sessionmanager/" /><link rel="prev" href="http://example.org/security/" /><link rel="next" href="http://example.org/filesystem/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "AWS Session Manager",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/sessionmanager\/"
+        },"genre": "posts","keywords": "cloud, aws","wordcount":  386 ,
+        "url": "http:\/\/example.org\/sessionmanager\/","datePublished": "2020-04-02T15:58:26+08:00","dateModified": "2020-04-02T15:58:26+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">AWS Session Manager</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>Aws</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-04-02">2020-04-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;386 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#session-manager의-작동방식">Session Manager의 작동방식</a>
+      <ul>
+        <li><a href="#session-manager-사용을-위한-role">Session Manager 사용을 위한 Role</a></li>
+        <li><a href="#ssm-role을-갖는-ec2-인스턴스를-public-subnet-private-subnet에-설치">SSM Role을 갖는 EC2 인스턴스를 Public Subnet, Private Subnet에 설치</a>
+          <ul>
+            <li><a href="#public-subnet에-설치할-경우">Public Subnet에 설치할 경우</a></li>
+            <li><a href="#private-subnet에-설치할-경우">Private Subnet에 설치할 경우</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#aws-session-manager과-bastion-비교">AWS Session Manager과 Bastion 비교</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>공격의 표면, Bastion을 관리 하는 운영상의 부담 및 발생하는 추가 비용을 더욱 줄이기 위해, AWS Systems Manager Session Manager를 사용하여, Bastion을 운영하거나 조작 할 필요없이 EC2 인스턴스에 안전하게 연결 할 수 있다.</p>
+<p>Bastion실행에 수반되는 불편함과 인스턴스의 inbound SSH port 개방으로 유발되는 위험을 피하고자 한다.</p>
+<ul>
+<li>
+<p>보안 액세스</p>
+<ul>
+<li>
+<p>수동으로 인스턴스에 사용자 계정, 암호 또는 SSH를 설정할 필요가 없으며 inbound port를 개발하지 않아도 된다.</p>
+</li>
+<li>
+<p>Session Manager는 SSM 에이전트를 사용하여 인스턴스에서 시작한 암호화된 채널을 통해 인스턴스와 통신하며 Bastion이 필요하지 않다.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>액세스 제어</p>
+<ul>
+<li>
+<p>IAM 정책과 사용자를 사용하여 인스턴스에 대한 액세스를 제어하며 SSH key를 배포하지 않아도 된다.</p>
+</li>
+<li>
+<p>IAM의 날짜 조건 연산자를 사용하면 원하는 시간/유지 관리 기간으로 액세스를 제한 할 수 있다.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>감사 용이성</p>
+<ul>
+<li>
+<p>명령과 응답은 Amazon CloudWatch 및 S3 버킷에 로깅 할 수 있다.</p>
+</li>
+<li>
+<p>또한 세션이 시작될 때 SNS 알림을 수신할 수 있도록 설정할 수 있다.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="session-manager의-작동방식">Session Manager의 작동방식</h2>
+<h3 id="session-manager-사용을-위한-role">Session Manager 사용을 위한 Role</h3>
+<p>Session Manager를 사용하여 EC2 인스턴스에 액세스 하려면 인스턴스에 SSM 에이전트가 실행 중이어야 한다.</p>
+<p>또한 인스턴스에는 AmazonEC2RoleForSSM 정책을 부여해 주어야 한다.</p>
+<h3 id="ssm-role을-갖는-ec2-인스턴스를-public-subnet-private-subnet에-설치">SSM Role을 갖는 EC2 인스턴스를 Public Subnet, Private Subnet에 설치</h3>
+<p>기본적으로 Session Manager의 기능을 사용하기 위해서는 EC2 인스턴스가 인터넷을 통해 접속이 가능하여야 한다.</p>
+<p>(SSM 에이전트는 Session Manager의 public Endpoint에 연결할 수 있어야 하므로)</p>
+<p>따라서 Public Sebnet에 설치하거나, Private Subnet에 설치할 경우 PrivateLink 연결을 설정해서 사용할 수 있다.</p>
+<h4 id="public-subnet에-설치할-경우">Public Subnet에 설치할 경우</h4>
+<p>Instance에 공인 IP를 부여 받고, SSM 에이전트를 설치 하고, IAM정책만 부여해주면 System Manager에 Session Manager메뉴에 해당 EC2 인스턴스를 확인 할 수 있을 것이다.</p>
+<h4 id="private-subnet에-설치할-경우">Private Subnet에 설치할 경우</h4>
+<p>Public과 동일하지만 인스턴스가 인터넷에 접속 가능해야 하기 때문에 PrivateLink 설정을 하고 Public Subnet 구성과 같이 하면 된다.</p>
+<p><strong>Info Notice:</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">VPC End pont를 생성할시 Service Name에서 다음 4가지를 추가 해줘야 한다.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">1. &#34;com.amazonws.region-name.ec2&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">2. &#34;com.amazonaws.region-name.ec2messages&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">3. &#34;com.amazonaws.region-name.ssm&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">4. &#34;com.amazonaws.region-name.ssmmessages&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="aws-session-manager과-bastion-비교">AWS Session Manager과 Bastion 비교</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"></th>
+<th style="text-align:right">Session Manager</th>
+<th style="text-align:right">Bastion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">비용</td>
+<td style="text-align:right">Session Manager는 별도의 요금 없음 <br> <a href="https://aws.amazon.com/ko/privatelink/pricing/" target="_blank" rel="noopener noreffer">AWS PrivateLink 요금</a></td>
+<td style="text-align:right">Instance 운영 비용</td>
+</tr>
+<tr>
+<td style="text-align:right">로그</td>
+<td style="text-align:right">Amazon CloudWatch 및 S3 버킷 제공 <br> SNS 알림</td>
+<td style="text-align:right">log 파일 수집 -&gt; log 수집기 보내는 작업 필요</td>
+</tr>
+<tr>
+<td style="text-align:right">보안</td>
+<td style="text-align:right">수동으로 인스턴스에 사용자 계정, 암호 또는 SSH 키를 설정할 필요 없음. <br> Session Manager Console에 접속하면 인스턴스 접속 가능 (계정 관리 따로 안해도 됨 IAM으로 user에 따른 권한 부여)</td>
+<td style="text-align:right">Bastion 서버에서 instance접속 SSH key관리 필요</td>
+</tr>
+<tr>
+<td style="text-align:right">설정</td>
+<td style="text-align:right">인스턴스에 SSM에이전트 설치 <br> 인스턴스가 생성될때 AmazonEC2RoleforSSM IAM 정책 할당 <br> Session Manager에 대한 권한 IAM정책 수립 필요 (<a href="https://docs.aws.amazon.com/ko_kr/systems-manager/latest/userguide/getting-started-restrict-access-examples.html" target="_blank" rel="noopener noreffer">참고</a>) <br> VPC에 PrivateLink 설정 필요</td>
+<td style="text-align:right">구성된 Bastion 서버에 맞게 설정</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>참고</strong></p>
+<ul>
+<li><a href="https://aws.amazon.com/ko/privatelink/pricing/" target="_blank" rel="noopener noreffer">https://aws.amazon.com/ko/privatelink/pricing/</a></li>
+<li><a href="https://docs.aws.amazon.com/ko_kr/systems-manager/latest/userguide/session-manager.html" target="_blank" rel="noopener noreffer">https://docs.aws.amazon.com/ko_kr/systems-manager/latest/userguide/session-manager.html</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2020-04-02</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/sessionmanager/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/sessionmanager/" data-title="AWS Session Manager" data-hashtags="cloud,aws"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/sessionmanager/" data-hashtag="cloud"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/sessionmanager/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/sessionmanager/" data-title="AWS Session Manager" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/sessionmanager/" data-title="AWS Session Manager"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/sessionmanager/" data-title="AWS Session Manager"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/cloud/">Cloud</a>,&nbsp;<a href="/tags/aws/">Aws</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/security/" class="prev" rel="prev" title="Spring Security"><i class="fas fa-angle-left fa-fw"></i>Spring Security</a>
+            <a href="/filesystem/" class="next" rel="next" title="FileSystem">FileSystem<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="https://https-jaejin1-github-io.disqus.com/embed.js" defer></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

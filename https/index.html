@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Https - </title><meta name="Description" content="Https"><meta property="og:url" content="http://example.org/https/">
+  <meta property="og:title" content="Https">
+  <meta property="og:description" content="Https">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-02-27T12:49:00+09:00">
+    <meta property="article:modified_time" content="2021-02-27T12:49:00+09:00">
+    <meta property="article:tag" content="Http">
+    <meta property="article:tag" content="Ssl">
+    <meta property="og:image" content="http://example.org/images/jaejin.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/images/jaejin.png">
+  <meta name="twitter:title" content="Https">
+  <meta name="twitter:description" content="Https">
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/https/" /><link rel="prev" href="http://example.org/goroutinesvsthreads/" /><link rel="next" href="http://example.org/applicationlayer/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Https",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/https\/"
+        },"genre": "posts","keywords": "http, ssl","wordcount":  748 ,
+        "url": "http:\/\/example.org\/https\/","datePublished": "2021-02-27T12:49:00+09:00","dateModified": "2021-02-27T12:49:00+09:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": "Https"
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Https</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/system-design/"><i class="far fa-folder fa-fw"></i>System-Design</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-02-27">2021-02-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;748 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#ssl">SSL</a></li>
+    <li><a href="#ssl에서-사용하는-암호화의-종류">SSL에서 사용하는 암호화의 종류</a>
+      <ul>
+        <li><a href="#대칭키">대칭키</a></li>
+        <li><a href="#공개키">공개키</a></li>
+      </ul>
+    </li>
+    <li><a href="#ssl-인증서">SSL 인증서</a>
+      <ul>
+        <li><a href="#ca">CA</a></li>
+      </ul>
+    </li>
+    <li><a href="#ssl-인증서가-서비스를-보증하는-방법">SSL 인증서가 서비스를 보증하는 방법</a></li>
+    <li><a href="#ssl의-동작방법">SSL의 동작방법</a>
+      <ul>
+        <li><a href="#hadnshake">Hadnshake</a></li>
+        <li><a href="#session">session</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>HTTP(Hypertext Transfer Protocal)는 Hypertext인 HTML을 전송하기 위한 통신 규약을 의미한다. HTTPS는 보안이 강화된 HTTP라는 것은 누구나 알고 있을 것이다.</p>
+<h2 id="ssl">SSL</h2>
+<p>SSL은 Secure Socket Layer의 약자로 보안 소켓 레이어이다.</p>
+<p>Netscape사에서 웹서버와 웹브라우저 간의 보안을 위해 만들어졌고 공개키/개인키 대칭키 기반으로 사용한다.</p>
+<h2 id="ssl에서-사용하는-암호화의-종류">SSL에서 사용하는 암호화의 종류</h2>
+<h3 id="대칭키">대칭키</h3>
+<p>대칭키는 동일한 키로 암호화와 복호화를 같이 할 수 있는 방식의 암호화 기법을 의미한다.</p>
+<h3 id="공개키">공개키</h3>
+<p>대칭키 방식은 암호를 주고 받는 사람들 사이에 대칭키를 전달하는게 어렵다. 이 대칭키가 유출되면 암호의 내용을 복호화 할 수 있기 떄문이다. 이러한 단점 떄문에 나온게 공개키 방식이다.</p>
+<p>공개키 방식은 2개의 키를 가진다. public key, private key라고 부른다. private key는 자신만이 가지고 있고 public key를 타인에게 제공한다. public key를 제공받는 사용자는 이 키를 이용해서 암호화된 정보를 복호화 한다.</p>
+<p>public key가 유출되더라도 private key를 모르면 정보를 복호화 할 수 없기 때문에 안전하다. (public key로는 암호화 밖에 못함)</p>
+<p>이러한 방식으로 응용가능한게 있는데,</p>
+<p>private key의 소유자는 private key를 이용해 정보를 암호화 한 후 public key와 같이 암호화된 정보를 전송한다. 정보와 public key를 획득한 사람은 public key를 이용해 암호화 된 정보를 복호화 한다.</p>
+<p>이 과정에서 public key가 유출되면 공격자에 의해 데이터가 복호화 될 위험이 있는데, 이것은 데이터를 보호하려는 목적이 아니라 암호화된 데이터를 public key를 가지고 복호화 할 수 있다는 것은 그 데이터가 public key와 쌍을 이루는 private key에 의해서 암호화 되었다는 것을 의미한다. (데이터를 전송해준 사람이 알맞은 private key를 가지고 있다고 인증 되는 것 즉 신원을 보장해주는 것) 이러한 것을 <code>전자 서명</code>이라고 부른다.</p>
+<h2 id="ssl-인증서">SSL 인증서</h2>
+<p>SSL 인증서는 클라이언트와 서버간의 통신을 제3자가 보증해주는 전자화된 문서다. 클라이언트가 서버에 접속한 직후에는 서버가 클라이언트에게 이 인증서 정보를 전달한다.</p>
+<ol>
+<li>클라이언트가 접속한 서버가 신뢰 할 수 있는 서버임을 보장한다.</li>
+<li>SSL 통신에 사용할 공개키를 클라이언트에게 제공한다.</li>
+</ol>
+<h3 id="ca">CA</h3>
+<p>인증서의 역할을 클라이언트가 접속한 서버가 클라이언트가 의도한 서버가 맞는지 보장하는 역할을 하는데, 이러한 역할을 해주는 기업이 CA(Certificate authority) 라고 부른다.</p>
+<p>SSL을 통해서 암호화된 통신을 제공하려는 서비스는 CA를 통해서 인증서를 구입해야한다.</p>
+<p>물론 개인적으로 인증서를 만들어서 사용할 수도 있지만 브라우저에서 경고가 발생할 것이다.</p>
+<p>SSL 인증서에는 다음과 같은 정보가 포홤되어 있다.</p>
+<ol>
+<li>서비스의 정보(인증서를 발급한 CA, 서비스의 도메인 등)</li>
+<li>서버 측 공개키 (공개키의 내용, 공개키의 암호화 방법)</li>
+</ol>
+<p>CA의 리스트는 브라우저에서 알고 있기 때문에 이 CA리스트에 포함되어야지만 공인된 CA가 될 수 있다.</p>
+<h2 id="ssl-인증서가-서비스를-보증하는-방법">SSL 인증서가 서비스를 보증하는 방법</h2>
+<ol>
+<li>웹 브라우저가 서버에 접속할 때 서버는 제일 먼저 인증서를 제공한다.</li>
+<li>브라우저는 이 인증서를 발급한 CA가 자신이 가지고 있는 list에 있는지 확인한다.</li>
+<li>자신이 가지고 있는 CA 리스트에 포함되어 있다면 해당 CA의 공개키를 이용해서 인증서를 복호화 한다.</li>
+<li>위에서 말했듯 CA의 공개키를 이용해서 인증서를 복호화 할 수 있다는 것은 이 인증서가 CA의 private key에 의해서 암호화 된 것을 인증해주는 것이다.</li>
+<li>4번에서 인증해주는 것은 해당 서비스가 신뢰할 수 있다는 것이다.</li>
+</ol>
+<h2 id="ssl의-동작방법">SSL의 동작방법</h2>
+<p>SSL은 암호화된 데이터를 전송하기 위해서 공개키와 대칭키를 혼합해서 사용한다. 클라이언트와 서버가 주고 받는 실제 정보는 대칭키 방식으로 암호화 하고, 대칭키는 공개키 방식으로 암호화 해서 클라이언트와 서버가 주고 받는다.</p>
+<p>공개키 방식의 암호화는 안전하지만 컴퓨터 자원을 많이 사용한다. 반면에 대칭키는 송신측과 수신층이 동일한 키를 공유해야하기 떄문에 보안상 문제가 발생할 수 있다.</p>
+<p>SSL은 이 두개의 장점을 혼합한 방법을 사용한다.</p>
+<h3 id="hadnshake">Hadnshake</h3>
+<p>브라우저와 서버도 handshake를 하는데 이 때 SSL 인증서를 주고 받는다.</p>
+<ol>
+<li>
+<p>클라이언트가 서버에 접속 (Client Hello)</p>
+<ul>
+<li>클라이언트에서 생성한 랜덤 데이터</li>
+<li>클라이언트가 지원하는 암호화 방식: 서버와 지원하는 암호화 방식에 클라이언트에서 사용하는 암호화 방식이 없을 수 있기 떄문에 서버측에 리스트를 제공한다.</li>
+<li>세션 아이디: handshake 이후 세션을 이용하기 위해 세션 식별자를 서버로 전송</li>
+</ul>
+</li>
+<li>
+<p>서버는 Client Hello에 대한 응답으로 Server Hello를 한다.</p>
+<ul>
+<li>서버 측에서 생성한 랜덤 데이터</li>
+<li>서버가 선택한 클라이언트의 암호화 방식: 클라이언트에서 전달해준 암호화 리스트를 확인해 서버쪽에서도 사용할 수 있는 암호화 방식을 선택해서 클라이언트로 전달</li>
+<li><code>인증서</code></li>
+</ul>
+</li>
+<li>
+<p>클라이언트는 서버의 인증서가 CA에 의해서 발급된 거인지 확인 하기 위해 브라우저에 내장된 CA리스트 확인, 없다면 경고 메세지출력. 브라우저의 CA의 공개키를 이용해서 인증서를 복호화 한다. 복호화에 성공했다면 인증서는 CA의 private key로 암호화 된 것이라고 보증된 것이기 때문에 서버를 신뢰할 수 있게 된다.</p>
+</li>
+</ol>
+<p>클라이언트는 1번과 2번에서 말했던 클라이언트 랜덤데이터와 서버 랜덤데이터를 조합해서 pre master secret이라는 키를 생성한다. 이 키는 뒤에 세션단계에서 데이터를 주고 받을 때 암호화를 하기 위해 사용될 것이다.</p>
+<p><code>이 pre master secret key는 대칭키 이기 때문에 노출되서는 안된다.</code></p>
+<p>이 생성한 pre master secret key는 아까 받은 서버의 public key로 암호화 해서 서버로 전송하면 서버에서는 private key로 복호화 할 수 있다. 여기서 사용할 public key는 서버로 부터 받은 인증서에 들어있다.</p>
+<ol start="4">
+<li>
+<p>서버는 클라이언트가 전송한 pre master secret key 값을 private key로 복호화 한다. 이로써 클라이언트, 서버가 pre master secret key를 공유 할 수 있게 되었고 master secret 으로 변경한뒤 session key를 생성한다. 이 session key를 이용해 서버와 클라이언트는 대칭키방식으로 암호화 한 후에 데이터를 주고 받는다.</p>
+</li>
+<li>
+<p>handshake 종료</p>
+</li>
+</ol>
+<h3 id="session">session</h3>
+<p>세션은 클라이언트와 서버가 데이터를 주고 받는데 위에서 생성한 session key를 이용해 대칭키 방식으로 암호화 하여 데이터를 전송한다.</p>
+<p>서로 키를 가지고 있기 때문에 복호화도 서로 할 수 있다.</p>
+<p>데이터의 전송이 끝나면 SSL 통신이 끝났음을 서로에게 알려주고 session key를 폐기 한다.</p>
+<hr>
+<p><strong>참고</strong></p>
+<ul>
+<li><a href="https://github.com/donnemartin/system-design-primer#reverse-proxy-web-server" target="_blank" rel="noopener noreffer">https://github.com/donnemartin/system-design-primer#reverse-proxy-web-server</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-02-27</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/https/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/https/" data-title="Https" data-hashtags="http,ssl"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/https/" data-hashtag="http"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/https/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/https/" data-title="Https" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/https/" data-title="Https"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/https/" data-title="Https"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/http/">Http</a>,&nbsp;<a href="/tags/ssl/">Ssl</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/goroutinesvsthreads/" class="prev" rel="prev" title="Goroutines vs Threads"><i class="fas fa-angle-left fa-fw"></i>Goroutines vs Threads</a>
+            <a href="/applicationlayer/" class="next" rel="next" title="Application Layer">Application Layer<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="https://https-jaejin1-github-io.disqus.com/embed.js" defer></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

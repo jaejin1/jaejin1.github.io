@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Istio install and deploy sample applications - </title><meta name="Description" content="Istio란 sidecar pattern을 이용한 service mesh architecture 의 구현체인 오픈 플랫폼이다."><meta property="og:url" content="http://example.org/istio/">
+  <meta property="og:title" content="Istio install and deploy sample applications">
+  <meta property="og:description" content="Istio란 sidecar pattern을 이용한 service mesh architecture 의 구현체인 오픈 플랫폼이다.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2018-12-30T15:58:26+08:00">
+    <meta property="article:modified_time" content="2018-12-30T15:58:26+08:00">
+    <meta property="article:tag" content="Kubernetes">
+    <meta property="article:tag" content="Istio">
+    <meta property="og:image" content="http://example.org/images/jaejin.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/images/jaejin.png">
+  <meta name="twitter:title" content="Istio install and deploy sample applications">
+  <meta name="twitter:description" content="Istio란 sidecar pattern을 이용한 service mesh architecture 의 구현체인 오픈 플랫폼이다.">
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/istio/" /><link rel="prev" href="http://example.org/gomod/" /><link rel="next" href="http://example.org/mastergo01/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Istio install and deploy sample applications",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/istio\/"
+        },"genre": "posts","keywords": "kubernetes, istio","wordcount":  881 ,
+        "url": "http:\/\/example.org\/istio\/","datePublished": "2018-12-30T15:58:26+08:00","dateModified": "2018-12-30T15:58:26+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": "Istio란 sidecar pattern을 이용한 service mesh architecture 의 구현체인 오픈 플랫폼이다."
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Istio install and deploy sample applications</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/kubernetes/"><i class="far fa-folder fa-fw"></i>Kubernetes</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-12-30">2018-12-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;881 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#helm-설치">Helm 설치</a></li>
+    <li><a href="#helm초기화">Helm초기화</a></li>
+    <li><a href="#istio-설치-1">Istio 설치</a></li>
+    <li><a href="#istio-삭제">Istio 삭제</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#istio의-sidecar-injection-활성화">Istio의 sidecar injection 활성화</a></li>
+    <li><a href="#bookinfo-어플리케이션-배포">Bookinfo 어플리케이션 배포</a></li>
+    <li><a href="#istio-gateway-설정">Istio gateway 설정</a></li>
+    <li><a href="#모니터링-툴">모니터링 툴</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Istio란 sidecar pattern을 이용한 service mesh architecture 의 구현체인 오픈 플랫폼이다.</p>
+<p><a href="http://bcho.tistory.com/1297?category=731548" target="_blank" rel="noopener noreffer">Istio #4 - Istio 설치와 BookInfo 예제</a></p>
+<p>조대협님 블로그를 참고하였습니다.</p>
+<h1 id="istio-설치">Istio 설치</h1>
+<p>쿠버네티스 클러스터가 준비되어 있다면, Istio를 설치한다.</p>
+<h2 id="helm-설치">Helm 설치</h2>
+<p>helm은 kubernetes의 nodejs의 npm 정도라고 생각하면 된다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">cd</span> ~
+</span></span><span class="line"><span class="cl">$ curl -L https://git.io/getLatestIstio <span class="p">|</span> sh -
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> istio-<span class="o">{</span>version<span class="o">}</span>
+</span></span><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PWD</span>/bin:<span class="nv">$PATH</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="helm초기화">Helm초기화</h2>
+<p>helm용 서비스 어카운트를 생성하고 helm을 초기화 한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+</span></span><span class="line"><span class="cl">$ helm init --service-account tiller
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="istio-설치-1">Istio 설치</h2>
+<p>설치시 모니터링을 위해 모니터링 도구인 <code>kiali, servicegraph, grafana</code> 설치 옵션을 설정한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">helm install install/kubernetes/helm/istio <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--name istio <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--namespace istio-system <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--set tracing.enabled<span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--set global.mtls.enabled<span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--set grafana.enabled<span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--set kiali.enabled<span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--set servicegraph.enabled<span class="o">=</span><span class="nb">true</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>약간의 시간이 지나고 설치되어있는지 pod 목록을 출력하면 다음과 같이 나온다.</p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-261-886d1979-6000-44a5-b9e6-6822c08fe97d.21.12.png" title="pod목록" data-thumbnail="/istio/2018-12-261-886d1979-6000-44a5-b9e6-6822c08fe97d.21.12.png" data-sub-html="<h2>pod목록</h2><p>pod목록</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-261-886d1979-6000-44a5-b9e6-6822c08fe97d.21.12.png"
+            data-srcset="/istio/2018-12-261-886d1979-6000-44a5-b9e6-6822c08fe97d.21.12.png, 2018-12-261-886d1979-6000-44a5-b9e6-6822c08fe97d.21.12.png 1.5x, /istio/2018-12-261-886d1979-6000-44a5-b9e6-6822c08fe97d.21.12.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-261-886d1979-6000-44a5-b9e6-6822c08fe97d.21.12.png" />
+    </a><figcaption class="image-caption">pod목록</figcaption>
+    </figure></p>
+<h2 id="istio-삭제">Istio 삭제</h2>
+<p>uninstall using kubectl</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl delete -f <span class="nv">$HOME</span>/istio.yaml
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>uninstall using Helm</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ helm delete --purge istio
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If your Helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl -n istio-system delete job --all
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>delete the CRDs</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="bookinfo-서비스-예제-설치">BookInfo 서비스 예제 설치</h1>
+<h2 id="istio의-sidecar-injection-활성화">Istio의 sidecar injection 활성화</h2>
+<p>Istio는 Pod에 envoy를 sidecar 패턴으로 삽입하여, 트래픽을 컨트롤하는 구조이다.</p>
+<p>Istio는 이 sidecar를 Pod 생성시 자동으로 주입 (inject)하는 기능이 있는데, 이 기능을 활성화 하기 위해서는 kubernetes의 <code>namespace에 istio-injection=enabled</code> 라는 라벨을 추가해야한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl label namespace default istio-injection<span class="o">=</span>enabled
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>추가 했다면, 다음과 같이 확인할 수 있다.</p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-261-69d98f87-9f0c-42a0-8b5c-3548902447d0.20.38.png" title="label" data-thumbnail="/istio/2018-12-261-69d98f87-9f0c-42a0-8b5c-3548902447d0.20.38.png" data-sub-html="<h2>label</h2><p>label</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-261-69d98f87-9f0c-42a0-8b5c-3548902447d0.20.38.png"
+            data-srcset="/istio/2018-12-261-69d98f87-9f0c-42a0-8b5c-3548902447d0.20.38.png, 2018-12-261-69d98f87-9f0c-42a0-8b5c-3548902447d0.20.38.png 1.5x, /istio/2018-12-261-69d98f87-9f0c-42a0-8b5c-3548902447d0.20.38.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-261-69d98f87-9f0c-42a0-8b5c-3548902447d0.20.38.png" />
+    </a><figcaption class="image-caption">label</figcaption>
+    </figure></p>
+<h2 id="bookinfo-어플리케이션-배포">Bookinfo 어플리케이션 배포</h2>
+<p>Bookinfo yaml 파일은 다음경로를 참고하면된다.</p>
+<p><a href="https://github.com/istio/istio/blob/master/samples/bookinfo/platform/kube/bookinfo.yaml" target="_blank" rel="noopener noreffer">istio/istio</a></p>
+<p>bookinfo.yaml 파일을 생성하고 다음 명령어로 실행하면 된다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl apply -f bookinfo.yaml
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>배포 완료 후 kubectl get pod 명령어를 실행해보면 다음과 같이 productpage, detail, rating 서비스가 배포되고, reviews 서비스는 v1 ~ v3 까지 배포되는걸 확이 할 수 있다.</p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-261-15da42b8-ff03-41a5-982c-f0d54c4faa1d.18.58.png" title="pod" data-thumbnail="/istio/2018-12-261-15da42b8-ff03-41a5-982c-f0d54c4faa1d.18.58.png" data-sub-html="<h2>pod</h2><p>pod</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-261-15da42b8-ff03-41a5-982c-f0d54c4faa1d.18.58.png"
+            data-srcset="/istio/2018-12-261-15da42b8-ff03-41a5-982c-f0d54c4faa1d.18.58.png, 2018-12-261-15da42b8-ff03-41a5-982c-f0d54c4faa1d.18.58.png 1.5x, /istio/2018-12-261-15da42b8-ff03-41a5-982c-f0d54c4faa1d.18.58.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-261-15da42b8-ff03-41a5-982c-f0d54c4faa1d.18.58.png" />
+    </a><figcaption class="image-caption">pod</figcaption>
+    </figure></p>
+<p>kubectl get svc를 이용해 배포되어 있는 서비스를 확인하자.</p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-261-2a1d54db-df99-456d-91a6-870fd5718308.19.27.png" title="svc" data-thumbnail="/istio/2018-12-261-2a1d54db-df99-456d-91a6-870fd5718308.19.27.png" data-sub-html="<h2>svc</h2><p>svc</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-261-2a1d54db-df99-456d-91a6-870fd5718308.19.27.png"
+            data-srcset="/istio/2018-12-261-2a1d54db-df99-456d-91a6-870fd5718308.19.27.png, 2018-12-261-2a1d54db-df99-456d-91a6-870fd5718308.19.27.png 1.5x, /istio/2018-12-261-2a1d54db-df99-456d-91a6-870fd5718308.19.27.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-261-2a1d54db-df99-456d-91a6-870fd5718308.19.27.png" />
+    </a><figcaption class="image-caption">svc</figcaption>
+    </figure></p>
+<p>모두 clusterIP 타입으로 배포 되어 있기 때문에 외부에서는 접근 불가하다.</p>
+<h2 id="istio-gateway-설정">Istio gateway 설정</h2>
+<p>이 서비스를 외부로 노출 시키는데, kubernetes의 Ingress나 Service는 사용하지 않고, <code>Istio의 gateway</code> 를 이용한다.</p>
+<p>Istio의 gateway는 kubernetes의 커스텀 리소스 타입으로, Istio로 들어오는 트래픽을 받아주는 엔드포인트 역할을 한다.</p>
+<p>여러 방법이 있지만 Istio에서는 디폴트로 배포되는  Gateway는 pod 형식으로 배포되어 Load Balancer 타입의 서비스로 서비스 된다.</p>
+<p>먼저 Istio Gateway를 등록한 후에, Gateway를 통해 서비스할 호스트를 Virtaul Service로 등록한다.</p>
+<p><figure><a class="lightgallery" href="/istio/9947B4365BFA8CF804-ad31332d-892e-4346-bfa2-88b7e6d73e8f.png" title="Virtaul Service" data-thumbnail="/istio/9947B4365BFA8CF804-ad31332d-892e-4346-bfa2-88b7e6d73e8f.png" data-sub-html="<h2>Virtaul Service</h2><p>Virtaul Service</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="9947B4365BFA8CF804-ad31332d-892e-4346-bfa2-88b7e6d73e8f.png"
+            data-srcset="/istio/9947B4365BFA8CF804-ad31332d-892e-4346-bfa2-88b7e6d73e8f.png, 9947B4365BFA8CF804-ad31332d-892e-4346-bfa2-88b7e6d73e8f.png 1.5x, /istio/9947B4365BFA8CF804-ad31332d-892e-4346-bfa2-88b7e6d73e8f.png 2x"
+            data-sizes="auto"
+            alt="/istio/9947B4365BFA8CF804-ad31332d-892e-4346-bfa2-88b7e6d73e8f.png" />
+    </a><figcaption class="image-caption">Virtaul Service</figcaption>
+    </figure></p>
+<p>조대협님 블로그</p>
+<p>아래는 bookinfo에 대한 Gateway를 등록하는 yaml 파일이다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.istio.io/v1alpha3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Gateway</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">bookinfo-gateway</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">istio</span><span class="p">:</span><span class="w"> </span><span class="l">ingressgateway</span><span class="w"> </span><span class="c"># use istio default controller</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">servers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">port</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">HTTP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">hosts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="s2">&#34;*&#34;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>selector를 이용해서 gateway 타입을 istio에서 디폴트로 제공하는 Gateway를 사용하였다. 그리고 HTTP 프로토콜을 80 포트에서 받도록 했다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.istio.io/v1alpha3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">VirtualService</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">bookinfo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">hosts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="s2">&#34;*&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">gateways</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">bookinfo-gateway</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">http</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">match</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">uri</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">exact</span><span class="p">:</span><span class="w"> </span><span class="l">/productpage</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">uri</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">exact</span><span class="p">:</span><span class="w"> </span><span class="l">/login</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">uri</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">exact</span><span class="p">:</span><span class="w"> </span><span class="l">/logout</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">uri</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="l">/api/v1/products</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">route</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">destination</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l">productpage</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="m">9080</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>spec에서 gateways 부분에 앞에서 정의한 bookinfo-gateway를 사용하도록 한다. 이렇게 하면 앞에서 만든 Gateway로 들어오는 트래픽은 이  Virtual Service로 들어와서 서비스 되는데, 여기서 라우팅 룰을 정의한다.</p>
+<p>/productpage</p>
+<p>/login</p>
+<p>/logout</p>
+<p>/api/v1/products</p>
+<p>URL은 productpage:9080 으로 포워딩해서 서비스를 제공한다.</p>
+<p>Istio에 미리 설치 되어 있는 gateway를 살펴보면, Istio default gateway는 pod로 배포되어 있는데, <code>istio=ingressgateway</code> 라는 라벨이 적용되어 있다.</p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-261-eeba3d1e-a8a3-477a-ae91-89ffd0cb21ad.39.59.png" title="gateway" data-thumbnail="/istio/2018-12-261-eeba3d1e-a8a3-477a-ae91-89ffd0cb21ad.39.59.png" data-sub-html="<h2>gateway</h2><p>gateway</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-261-eeba3d1e-a8a3-477a-ae91-89ffd0cb21ad.39.59.png"
+            data-srcset="/istio/2018-12-261-eeba3d1e-a8a3-477a-ae91-89ffd0cb21ad.39.59.png, 2018-12-261-eeba3d1e-a8a3-477a-ae91-89ffd0cb21ad.39.59.png 1.5x, /istio/2018-12-261-eeba3d1e-a8a3-477a-ae91-89ffd0cb21ad.39.59.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-261-eeba3d1e-a8a3-477a-ae91-89ffd0cb21ad.39.59.png" />
+    </a><figcaption class="image-caption">gateway</figcaption>
+    </figure></p>
+<p>service 도 확인해보면 다음과 같다.</p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-261-0c30a8bc-2052-40b4-8095-d748fd5b862c.40.45.png" title="gateway" data-thumbnail="/istio/2018-12-261-0c30a8bc-2052-40b4-8095-d748fd5b862c.40.45.png" data-sub-html="<h2>gateway</h2><p>gateway</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-261-0c30a8bc-2052-40b4-8095-d748fd5b862c.40.45.png"
+            data-srcset="/istio/2018-12-261-0c30a8bc-2052-40b4-8095-d748fd5b862c.40.45.png, 2018-12-261-0c30a8bc-2052-40b4-8095-d748fd5b862c.40.45.png 1.5x, /istio/2018-12-261-0c30a8bc-2052-40b4-8095-d748fd5b862c.40.45.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-261-0c30a8bc-2052-40b4-8095-d748fd5b862c.40.45.png" />
+    </a><figcaption class="image-caption">gateway</figcaption>
+    </figure></p>
+<p>이제 bookinfo를 istio gateway에 등록해서 외부로 서비스를 제공해보자.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ istioctl create -f bookinfo-gateway.yaml
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>bookinfo-gateway.yaml 파일은 다음 링크에 있다.</p>
+<p><a href="https://github.com/istio/istio/blob/master/samples/bookinfo/networking/bookinfo-gateway.yaml" target="_blank" rel="noopener noreffer">istio/istio</a></p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-261-71f0b9ad-7690-496c-bbff-12aa09455a5d.42.13.png" title="create gateway" data-thumbnail="/istio/2018-12-261-71f0b9ad-7690-496c-bbff-12aa09455a5d.42.13.png" data-sub-html="<h2>create gateway</h2><p>create gateway</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-261-71f0b9ad-7690-496c-bbff-12aa09455a5d.42.13.png"
+            data-srcset="/istio/2018-12-261-71f0b9ad-7690-496c-bbff-12aa09455a5d.42.13.png, 2018-12-261-71f0b9ad-7690-496c-bbff-12aa09455a5d.42.13.png 1.5x, /istio/2018-12-261-71f0b9ad-7690-496c-bbff-12aa09455a5d.42.13.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-261-71f0b9ad-7690-496c-bbff-12aa09455a5d.42.13.png" />
+    </a><figcaption class="image-caption">create gateway</figcaption>
+    </figure></p>
+<p>게이트웨이 배포가 끝나면 위의 service의 EXTERNAL-IP를 이용해서 접속해보자.</p>
+<p><a href="http://ip/productpage" target="_blank" rel="noopener noreffer">http://IP/productpage</a> 로 접속해보면 아래와 같이 정상적으로 작동한다.</p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-261-d6dc8be5-673e-41cc-a07f-1ec0a2731f1a.44.45.png" title="productpage" data-thumbnail="/istio/2018-12-261-d6dc8be5-673e-41cc-a07f-1ec0a2731f1a.44.45.png" data-sub-html="<h2>productpage</h2><p>productpage</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-261-d6dc8be5-673e-41cc-a07f-1ec0a2731f1a.44.45.png"
+            data-srcset="/istio/2018-12-261-d6dc8be5-673e-41cc-a07f-1ec0a2731f1a.44.45.png, 2018-12-261-d6dc8be5-673e-41cc-a07f-1ec0a2731f1a.44.45.png 1.5x, /istio/2018-12-261-d6dc8be5-673e-41cc-a07f-1ec0a2731f1a.44.45.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-261-d6dc8be5-673e-41cc-a07f-1ec0a2731f1a.44.45.png" />
+    </a><figcaption class="image-caption">productpage</figcaption>
+    </figure></p>
+<h2 id="모니터링-툴">모니터링 툴</h2>
+<p>서비스 설치가 끝났으면 간단한 테스트와 함께 모니터링 툴을 이용하여 서비스를 살펴보자.</p>
+<p>Istio를 설치하면 Prometheus, Grafana, Kiali, Jaeget 등의 모니터링 도구가 기본적으로 인스톨 되어 있다. 각각의 도구를 이용해서 지표들을 모니터링 해보자.</p>
+<p><strong>Grafana를 이용한 서비스별 지표 모니터링</strong></p>
+<p>Grafana를 이용해서 각 서비스들의 지표를 상세하게 모니터링 할 수 있다.</p>
+<p>먼저 확인전에 아래 스크립트를 이용해 간단하게 부하를 주자.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="k">for</span> i in <span class="o">{</span>1..100<span class="o">}</span><span class="p">;</span> <span class="k">do</span> 
+</span></span><span class="line"><span class="cl">    curl -o /dev/null -s -w <span class="s2">&#34;%{http_code}&#34;</span> http://35.197.159.13/productpage
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>다음 Grafana 웹 콘솔에 접근해야하는데, Grafana는 외부 서비스로 노출이 안되도록 설정이 되어 있기 때문에 kubectl을 이용해서 Grafana 콘솔에 트래픽을 포워딩 하도록 하자.</p>
+<p>Grafana는 3000번 포트에서 돌고 있기 때문에, <a href="http://localhost:3000" target="_blank" rel="noopener noreffer">localhost:3000</a> → Grafana Pod의 3000번 포트로 트래픽을 포워딩 하도록 설정하자.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl -n istio-system port-forward <span class="k">$(</span>kubectl -n istio-system get pod -l <span class="nv">app</span><span class="o">=</span>grafana -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span> 3000:3000 <span class="p">&amp;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>다음 <a href="http://localhost:3000" target="_blank" rel="noopener noreffer">localhost:3000</a> 으로 접속해보면 Grafana 화면이 나올 것이다.</p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-262-6db71316-66af-4766-ad68-d598d149e026.00.40.png" title="grafana" data-thumbnail="/istio/2018-12-262-6db71316-66af-4766-ad68-d598d149e026.00.40.png" data-sub-html="<h2>grafana</h2><p>grafana</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-262-6db71316-66af-4766-ad68-d598d149e026.00.40.png"
+            data-srcset="/istio/2018-12-262-6db71316-66af-4766-ad68-d598d149e026.00.40.png, 2018-12-262-6db71316-66af-4766-ad68-d598d149e026.00.40.png 1.5x, /istio/2018-12-262-6db71316-66af-4766-ad68-d598d149e026.00.40.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-262-6db71316-66af-4766-ad68-d598d149e026.00.40.png" />
+    </a><figcaption class="image-caption">grafana</figcaption>
+    </figure></p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-262-4ea3de7f-9de2-4c62-bae0-17ca21d5eae6.01.16.png" title="grafana" data-thumbnail="/istio/2018-12-262-4ea3de7f-9de2-4c62-bae0-17ca21d5eae6.01.16.png" data-sub-html="<h2>grafana</h2><p>grafana</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-262-4ea3de7f-9de2-4c62-bae0-17ca21d5eae6.01.16.png"
+            data-srcset="/istio/2018-12-262-4ea3de7f-9de2-4c62-bae0-17ca21d5eae6.01.16.png, 2018-12-262-4ea3de7f-9de2-4c62-bae0-17ca21d5eae6.01.16.png 1.5x, /istio/2018-12-262-4ea3de7f-9de2-4c62-bae0-17ca21d5eae6.01.16.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-262-4ea3de7f-9de2-4c62-bae0-17ca21d5eae6.01.16.png" />
+    </a><figcaption class="image-caption">grafana</figcaption>
+    </figure></p>
+<p><strong>Jaeger를 이용한 트렌젝션 모니터링</strong></p>
+<p>다음은 jaeger를 이용해 개별 분산 트렌젝션에 대해서 각 구간별 응답 시간을 모니터링 할 수 있다.</p>
+<p>Istio는 각 서비스별로 소요 시간을 수집하는데, 이를 jaeger 오픈소스를 쓰면 쉽게 모니터링이 가능하다.</p>
+<p>마찬가지로 jaeger pod로 포트를 포워딩 해야한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl port-forward -n istio-system <span class="k">$(</span>kubectl get pod -n istio-system -l <span class="nv">app</span><span class="o">=</span>jaeger -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span> 16686:16686 <span class="p">&amp;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>이후에 접속하면 Jaeger화면이 보인다.</p>
+<p>하지만 나는 error 가 발생한다. ..</p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-262-dbe02473-68bb-4c1e-a9ec-13c4d80c8cab.07.40.png" title="jaeger" data-thumbnail="/istio/2018-12-262-dbe02473-68bb-4c1e-a9ec-13c4d80c8cab.07.40.png" data-sub-html="<h2>jaeger</h2><p>jaeger</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-262-dbe02473-68bb-4c1e-a9ec-13c4d80c8cab.07.40.png"
+            data-srcset="/istio/2018-12-262-dbe02473-68bb-4c1e-a9ec-13c4d80c8cab.07.40.png, 2018-12-262-dbe02473-68bb-4c1e-a9ec-13c4d80c8cab.07.40.png 1.5x, /istio/2018-12-262-dbe02473-68bb-4c1e-a9ec-13c4d80c8cab.07.40.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-262-dbe02473-68bb-4c1e-a9ec-13c4d80c8cab.07.40.png" />
+    </a><figcaption class="image-caption">jaeger</figcaption>
+    </figure></p>
+<p>천천히 해결해야겠다..ㅠㅜ</p>
+<p><strong>Servicegraph를 이용한 서비스 토폴로지 모니터링</strong></p>
+<p>마이크로 서비스는 서비스간 호출 관계가 복잡해서, 각 서비스의 관계를 시각화 해주는 툴이 있으면 유용한데, 대표적인 도구로는 service graph 라는 툴과 kiali 라는 툴이 있다. Bookinfo 예제를 위한 Istio 설정에는 servicegraph가 디폴트로 설치되어 있다.</p>
+<p>마찬가지로 외부에 노출하기 위해 포트 포워딩 한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl -n istio-system port-forward <span class="k">$(</span>kubectl -n istio-system get pod -l <span class="nv">app</span><span class="o">=</span>servicegraph -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span> 8088:8088 <span class="p">&amp;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><a href="http://localhost:8088/dotviz" target="_blank" rel="noopener noreffer">http://localhost:8088/dotviz</a> 로 접속해보면 서비스들의 관계를 볼 수 있다.</p>
+<p><figure><a class="lightgallery" href="/istio/2018-12-262-1e0562ca-bec6-4ad5-b6b4-96db1ccb2f35.11.20.png" title="kiali" data-thumbnail="/istio/2018-12-262-1e0562ca-bec6-4ad5-b6b4-96db1ccb2f35.11.20.png" data-sub-html="<h2>kiali</h2><p>kiali</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="2018-12-262-1e0562ca-bec6-4ad5-b6b4-96db1ccb2f35.11.20.png"
+            data-srcset="/istio/2018-12-262-1e0562ca-bec6-4ad5-b6b4-96db1ccb2f35.11.20.png, 2018-12-262-1e0562ca-bec6-4ad5-b6b4-96db1ccb2f35.11.20.png 1.5x, /istio/2018-12-262-1e0562ca-bec6-4ad5-b6b4-96db1ccb2f35.11.20.png 2x"
+            data-sizes="auto"
+            alt="/istio/2018-12-262-1e0562ca-bec6-4ad5-b6b4-96db1ccb2f35.11.20.png" />
+    </a><figcaption class="image-caption">kiali</figcaption>
+    </figure></p>
+<p>어렵다..ㅠ</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2018-12-30</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/istio/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/istio/" data-title="Istio install and deploy sample applications" data-hashtags="kubernetes,istio"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/istio/" data-hashtag="kubernetes"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/istio/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/istio/" data-title="Istio install and deploy sample applications" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/istio/" data-title="Istio install and deploy sample applications"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/istio/" data-title="Istio install and deploy sample applications"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/kubernetes/">Kubernetes</a>,&nbsp;<a href="/tags/istio/">Istio</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/gomod/" class="prev" rel="prev" title="Go modules (mod)"><i class="fas fa-angle-left fa-fw"></i>Go modules (mod)</a>
+            <a href="/mastergo01/" class="next" rel="next" title="Operating system in golang">Operating system in golang<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="https://https-jaejin1-github-io.disqus.com/embed.js" defer></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

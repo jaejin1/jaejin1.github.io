@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Volume - Tag - </title>
+        <link>http://example.org/tags/volume/</link>
+        <description>Volume - Tag - </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Wed, 03 May 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/tags/volume/" rel="self" type="application/rss+xml" /><item>
+    <title>AWS volume 복제를 위해 dd 명령어를 사용해보자</title>
+    <link>http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/</link>
+    <pubDate>Wed, 03 May 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/</guid>
+    <description><![CDATA[<p>AWS volmue을 복제하여 mount 하는 작업이 필요한 상황에서 dd 명령어를 통해 파일을 복제 해보자.</p>]]></description>
+</item></channel>
+</rss>

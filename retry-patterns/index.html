@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Retry patterns과 aws sdk waiters - </title><meta name="Description" content="This is jaejin&#39;s blog"><meta property="og:url" content="http://example.org/retry-patterns/">
+  <meta property="og:title" content="Retry patterns과 aws sdk waiters">
+  <meta property="og:description" content="어플리케이션이 어떤 작업을 시도할 때 실패하게 되면 오류가 일시적인 부분이 많아 다시 요청을 하는 것이 좋다고 생각한다.
+그에 따라 retry patterns라고 불리는 것들이 있었고 이를 정리해보려고 한다.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-01-08T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-01-08T00:00:00+00:00">
+    <meta property="article:tag" content="Architecture">
+    <meta property="article:tag" content="Aws">
+    <meta property="article:tag" content="Go">
+    <meta property="article:tag" content="Jmespath">
+    <meta property="og:image" content="http://example.org/images/jaejin.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/images/jaejin.png">
+  <meta name="twitter:title" content="Retry patterns과 aws sdk waiters">
+  <meta name="twitter:description" content="어플리케이션이 어떤 작업을 시도할 때 실패하게 되면 오류가 일시적인 부분이 많아 다시 요청을 하는 것이 좋다고 생각한다.
+그에 따라 retry patterns라고 불리는 것들이 있었고 이를 정리해보려고 한다.">
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/retry-patterns/" /><link rel="prev" href="http://example.org/asg-lifecycle-hook/" /><link rel="next" href="http://example.org/jwt-signing-using-aws-kms/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Retry patterns과 aws sdk waiters",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/retry-patterns\/"
+        },"genre": "posts","keywords": "architecture, aws, go, jmespath","wordcount":  893 ,
+        "url": "http:\/\/example.org\/retry-patterns\/","datePublished": "2023-01-08T00:00:00+00:00","dateModified": "2023-01-08T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jaejin"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">Jaejin&#39;s blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">Jaejin&#39;s blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Retry patterns과 aws sdk waiters</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://jaejin1.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Jaejin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/architecture/"><i class="far fa-folder fa-fw"></i>Architecture</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-08">2023-01-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;893 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#retry-patterns">Retry patterns</a></li>
+    <li><a href="#aws-go-sdk-내부-waiters">aws go sdk 내부 waiters</a>
+      <ul>
+        <li><a href="#waiter-custom">Waiter custom</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>어플리케이션이 어떤 작업을 시도할 때 실패하게 되면 오류가 일시적인 부분이 많아 다시 요청을 하는 것이 좋다고 생각한다.</p>
+<p>그에 따라 retry patterns라고 불리는 것들이 있었고 이를 정리해보려고 한다.</p>
+<p>MSA 구조에서는 서로 다른 서버와 통신을 할 일이 많다.</p>
+<p>서로 다른 서버와 통신할 때 최대한 실패를 줄이는게 중요하고 서비스 비지니스 로직을 모두 실패 처리하거나 fallback 처리하는 것은 큰 리소스 낭비가 될 수 있어서 일시적인 오류나 네트워크 이슈의 경우 retry를 하여 실패를 줄일 수 있다.</p>
+<h2 id="retry-patterns">Retry patterns</h2>
+<p><figure><a class="lightgallery" href="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F8909aa28-5822-4347-862b-000bd334d8b6_2403x1140.jpeg" title="retry patterns" data-thumbnail="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F8909aa28-5822-4347-862b-000bd334d8b6_2403x1140.jpeg" data-sub-html="<h2>retry patterns</h2><p>retry patterns</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F8909aa28-5822-4347-862b-000bd334d8b6_2403x1140.jpeg"
+            data-srcset="https://substackcdn.com/image/fetch/w_1456%2cc_limit%2cf_webp%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F8909aa28-5822-4347-862b-000bd334d8b6_2403x1140.jpeg, https://substackcdn.com/image/fetch/w_1456%2cc_limit%2cf_webp%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F8909aa28-5822-4347-862b-000bd334d8b6_2403x1140.jpeg 1.5x, https://substackcdn.com/image/fetch/w_1456%2cc_limit%2cf_webp%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F8909aa28-5822-4347-862b-000bd334d8b6_2403x1140.jpeg 2x"
+            data-sizes="auto"
+            alt="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F8909aa28-5822-4347-862b-000bd334d8b6_2403x1140.jpeg" />
+    </a><figcaption class="image-caption">retry patterns</figcaption>
+    </figure>
+출처 - <a href="https://blog.bytebytego.com/p/retry-patterns-episode-9" target="_blank" rel="noopener noreffer">https://blog.bytebytego.com/p/retry-patterns-episode-9</a></p>
+<p>서버의 어떤 문제 때문에 요청이 실패 하고 재요청을 하게 되었을 때 많은 Client들이 있다면 시스템에 과부하가 걸릴 수 있다.</p>
+<p>이로 인해 재시도의 시간을 제어하거나등의 작업으로 서비스 과부하를 방지 한다.</p>
+<ul>
+<li>
+<p>Cancel</p>
+<p>요청 취소</p>
+</li>
+<li>
+<p>Immediate retry</p>
+<p>Client쪽에서 즉시 재시도</p>
+</li>
+<li>
+<p>Fixed intervals</p>
+<p>실패 후 일정 시간 후에 재시도</p>
+</li>
+<li>
+<p>Incremental intervals</p>
+<p>실패 후 일정 시간 후에 재시도 하고 또 실패발생시 점점 대기시간을 늘림</p>
+</li>
+<li>
+<p>Exponential backoff</p>
+<p>실패 후 재시도 사이 대기 시간을 2배씩 늘림 1초, 2초, 4초&hellip; 이런식으로</p>
+</li>
+<li>
+<p>Exponential backoff with jitter</p>
+<p>재시도 할 때 어떠한 randomness을 줘서 재시도 함</p>
+</li>
+</ul>
+<p>일반적으로는 점진적으로 대기 시간이 늘어나는 Exponential Backoff 전략을 많이 사용한다고 하는데, 이 또한 여러 트래픽이 동시에 몰린다면 똑같은 시간 간격으로 모두 재시도를 하기 때문에 결국 과부하가 걸릴 수도 있을 것이다.</p>
+<p>따라서 <code>Jitter</code>라는 개념이 등장했다.</p>
+<p>Jitter는 원래 통신 언어로 패킷 지연이 일정하지 않고 수시로 변하면서 간격이 일정하지 않다는 용어라고 한다.</p>
+<p>간단하게는 randomness을 줘서 요청하는 시간대를 분산시키는 것이라고 보면 될 것 같다.</p>
+<p>Jitter 자체도 여러 알고리즘이 있고, 이를 aws쪽에서 정리 해놓은 문서가 있다.</p>
+<ul>
+<li>Equal Jitter</li>
+<li>Decorrelated Jitter</li>
+<li>Full Jitter</li>
+<li>&hellip;</li>
+</ul>
+<p><a href="https://aws.amazon.com/ko/blogs/architecture/exponential-backoff-and-jitter/" target="_blank" rel="noopener noreffer">https://aws.amazon.com/ko/blogs/architecture/exponential-backoff-and-jitter/</a></p>
+<h2 id="aws-go-sdk-내부-waiters">aws go sdk 내부 waiters</h2>
+<p>AWS Go SDK를 사용하다가 보니 각 서비스별 <a href="https://github.com/aws/aws-sdk-go/blob/main/service/codedeploy/waiters.go" target="_blank" rel="noopener noreffer">waiters</a>가 있어 내부는 어떻게 동작하나 궁금해서 확인해본적이 있다.</p>
+<p>waiter들은 내부적으로 15초 간격으로 최대 120번 요청을 해서 완료나 실패가 될 때까지 기다리는데, 개발하다보니 30분 이상으로 대기해야할 때가 있어서 커스텀해서 사용하려고 내부를 보니 위에서 말한 retry와는 다르지만 지속적으로 요청을 하기 떄문에 어떤 시간 간격으로 보내는지 확인해봤다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">w</span> <span class="nx">Waiter</span><span class="p">)</span> <span class="nf">WaitWithContext</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">aws</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">attempt</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="p">;</span> <span class="nx">attempt</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">req</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nf">NewRequest</span><span class="p">(</span><span class="nx">w</span><span class="p">.</span><span class="nx">RequestOptions</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nf">waiterLogf</span><span class="p">(</span><span class="nx">w</span><span class="p">.</span><span class="nx">Logger</span><span class="p">,</span> <span class="s">&#34;unable to create request %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">req</span><span class="p">.</span><span class="nx">Handlers</span><span class="p">.</span><span class="nx">Build</span><span class="p">.</span><span class="nf">PushBack</span><span class="p">(</span><span class="nf">MakeAddToUserAgentFreeFormHandler</span><span class="p">(</span><span class="s">&#34;Waiter&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">err</span> <span class="p">=</span> <span class="nx">req</span><span class="p">.</span><span class="nf">Send</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// See if any of the acceptors match the request&#39;s response, or error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">a</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">w</span><span class="p">.</span><span class="nx">Acceptors</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">matched</span><span class="p">,</span> <span class="nx">matchErr</span> <span class="o">:=</span> <span class="nx">a</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="nx">w</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">w</span><span class="p">.</span><span class="nx">Logger</span><span class="p">,</span> <span class="nx">req</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span> <span class="nx">matched</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">return</span> <span class="nx">matchErr</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// The Waiter should only check the resource state MaxAttempts times
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// This is here instead of in the for loop above to prevent delaying
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// unnecessary when the waiter will not retry.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">if</span> <span class="nx">attempt</span> <span class="o">==</span> <span class="nx">w</span><span class="p">.</span><span class="nx">MaxAttempts</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">break</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// Delay to wait before inspecting the resource again
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">delay</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nf">Delay</span><span class="p">(</span><span class="nx">attempt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">sleepFn</span> <span class="o">:=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">Config</span><span class="p">.</span><span class="nx">SleepDelay</span><span class="p">;</span> <span class="nx">sleepFn</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">// Support SleepDelay for backwards compatibility and testing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="nf">sleepFn</span><span class="p">(</span><span class="nx">delay</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">sleepCtxFn</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nx">SleepWithContext</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">sleepCtxFn</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">sleepCtxFn</span> <span class="p">=</span> <span class="nx">aws</span><span class="p">.</span><span class="nx">SleepWithContext</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">sleepCtxFn</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">delay</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">return</span> <span class="nx">awserr</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">CanceledErrorCode</span><span class="p">,</span> <span class="s">&#34;waiter context canceled&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">awserr</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">WaiterResourceNotReadyErrorCode</span><span class="p">,</span> <span class="s">&#34;exceeded wait attempts&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>코드를 보면 attempt에 따라 Delay를 걸고 재 요청하는 것으로 확인했다.</p>
+<p>굳이 위의 retry pattern으로 따지자면 Incremental interval 쪽으로 속하려나..</p>
+<p>물론 위에서 다뤘던 retry하는 것과는 다르다.</p>
+<p><a href="https://github.com/aws/aws-sdk-go/blob/main/aws/request/waiter.go#L195" target="_blank" rel="noopener noreffer">https://github.com/aws/aws-sdk-go/blob/main/aws/request/waiter.go#L195</a></p>
+<h3 id="waiter-custom">Waiter custom</h3>
+<p>처음에는 단순히 시도 요청을 늘리기 위해서 custom을 하고자 했는데 aws쪽 service를 기다리는게 아니라 jenkins job 같은 것도 waiting 할 수 있게 사용할 수 있을 것 같다는 생각을 했다.</p>
+<p>기존 WaitWithContext를 많이 수정한 것은 아니고 NewRequest쪽을 원하는 요청을 받을 수 있도록만 수정 했다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">w</span> <span class="nx">Waiter</span><span class="p">)</span> <span class="nf">WaitWithContext</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">attempt</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="p">;</span> <span class="nx">attempt</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">res</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nf">NewRequest</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">a</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">w</span><span class="p">.</span><span class="nx">Acceptors</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">matched</span><span class="p">,</span> <span class="nx">matchErr</span> <span class="o">:=</span> <span class="nx">a</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="nx">w</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span> <span class="nx">matched</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">return</span> <span class="nx">matchErr</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">attempt</span> <span class="o">==</span> <span class="nx">w</span><span class="p">.</span><span class="nx">MaxAttempts</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">break</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="nx">delay</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nf">Delay</span><span class="p">(</span><span class="nx">attempt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">sleepWithContext</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">delay</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">awserr</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">CanceledErrorCode</span><span class="p">,</span> <span class="s">&#34;waiter context canceled&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">awserr</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">WaiterResourceNotReadyErrorCode</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s">&#34;exceeded wait attempts&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>이를 호출 하는 코드는 다음과 같다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">j</span> <span class="o">*</span><span class="nx">Jenkins</span><span class="p">)</span> <span class="nf">WaitUntilJenkinsJobSuccessfulWithContext</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">jobName</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">buildID</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">w</span> <span class="o">:=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">Waiter</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Name</span><span class="p">:</span>                   <span class="s">&#34;WaitUntilJenkinsJobSuccessful&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">MaxAttempts</span><span class="p">:</span>            <span class="mi">120</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Delay</span><span class="p">:</span>                  <span class="nx">request</span><span class="p">.</span><span class="nf">ConstantWaiterDelay</span><span class="p">(</span><span class="mi">15</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">ExecuteAfterFirstDelay</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Acceptors</span><span class="p">:</span> <span class="p">[]</span><span class="nx">request</span><span class="p">.</span><span class="nx">WaiterAcceptor</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">State</span><span class="p">:</span>   <span class="nx">request</span><span class="p">.</span><span class="nx">SuccessWaiterState</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">Matcher</span><span class="p">:</span> <span class="nx">request</span><span class="p">.</span><span class="nx">PathWaiterMatch</span><span class="p">,</span> <span class="nx">Argument</span><span class="p">:</span> <span class="s">&#34;result&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">Expected</span><span class="p">:</span> <span class="s">&#34;SUCCESS&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="p">},</span>
+</span></span><span class="line"><span class="cl">			<span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">State</span><span class="p">:</span>   <span class="nx">request</span><span class="p">.</span><span class="nx">FailureWaiterState</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">Matcher</span><span class="p">:</span> <span class="nx">request</span><span class="p">.</span><span class="nx">PathWaiterMatch</span><span class="p">,</span> <span class="nx">Argument</span><span class="p">:</span> <span class="s">&#34;result&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">Expected</span><span class="p">:</span> <span class="s">&#34;FAILURE&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="p">},</span>
+</span></span><span class="line"><span class="cl">			<span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">State</span><span class="p">:</span>   <span class="nx">request</span><span class="p">.</span><span class="nx">FailureWaiterState</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">Matcher</span><span class="p">:</span> <span class="nx">request</span><span class="p">.</span><span class="nx">PathWaiterMatch</span><span class="p">,</span> <span class="nx">Argument</span><span class="p">:</span> <span class="s">&#34;result&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">Expected</span><span class="p">:</span> <span class="s">&#34;ABORTED&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="p">},</span>
+</span></span><span class="line"><span class="cl">		<span class="p">},</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">NewRequest</span><span class="p">:</span> <span class="kd">func</span><span class="p">()</span> <span class="p">(</span><span class="kd">interface</span><span class="p">{},</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">build</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">j</span><span class="p">.</span><span class="nf">GetBuild</span><span class="p">(</span><span class="nx">jobName</span><span class="p">,</span> <span class="nx">buildID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">build</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="p">},</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">w</span><span class="p">.</span><span class="nf">WaitWithContext</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>코드를 보면 aws sdk 내부에서 사용하는 waiter 형식 그대로 사용하는 걸 볼 수 있고 다른점은 jenkins쪽 job을 대기하기 위해서 NewRequest쪽에 jenkins job쪽에 request 하는 함수를 호출한다.</p>
+<p>Acceptors은 api request를 하고 response받는 쪽에서 원하는 결과 값을 넣어주면 된다. 이는 <code>jmespath</code> 라는 JSON을 위한 Query 언어를 사용한다.</p>
+<p>좀 더 복잡하게 이를 적용한적이 있는데 Acceptors의 Argument로 쿼리를 작성하여 원하는 상태가 되었을 때 wait를 멈추게 한다.</p>
+<p>예시로 <code>contains(AutoScalingGroups[].[length(Instances[?LifecycleState=='Pending:Wait']) &gt;= MinSize][], 'false')</code></p>
+<p>이런식으로 작성하면 json response에서 원하는 상태에 waiter를 멈출 수 있다.</p>
+<hr>
+<p><strong>참고</strong></p>
+<ul>
+<li><a href="https://blog.bytebytego.com/p/retry-patterns-episode-9" target="_blank" rel="noopener noreffer">https://blog.bytebytego.com/p/retry-patterns-episode-9</a></li>
+<li><a href="https://aws.amazon.com/ko/blogs/architecture/exponential-backoff-and-jitter/" target="_blank" rel="noopener noreffer">https://aws.amazon.com/ko/blogs/architecture/exponential-backoff-and-jitter/</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2023-01-08</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/retry-patterns/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/retry-patterns/" data-title="Retry patterns과 aws sdk waiters" data-hashtags="architecture,aws,go,jmespath"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/retry-patterns/" data-hashtag="architecture"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="http://example.org/retry-patterns/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/retry-patterns/" data-title="Retry patterns과 aws sdk waiters" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/retry-patterns/" data-title="Retry patterns과 aws sdk waiters"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/retry-patterns/" data-title="Retry patterns과 aws sdk waiters"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/architecture/">Architecture</a>,&nbsp;<a href="/tags/aws/">Aws</a>,&nbsp;<a href="/tags/go/">Go</a>,&nbsp;<a href="/tags/jmespath/">Jmespath</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/asg-lifecycle-hook/" class="prev" rel="prev" title="ASG Lifecycle Hook"><i class="fas fa-angle-left fa-fw"></i>ASG Lifecycle Hook</a>
+            <a href="/jwt-signing-using-aws-kms/" class="next" rel="next" title="JWT signing using AWS KMS">JWT signing using AWS KMS<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">jaejin</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="https://https-jaejin1-github-io.disqus.com/embed.js" defer></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,88 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>All Posts - </title>
+        <link>http://example.org/posts/</link>
+        <description>All Posts | </description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Wed, 05 Jun 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>docker layer cache를 이용해 빌드시간 단축하기</title>
+    <link>http://example.org/layer-cache/</link>
+    <pubDate>Wed, 05 Jun 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/layer-cache/</guid>
+    <description><![CDATA[<p>java언어로 직접 개발해보고 개발 서버에 올려 테스트 해보는 시간이 너무 오래걸린다..</p>
+<p>갑자기 아이디어가 떠올랐는데 역시나 이미 적용한 사람들이 있었다.</p>
+<div class="details admonition tip open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-lightbulb fa-fw"></i>Tip<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">결론은 gradle 빌드시 사용하는 .gradle gradle cache를 사용하게 하는것.
+gradle 의존성을 미리 다운로드 받아서 사용 하자!</div>
+        </div>
+    </div>]]></description>
+</item><item>
+    <title>[Leetcode] 1456. Maximum Number of Vowels in a Substring of Given Length</title>
+    <link>http://example.org/maximum-number-of-vowels-in-a-substring-of-given-length/</link>
+    <pubDate>Fri, 05 May 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/maximum-number-of-vowels-in-a-substring-of-given-length/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/description/</a></p>]]></description>
+</item><item>
+    <title>AWS volume 복제를 위해 dd 명령어를 사용해보자</title>
+    <link>http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/</link>
+    <pubDate>Wed, 03 May 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/dd-%EB%AA%85%EB%A0%B9%EC%96%B4/</guid>
+    <description><![CDATA[<p>AWS volmue을 복제하여 mount 하는 작업이 필요한 상황에서 dd 명령어를 통해 파일을 복제 해보자.</p>]]></description>
+</item><item>
+    <title>[Leetcode] 56. Merge Intervals</title>
+    <link>http://example.org/merge-intervals/</link>
+    <pubDate>Sat, 25 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/merge-intervals/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/merge-intervals/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/merge-intervals/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 300. Longest Increasing Subsequence</title>
+    <link>http://example.org/longest-increasing-subsequence/</link>
+    <pubDate>Fri, 24 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/longest-increasing-subsequence/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/longest-increasing-subsequence/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/longest-increasing-subsequence/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 347. Top K Frequent Elements</title>
+    <link>http://example.org/top-k-frequent-elements/</link>
+    <pubDate>Fri, 24 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/top-k-frequent-elements/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/top-k-frequent-elements/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/top-k-frequent-elements/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 46. Permutations</title>
+    <link>http://example.org/permutations/</link>
+    <pubDate>Fri, 24 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/permutations/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/permutations/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/permutations/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 33. Search in Rotated Sorted Array</title>
+    <link>http://example.org/search-in-rotated-sorted-array/</link>
+    <pubDate>Thu, 23 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/search-in-rotated-sorted-array/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/search-in-rotated-sorted-array/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 540. Single Element in a Sorted Array</title>
+    <link>http://example.org/single-element-in-a-sorted-array/</link>
+    <pubDate>Tue, 21 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/single-element-in-a-sorted-array/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/single-element-in-a-sorted-array/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/single-element-in-a-sorted-array/description/</a></p>]]></description>
+</item><item>
+    <title>[Leetcode] 45. Jump Game II</title>
+    <link>http://example.org/jump-game-ii/</link>
+    <pubDate>Mon, 20 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/jump-game-ii/</guid>
+    <description><![CDATA[<p><a href="https://leetcode.com/problems/jump-game-ii/description/" target="_blank" rel="noopener noreffer">https://leetcode.com/problems/jump-game-ii/description/</a></p>]]></description>
+</item></channel>
+</rss>
