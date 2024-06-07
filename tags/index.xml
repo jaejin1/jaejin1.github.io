@@ -4,10 +4,10 @@
         <link>http://example.org/tags/</link>
         <description>Tags - Tag - </description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>opiximeo@gmail.com (jaejin)</managingEditor>
-            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Wed, 05 Jun 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>opiximeo@gmail.com (jaejin)</webMaster><lastBuildDate>Fri, 07 Jun 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/tags/" rel="self" type="application/rss+xml" /><item>
     <title>Docker</title>
     <link>http://example.org/tags/docker/</link>
-    <pubDate>Wed, 05 Jun 2024 00:00:00 &#43;0000</pubDate>
+    <pubDate>Fri, 07 Jun 2024 00:00:00 &#43;0000</pubDate>
     <author>Author</author>
     <guid>http://example.org/tags/docker/</guid>
     <description><![CDATA[]]></description>
